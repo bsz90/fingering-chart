@@ -1,25 +1,19 @@
 import { CSSProperties } from "react";
 import { InstrumentKey } from "./InstrumentKey";
-import { Position, SaxophoneKeys, Section } from "./types";
+import { KeyGroup, Position, SaxophoneKeys, Section } from "./types";
 
 export const InstrumentKeyGroup = ({
   keyGroup,
   toggleKey,
   activeKeys,
+  position,
 }: {
-  keyGroup: {
-    group: string;
-    section: Section;
-    position: Position;
-    keys: {
-      name: SaxophoneKeys;
-      style: CSSProperties;
-    }[];
-  };
-  toggleKey: () => void;
+  keyGroup: KeyGroup[];
+  toggleKey: (newKey: SaxophoneKeys) => void;
   activeKeys: SaxophoneKeys[];
+  position: Position;
 }) => {
-  const determineJustify = (position: Position) => {
+  function determineJustify(position: Position) {
     switch (position) {
       case Position.LEFT:
         return "flex-end";
@@ -30,29 +24,56 @@ export const InstrumentKeyGroup = ({
       default:
         throw new Error();
     }
-  };
+  }
   return (
     <div
-      key={keyGroup.group}
-      className="w-full h-[48%] flex justify-end"
-      style={{
-        justifyContent: determineJustify(keyGroup.position),
-        alignItems:
-          keyGroup.section === Section.TOP ? "flex-end" : "flex-start",
-      }}
+      className="flex flex-col items-center justify-center"
+      style={{ width: position === Position.CENTER ? "32px" : "64px" }}
     >
-      <div className="w-1/2 flex flex-col items-center">
-        {keyGroup.keys.map((key) => {
-          return (
-            <InstrumentKey
-              key={key.name}
-              toggleKey={toggleKey}
-              name={key.name}
-              style={key.style}
-              activeKeys={activeKeys}
-            />
-          );
-        })}
+      <div
+        key={keyGroup[0].group}
+        className="w-full h-[48%] flex flex-end items-end"
+        style={{
+          justifyContent: determineJustify(keyGroup[0].position),
+        }}
+      >
+        <div className="w-1/2 flex flex-col items-center">
+          {keyGroup[0].keys.map((key) => {
+            return (
+              <InstrumentKey
+                key={key.name}
+                toggleKey={toggleKey}
+                name={key.name}
+                style={key.style}
+                activeKeys={activeKeys}
+              />
+            );
+          })}
+        </div>
+      </div>
+      {position === Position.CENTER ? (
+        <hr className="border-2 rounded-full border-sky-500 w-3/5" />
+      ) : null}
+      <div
+        key={keyGroup[1].group}
+        className="w-full h-[48%] flex flex-start items-start"
+        style={{
+          justifyContent: determineJustify(keyGroup[0].position),
+        }}
+      >
+        <div className="w-1/2 flex flex-col items-center">
+          {keyGroup[1].keys.map((key) => {
+            return (
+              <InstrumentKey
+                key={key.name}
+                toggleKey={toggleKey}
+                name={key.name}
+                style={key.style}
+                activeKeys={activeKeys}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );

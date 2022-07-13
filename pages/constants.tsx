@@ -150,7 +150,7 @@ export const categories = [
                 },
               },
               {
-                name: SaxophoneKeys.LOWCSHARPKEY,
+                name: SaxophoneKeys.LOWBKEY,
                 style: {
                   borderWidth: "4px",
                   borderColor: "#0ea5e9",
@@ -162,7 +162,7 @@ export const categories = [
                 },
               },
               {
-                name: SaxophoneKeys.LOWBKEY,
+                name: SaxophoneKeys.LOWCSHARPKEY,
                 style: {
                   borderWidth: "4px",
                   borderColor: "#0ea5e9",
@@ -170,7 +170,7 @@ export const categories = [
                   height: "15px",
                   width: "20px",
                   marginTop: "-15px",
-                  marginLeft: "0px",
+                  marginLeft: "-20px",
                 },
               },
               {

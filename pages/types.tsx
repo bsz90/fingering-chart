@@ -4,16 +4,18 @@ export type Woodwind = {
   name: string;
   range: { lowestNote: Notes; highestNote: Notes };
   activeKeys: SaxophoneKeys[];
-  keyGroups: {
-    group: string;
-    section: Section;
-    position: Position;
-    keys: {
-      name: SaxophoneKeys;
-      style: CSSProperties;
-    }[];
-  }[];
+  keyGroups: KeyGroup[];
   fingerings: Partial<Record<Notes, SaxophoneKeys[] | SaxophoneKeys[][]>>;
+};
+
+export type KeyGroup = {
+  group: string;
+  section: Section;
+  position: Position;
+  keys: {
+    name: SaxophoneKeys;
+    style: CSSProperties;
+  }[];
 };
 
 export enum Section {
