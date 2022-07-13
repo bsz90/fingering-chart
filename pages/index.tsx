@@ -1,8 +1,22 @@
-import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
+import { useState } from "react";
+import { SingleReedFingeringChart } from "./SingleReedFingeringChart";
+import { Start } from "./Start";
+import { Woodwind } from "./types";
 
 export default function Home() {
-  return <h1 className="text-3xl font-bold underline w-40">Hello world!</h1>;
+  const [currentFamily, setCurrentFamily] = useState("");
+  const [currentInstrument, setCurrentInstrument] = useState<Woodwind>();
+
+  return currentInstrument ? (
+    <SingleReedFingeringChart
+      currentInstrument={currentInstrument}
+      setCurrentInstrument={setCurrentInstrument}
+    />
+  ) : (
+    <Start
+      currentFamily={currentFamily}
+      setCurrentFamily={setCurrentFamily}
+      setCurrentInstrument={setCurrentInstrument}
+    />
+  );
 }
