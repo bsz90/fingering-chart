@@ -26,36 +26,6 @@ export const SingleReedFingeringChart = ({
   currentInstrument: Woodwind;
   setCurrentInstrument: Dispatch<SetStateAction<Woodwind | undefined>>;
 }) => {
-  const topMainKeys = currentInstrument.keyGroups.filter(
-    ({ section, position }) =>
-      section === Section.TOP && position === Position.CENTER
-  );
-
-  const topThumbKeys = currentInstrument.keyGroups.filter(
-    ({ section, position }) =>
-      section === Section.TOP && position === Position.LEFT
-  );
-
-  const topSideKeys = currentInstrument.keyGroups.filter(
-    ({ section, position }) =>
-      section === Section.TOP && position === Position.RIGHT
-  );
-
-  const bottomMainKeys = currentInstrument.keyGroups.filter(
-    ({ section, position }) =>
-      section === Section.BOTTOM && position === Position.CENTER
-  );
-
-  const bottomSideKeys = currentInstrument.keyGroups.filter(
-    ({ section, position }) =>
-      section === Section.BOTTOM && position === Position.LEFT
-  );
-
-  const bottomLeftPinkyKeys = currentInstrument.keyGroups.filter(
-    ({ section, position }) =>
-      section === Section.BOTTOM && position === Position.RIGHT
-  );
-
   const sortKeyGroups = (keyGroup: KeyGroup[]) => {
     const sortedArray: KeyGroup[][] = [[], [], []];
 
