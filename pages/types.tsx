@@ -6,6 +6,7 @@ export type Woodwind = {
   activeKeys: SaxophoneKeys[];
   keyGroups: KeyGroup[];
   fingerings: Partial<Record<Notes, SaxophoneKeys[] | SaxophoneKeys[][]>>;
+  clef: Clef;
 };
 
 export type KeyGroup = {
@@ -155,4 +156,9 @@ export enum Notes {
   Bb7,
   B7,
   C8,
+}
+
+export enum Clef {
+  TREBLE,
+  BASS,
 }

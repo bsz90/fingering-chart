@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Dispatch, SetStateAction } from "react";
 import { categories } from "./constants";
 import { Woodwind } from "./types";

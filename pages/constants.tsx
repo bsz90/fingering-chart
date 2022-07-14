@@ -1,4 +1,4 @@
-import { Note, Notes, Position, SaxophoneKeys, Section } from "./types";
+import { Clef, Note, Notes, Position, SaxophoneKeys, Section } from "./types";
 
 export const categories = [
   {
@@ -557,6 +557,8 @@ export const categories = [
             ],
           ],
         },
+
+        clef: Clef.TREBLE,
       },
     ],
   },

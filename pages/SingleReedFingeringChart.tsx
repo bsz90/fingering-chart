@@ -1,23 +1,8 @@
-import {
-  CSSProperties,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useMemo,
-  useReducer,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, useEffect, useMemo, useRef } from "react";
+import { Formatter, StaveNote, TickContext, Vex, Voice } from "vexflow";
 import { notes } from "./constants";
-import { InstrumentKey } from "./InstrumentKey";
 import { InstrumentKeyGroup } from "./InstrumentKeyGroup";
-import {
-  Position,
-  SaxophoneKeys,
-  Section,
-  Woodwind,
-  Note,
-  KeyGroup,
-} from "./types";
+import { SaxophoneKeys, Woodwind, KeyGroup } from "./types";
 
 export const SingleReedFingeringChart = ({
   currentInstrument,
@@ -26,6 +11,46 @@ export const SingleReedFingeringChart = ({
   currentInstrument: Woodwind;
   setCurrentInstrument: Dispatch<SetStateAction<Woodwind | undefined>>;
 }) => {
+  const { Renderer, Stave } = Vex.Flow;
+
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (ref.current) {
+      const renderer = new Renderer(ref.current, Renderer.Backends.SVG);
+
+      renderer.resize(350, 200);
+      const context = renderer.getContext().scale(2, 2);
+
+      const stave = new Stave(0, 0, 150);
+
+      stave.addClef(currentInstrument.clef ? "bass" : "treble");
+
+      const notes = [
+        new StaveNote({
+          keys: ["cb/5"],
+          duration: "q",
+        }).setXShift(50),
+      ];
+
+      // Create a voice in 4/4 and add above notes
+      const voices = [
+        new Voice({
+          num_beats: 1,
+          beat_value: 4,
+        }).addTickables(notes),
+      ];
+
+      new Formatter().formatToStave(voices, stave);
+
+      voices.forEach(function (v) {
+        v.draw(context, stave);
+      });
+
+      stave.setContext(context).draw();
+    }
+  }, [Renderer, Stave]);
+
   const sortKeyGroups = (keyGroup: KeyGroup[]) => {
     const sortedArray: KeyGroup[][] = [[], [], []];
 
@@ -87,25 +112,29 @@ export const SingleReedFingeringChart = ({
 
   return (
     <div className="w-full h-screen flex flex-col items-center justify-start">
-      <div className="w-full flex justify-center">
-        <h1 className="text-3xl font-bold underline text-center">
-          {currentInstrument.name} {JSON.stringify(currentFingering)}
-        </h1>
-      </div>
-      <div className="w-full h-full flex justify-center items-center">
-        <div className="h-[600px] bg-gray-300"></div>
-        <div className="w-1/2 h-[700px] flex">
-          {sortKeyGroups(currentInstrument.keyGroups).map((keyGroup, id) => {
-            return (
-              <InstrumentKeyGroup
-                key={id}
-                keyGroup={keyGroup}
-                toggleKey={toggleKey}
-                activeKeys={currentInstrument.activeKeys}
-                position={id}
-              />
-            );
-          })}
+      <div className="w-5/6">
+        <div className="w-full flex justify-center">
+          <h1 className="text-3xl font-bold underline text-center">
+            {currentInstrument.name} {JSON.stringify(currentFingering)}
+          </h1>
+        </div>
+        <div className="w-full h-full flex justify-center items-center">
+          <div className="w-1/2 h-96  bg-gray-300 flex justify-center items-center">
+            <div className="w-4/5 overflow-hidden" ref={ref}></div>
+          </div>
+          <div className="w-1/2 h-[700px] flex justify-center">
+            {sortKeyGroups(currentInstrument.keyGroups).map((keyGroup, id) => {
+              return (
+                <InstrumentKeyGroup
+                  key={id}
+                  keyGroup={keyGroup}
+                  toggleKey={toggleKey}
+                  activeKeys={currentInstrument.activeKeys}
+                  position={id}
+                />
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
