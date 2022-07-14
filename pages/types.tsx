@@ -1,5 +1,9 @@
 import { CSSProperties } from "react";
 
+export interface DragState {
+  dragging: boolean;
+  startingButtonActive: boolean;
+}
 export type Woodwind = {
   name: string;
   range: { lowestNote: Notes; highestNote: Notes };

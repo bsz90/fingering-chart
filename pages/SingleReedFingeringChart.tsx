@@ -1,8 +1,15 @@
-import { Dispatch, SetStateAction, useEffect, useMemo, useRef } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Formatter, StaveNote, TickContext, Vex, Voice } from "vexflow";
 import { notes } from "./constants";
 import { InstrumentKeyGroup } from "./InstrumentKeyGroup";
-import { SaxophoneKeys, Woodwind, KeyGroup } from "./types";
+import { SaxophoneKeys, Woodwind, KeyGroup, DragState } from "./types";
 
 export const SingleReedFingeringChart = ({
   currentInstrument,
@@ -11,9 +18,17 @@ export const SingleReedFingeringChart = ({
   currentInstrument: Woodwind;
   setCurrentInstrument: Dispatch<SetStateAction<Woodwind | undefined>>;
 }) => {
+  //Drag functionality
+  const [dragState, setDragState] = useState<DragState>({
+    dragging: false,
+    startingButtonActive: false,
+  });
+  const initialElement = useRef<HTMLButtonElement | null>(null);
+
+  //VexFlow
   const { Renderer, Stave } = Vex.Flow;
 
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (ref.current) {
@@ -24,30 +39,35 @@ export const SingleReedFingeringChart = ({
 
       const stave = new Stave(0, 0, 150);
 
-      stave.addClef(currentInstrument.clef ? "bass" : "treble");
+      stave
+        .addClef(currentInstrument.clef ? "bass" : "treble")
+        .setEndBarType(3);
 
       const notes = [
         new StaveNote({
-          keys: ["cb/5"],
-          duration: "q",
+          keys: ["b/3"],
+          duration: "w",
         }).setXShift(50),
       ];
 
       // Create a voice in 4/4 and add above notes
       const voices = [
         new Voice({
-          num_beats: 1,
+          num_beats: 4,
           beat_value: 4,
         }).addTickables(notes),
       ];
 
-      new Formatter().formatToStave(voices, stave);
+      const formatter = new Formatter().formatToStave(voices, stave);
 
       voices.forEach(function (v) {
         v.draw(context, stave);
       });
 
       stave.setContext(context).draw();
+      return () => {
+        ref.current = null;
+      };
     }
   }, [Renderer, Stave, currentInstrument]);
 
@@ -66,19 +86,6 @@ export const SingleReedFingeringChart = ({
       });
     }
     return sortedArray;
-  };
-
-  const toggleKey = (newKey: SaxophoneKeys) => {
-    setCurrentInstrument((prev) => {
-      if (prev) {
-        return {
-          ...prev,
-          activeKeys: prev.activeKeys.includes(newKey)
-            ? prev.activeKeys.filter((activeKey) => activeKey !== newKey)
-            : [...prev.activeKeys, newKey],
-        };
-      }
-    });
   };
 
   const currentFingering = useMemo(() => {
@@ -111,7 +118,7 @@ export const SingleReedFingeringChart = ({
   }, [currentInstrument]);
 
   return (
-    <div className="w-full h-screen flex flex-col items-center justify-start">
+    <div className="w-full h-screen flex flex-col items-center justify-start touch-none">
       <div className="w-5/6">
         <div className="w-full flex justify-center">
           <h1 className="text-3xl font-bold underline text-center">
@@ -128,9 +135,12 @@ export const SingleReedFingeringChart = ({
                 <InstrumentKeyGroup
                   key={id}
                   keyGroup={keyGroup}
-                  toggleKey={toggleKey}
                   activeKeys={currentInstrument.activeKeys}
                   position={id}
+                  dragState={dragState}
+                  setDragState={setDragState}
+                  currentInstrument={currentInstrument}
+                  setCurrentInstrument={setCurrentInstrument}
                 />
               );
             })}

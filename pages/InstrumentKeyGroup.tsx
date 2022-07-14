@@ -1,17 +1,30 @@
-import { CSSProperties } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { InstrumentKey } from "./InstrumentKey";
-import { KeyGroup, Position, SaxophoneKeys, Section } from "./types";
+import {
+  DragState,
+  KeyGroup,
+  Position,
+  SaxophoneKeys,
+  Section,
+  Woodwind,
+} from "./types";
 
 export const InstrumentKeyGroup = ({
   keyGroup,
-  toggleKey,
   activeKeys,
   position,
+  dragState,
+  setDragState,
+  currentInstrument,
+  setCurrentInstrument,
 }: {
   keyGroup: KeyGroup[];
-  toggleKey: (newKey: SaxophoneKeys) => void;
   activeKeys: SaxophoneKeys[];
   position: Position;
+  dragState: DragState;
+  setDragState: Dispatch<SetStateAction<DragState>>;
+  currentInstrument: Woodwind;
+  setCurrentInstrument: Dispatch<SetStateAction<Woodwind | undefined>>;
 }) => {
   function determineJustify(position: Position) {
     switch (position) {
@@ -42,10 +55,13 @@ export const InstrumentKeyGroup = ({
             return (
               <InstrumentKey
                 key={key.name}
-                toggleKey={toggleKey}
                 name={key.name}
                 style={key.style}
                 activeKeys={activeKeys}
+                dragState={dragState}
+                setDragState={setDragState}
+                currentInstrument={currentInstrument}
+                setCurrentInstrument={setCurrentInstrument}
               />
             );
           })}
@@ -66,10 +82,13 @@ export const InstrumentKeyGroup = ({
             return (
               <InstrumentKey
                 key={key.name}
-                toggleKey={toggleKey}
                 name={key.name}
                 style={key.style}
                 activeKeys={activeKeys}
+                dragState={dragState}
+                setDragState={setDragState}
+                currentInstrument={currentInstrument}
+                setCurrentInstrument={setCurrentInstrument}
               />
             );
           })}
