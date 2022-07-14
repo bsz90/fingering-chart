@@ -49,7 +49,7 @@ export const SingleReedFingeringChart = ({
 
       stave.setContext(context).draw();
     }
-  }, [Renderer, Stave]);
+  }, [Renderer, Stave, currentInstrument]);
 
   const sortKeyGroups = (keyGroup: KeyGroup[]) => {
     const sortedArray: KeyGroup[][] = [[], [], []];
