@@ -7,21 +7,21 @@ export default function Home() {
   const [currentFamily, setCurrentFamily] = useState("");
   const [currentInstrument, setCurrentInstrument] = useState<Woodwind>();
 
-  useEffect(() => {
-    console.log("currentInstrument changed");
-    console.log(currentInstrument);
-  }, [currentInstrument]);
-
-  return currentInstrument ? (
-    <SingleReedFingeringChart
-      currentInstrument={currentInstrument}
-      setCurrentInstrument={setCurrentInstrument}
-    />
-  ) : (
-    <Start
-      currentFamily={currentFamily}
-      setCurrentFamily={setCurrentFamily}
-      setCurrentInstrument={setCurrentInstrument}
-    />
+  return (
+    <div className="w-full h-screen flex  flex-col items-center justify-start touch-none">
+      <div className="w-full h-16 shrink-0 bg-blue-400 mb-8">Header</div>
+      {currentInstrument ? (
+        <SingleReedFingeringChart
+          currentInstrument={currentInstrument}
+          setCurrentInstrument={setCurrentInstrument}
+        />
+      ) : (
+        <Start
+          currentFamily={currentFamily}
+          setCurrentFamily={setCurrentFamily}
+          setCurrentInstrument={setCurrentInstrument}
+        />
+      )}
+    </div>
   );
 }

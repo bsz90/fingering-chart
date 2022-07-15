@@ -1,58 +1,58 @@
 import { CSSProperties, Dispatch, SetStateAction } from "react";
-import { DragState, SaxophoneKeys, Woodwind } from "./types";
+import { SaxophoneKeys, Woodwind } from "./types";
 
 export const InstrumentKey = ({
   name,
   style,
   activeKeys,
-  dragState,
-  setDragState,
+  toggleOn,
+  setToggleOn,
   currentInstrument,
   setCurrentInstrument,
 }: {
   name: SaxophoneKeys;
   style: CSSProperties;
   activeKeys: SaxophoneKeys[];
-  dragState: DragState;
-  setDragState: Dispatch<SetStateAction<DragState>>;
+  toggleOn: boolean;
+  setToggleOn: Dispatch<SetStateAction<boolean>>;
   currentInstrument: Woodwind;
   setCurrentInstrument: Dispatch<SetStateAction<Woodwind | undefined>>;
 }) => {
-  const handleMouseDown = (newKey: SaxophoneKeys) => {
+  const handlePointerDown = (newKey: SaxophoneKeys) => {
+    if (currentInstrument.activeKeys.includes(newKey)) {
+      setToggleOn(false);
+      setCurrentInstrument((prev) => {
+        if (prev)
+          return {
+            ...prev,
+            activeKeys: prev.activeKeys.filter(
+              (activeKey) => activeKey !== newKey
+            ),
+          };
+      });
+      return;
+    }
+    setToggleOn(true);
     setCurrentInstrument((prev) => {
-      if (prev) {
-        return {
-          ...prev,
-          activeKeys: prev.activeKeys.includes(newKey)
-            ? prev.activeKeys.filter((activeKey) => activeKey !== newKey)
-            : [...prev.activeKeys, newKey],
-        };
-      }
+      if (prev) return { ...prev, activeKeys: [...prev.activeKeys, newKey] };
     });
   };
 
-  const handleMouseEnter = (newKey: SaxophoneKeys) => {
-    setCurrentInstrument((prev) => {
-      if (prev) {
-        if (dragState.dragging) {
-          if (dragState.startingButtonActive) {
-            if (prev.activeKeys.includes(newKey)) {
-              return {
-                ...prev,
-                activeKeys: prev.activeKeys.filter(
-                  (activeKey) => activeKey !== name
-                ),
-              };
-            }
-            return { ...prev };
-          }
-          if (!prev.activeKeys.includes(newKey))
+  const handlePointerEnter = (newKey: SaxophoneKeys) => {
+    toggleOn
+      ? setCurrentInstrument((prev) => {
+          if (prev)
             return { ...prev, activeKeys: [...prev.activeKeys, newKey] };
-
-          return { ...prev };
-        }
-      }
-    });
+        })
+      : setCurrentInstrument((prev) => {
+          if (prev)
+            return {
+              ...prev,
+              activeKeys: prev.activeKeys.filter(
+                (activeKey) => activeKey !== newKey
+              ),
+            };
+        });
   };
 
   const buttonState = activeKeys.includes(name);
@@ -62,21 +62,15 @@ export const InstrumentKey = ({
       className="overflow-hidden"
       key={name}
       style={style}
-      onMouseDown={() => {
-        handleMouseDown(name);
-        setDragState({
-          dragging: true,
-          startingButtonActive: buttonState,
-        });
+      onPointerDown={() => {
+        handlePointerDown(name);
       }}
-      onMouseEnter={(event) => {
-        if (dragState.dragging) {
-          handleMouseEnter(name);
+      onPointerEnter={({ buttons }) => {
+        if (buttons) {
+          handlePointerEnter(name);
         }
       }}
-      onPointerUp={() => {
-        setDragState({ dragging: false, startingButtonActive: false });
-      }}
+      onPointerUp={() => {}}
     >
       <div
         className="w-full h-full pointer-events-none touch-none"

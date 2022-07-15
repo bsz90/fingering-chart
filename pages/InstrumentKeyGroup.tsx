@@ -1,28 +1,21 @@
 import { Dispatch, SetStateAction } from "react";
 import { InstrumentKey } from "./InstrumentKey";
-import {
-  DragState,
-  KeyGroup,
-  Position,
-  SaxophoneKeys,
-  Section,
-  Woodwind,
-} from "./types";
+import { KeyGroup, Position, SaxophoneKeys, Section, Woodwind } from "./types";
 
 export const InstrumentKeyGroup = ({
   keyGroup,
   activeKeys,
   position,
-  dragState,
-  setDragState,
+  toggleOn,
+  setToggleOn,
   currentInstrument,
   setCurrentInstrument,
 }: {
   keyGroup: KeyGroup[];
   activeKeys: SaxophoneKeys[];
   position: Position;
-  dragState: DragState;
-  setDragState: Dispatch<SetStateAction<DragState>>;
+  toggleOn: boolean;
+  setToggleOn: Dispatch<SetStateAction<boolean>>;
   currentInstrument: Woodwind;
   setCurrentInstrument: Dispatch<SetStateAction<Woodwind | undefined>>;
 }) => {
@@ -58,8 +51,8 @@ export const InstrumentKeyGroup = ({
                 name={key.name}
                 style={key.style}
                 activeKeys={activeKeys}
-                dragState={dragState}
-                setDragState={setDragState}
+                toggleOn={toggleOn}
+                setToggleOn={setToggleOn}
                 currentInstrument={currentInstrument}
                 setCurrentInstrument={setCurrentInstrument}
               />
@@ -85,8 +78,8 @@ export const InstrumentKeyGroup = ({
                 name={key.name}
                 style={key.style}
                 activeKeys={activeKeys}
-                dragState={dragState}
-                setDragState={setDragState}
+                toggleOn={toggleOn}
+                setToggleOn={setToggleOn}
                 currentInstrument={currentInstrument}
                 setCurrentInstrument={setCurrentInstrument}
               />

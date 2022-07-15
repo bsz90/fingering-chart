@@ -9,7 +9,7 @@ import {
 import { Formatter, StaveNote, TickContext, Vex, Voice } from "vexflow";
 import { notes } from "./constants";
 import { InstrumentKeyGroup } from "./InstrumentKeyGroup";
-import { SaxophoneKeys, Woodwind, KeyGroup, DragState } from "./types";
+import { SaxophoneKeys, Woodwind, KeyGroup } from "./types";
 
 export const SingleReedFingeringChart = ({
   currentInstrument,
@@ -19,10 +19,7 @@ export const SingleReedFingeringChart = ({
   setCurrentInstrument: Dispatch<SetStateAction<Woodwind | undefined>>;
 }) => {
   //Drag functionality
-  const [dragState, setDragState] = useState<DragState>({
-    dragging: false,
-    startingButtonActive: false,
-  });
+  const [toggleOn, setToggleOn] = useState<boolean>(false);
   const initialElement = useRef<HTMLButtonElement | null>(null);
 
   //VexFlow
@@ -34,10 +31,10 @@ export const SingleReedFingeringChart = ({
     if (ref.current) {
       const renderer = new Renderer(ref.current, Renderer.Backends.SVG);
 
-      renderer.resize(350, 200);
+      renderer.resize(400, 200);
       const context = renderer.getContext().scale(2, 2);
 
-      const stave = new Stave(0, 0, 150);
+      const stave = new Stave(0, 0, 175);
 
       stave
         .addClef(currentInstrument.clef ? "bass" : "treble")
@@ -88,6 +85,16 @@ export const SingleReedFingeringChart = ({
     return sortedArray;
   };
 
+  const displayNote = () => {
+    if (currentFingering) {
+      if (typeof currentFingering.name === "string") {
+        return currentFingering.name;
+      }
+      return currentFingering.name[0].concat(" or ", currentFingering.name[1]);
+    }
+    return;
+  };
+
   const currentFingering = useMemo(() => {
     const instrumentRange = notes.slice(
       currentInstrument.range.lowestNote,
@@ -118,33 +125,38 @@ export const SingleReedFingeringChart = ({
   }, [currentInstrument]);
 
   return (
-    <div className="w-full h-screen flex flex-col items-center justify-start touch-none">
-      <div className="w-5/6">
-        <div className="w-full flex justify-center">
-          <h1 className="text-3xl font-bold underline text-center">
-            {currentInstrument.name} {JSON.stringify(currentFingering)}
-          </h1>
+    <div className="w-[1024px] px-24 h-full flex flex-col justify-center items-center">
+      <h1 className="h-20 text-3xl capitalize text-bold text-center flex items-center">
+        {currentInstrument.name}
+      </h1>
+      <div className="flex w-full h-full border-4 rounded-xl drop-shadow-md bg-white">
+        <div className="w-3/4 h-full flex flex-col items-center justify-center">
+          <h2 className="w-full p-4 text-3xl font-bold text-center">
+            {displayNote()}
+          </h2>
+          <div className="w-[500px] rounded-xl flex flex-col justify-center items-center">
+            <div
+              className="w-full flex justify-center overflow-hidden"
+              ref={ref}
+              onPointerDown={() => {}}
+            ></div>
+          </div>
         </div>
-        <div className="w-full h-full flex justify-center items-center">
-          <div className="w-1/2 h-96  bg-gray-300 flex justify-center items-center">
-            <div className="w-4/5 overflow-hidden" ref={ref}></div>
-          </div>
-          <div className="w-1/2 h-[700px] flex justify-center">
-            {sortKeyGroups(currentInstrument.keyGroups).map((keyGroup, id) => {
-              return (
-                <InstrumentKeyGroup
-                  key={id}
-                  keyGroup={keyGroup}
-                  activeKeys={currentInstrument.activeKeys}
-                  position={id}
-                  dragState={dragState}
-                  setDragState={setDragState}
-                  currentInstrument={currentInstrument}
-                  setCurrentInstrument={setCurrentInstrument}
-                />
-              );
-            })}
-          </div>
+        <div className="w-1/2 h-[600px] flex items-center justify-center">
+          {sortKeyGroups(currentInstrument.keyGroups).map((keyGroup, id) => {
+            return (
+              <InstrumentKeyGroup
+                key={id}
+                keyGroup={keyGroup}
+                activeKeys={currentInstrument.activeKeys}
+                position={id}
+                toggleOn={toggleOn}
+                setToggleOn={setToggleOn}
+                currentInstrument={currentInstrument}
+                setCurrentInstrument={setCurrentInstrument}
+              />
+            );
+          })}
         </div>
       </div>
     </div>
