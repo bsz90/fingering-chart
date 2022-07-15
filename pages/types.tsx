@@ -15,7 +15,7 @@ export type KeyGroup = {
   position: Position;
   keys: {
     name: SaxophoneKeys;
-    style: CSSProperties;
+    className: string;
   }[];
 };
 
@@ -31,29 +31,29 @@ export enum Position {
 }
 
 export enum SaxophoneKeys {
-  OCTAVEKEY = "OCTAVEKEY",
-  FRONT_F_KEY = "FRONTFKEY",
-  LEFT_FIRST_FINGER_KEY = "LEFT_FIRST_FINGER_KEY",
-  BISKEY = "BISKEY",
-  LEFTSECONDFINGERKEY = "LEFTSECONDFINGERKEY",
-  LEFTTHIRDFINGERKEY = "LEFTTHIRDFINGERKEY",
-  EbPALMKEY = "EbPALMKEY",
-  DPALMKEY = "DPALMKEY",
-  FPALMKEY = "FPALMKEY",
-  GSHARPKEY = "G#KEY",
-  LOWCSHARPKEY = "LOWC#KEY",
-  LOWBKEY = "LOWBKEY",
-  LOWBbKEY = "LOWBbKEY",
-  RIGHTFIRSTFINGERKEY = "RIGHTFIRSTFINGERKEY",
-  RIGHTSECONDFINGERKEY = "RIGHTSECONDFINGERKEY",
-  RIGHTTHIRDFINGERKEY = "RIGHTTHIRDFINGERKEY",
-  ESIDEKEY = "ESIDEKEY",
-  CSIDEKEY = "CSIDEKEY",
-  BbSIDEKEY = "BbSIDEKEY",
-  HIGHFSHARPKEY = "HIGHFSHARPKEY",
-  ALTFKEY = "ALTFKEY",
-  LOWEbKEY = "LOWEbKEY",
-  LOWCKEY = "LOWCKEY",
+  OCTAVE = "Octave",
+  FRONT_F = "Front F",
+  LEFT_FIRST_FINGER = "Left First Finger",
+  BIS = "Bis",
+  LEFT_SECOND_FINGER = "Left Second Finger",
+  LEFT_THIRD_FINGER = "Left Third Finger",
+  Eb_PALM = "E♭ Palm",
+  D_PALM = "D Palm",
+  F_PALM = "F Palm",
+  G_SHARP = "G♯",
+  LOW_C_SHARP = "Low C♯",
+  LOW_B = "Low B",
+  LOW_Bb = "Low B♭",
+  RIGHT_FIRST_FINGER = "Right First Finger",
+  RIGHT_SECOND_FINGER = "Right Second Finger",
+  RIGHT_THIRD_FINGER = "Right Third Finger",
+  E_SIDE = "E Side",
+  C_SIDE = "C Side",
+  Bb_SIDE = "B♭ Side",
+  HIGH_F_SHARP = "High F♯",
+  ALT_F = "Alt F",
+  LOW_Eb = "Low E♭",
+  LOW_C = "Low C",
 }
 
 type NoteName = string;

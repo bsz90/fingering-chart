@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
+import { categories } from "./constants";
 import { SingleReedFingeringChart } from "./SingleReedFingeringChart";
 import { Start } from "./Start";
 import { Woodwind } from "./types";
 
 export default function Home() {
-  const [currentFamily, setCurrentFamily] = useState("");
-  const [currentInstrument, setCurrentInstrument] = useState<Woodwind>();
+  const [currentFamily, setCurrentFamily] = useState("woodwind");
+  const [currentInstrument, setCurrentInstrument] = useState<
+    Woodwind | undefined
+  >(categories[0].instruments[0]);
 
   return (
-    <div className="w-full h-screen flex  flex-col items-center justify-start touch-none">
-      <div className="w-full h-16 shrink-0 bg-blue-400 mb-8">Header</div>
+    <div className="w-full h-screen flex flex-col bg-neutral-100 items-center justify-start touch-none">
       {currentInstrument ? (
         <SingleReedFingeringChart
           currentInstrument={currentInstrument}

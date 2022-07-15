@@ -32,10 +32,7 @@ export const InstrumentKeyGroup = ({
     }
   }
   return (
-    <div
-      className="flex flex-col items-center justify-center"
-      style={{ width: position === Position.CENTER ? "32px" : "64px" }}
-    >
+    <div className="w-32 h-full flex flex-col items-center justify-center">
       <div
         key={keyGroup[0].group}
         className="w-full h-[48%] flex flex-end items-end"
@@ -43,13 +40,13 @@ export const InstrumentKeyGroup = ({
           justifyContent: determineJustify(keyGroup[0].position),
         }}
       >
-        <div className="w-1/2 flex flex-col items-center">
+        <div className="w-full flex flex-col items-center">
           {keyGroup[0].keys.map((key) => {
             return (
               <InstrumentKey
                 key={key.name}
                 name={key.name}
-                style={key.style}
+                className={key.className}
                 activeKeys={activeKeys}
                 toggleOn={toggleOn}
                 setToggleOn={setToggleOn}
@@ -61,7 +58,7 @@ export const InstrumentKeyGroup = ({
         </div>
       </div>
       {position === Position.CENTER ? (
-        <hr className="border-2 rounded-full border-sky-500 w-3/5" />
+        <hr className="border-2 rounded-full border-slate-600 w-3/5" />
       ) : null}
       <div
         key={keyGroup[1].group}
@@ -70,13 +67,13 @@ export const InstrumentKeyGroup = ({
           justifyContent: determineJustify(keyGroup[0].position),
         }}
       >
-        <div className="w-1/2 flex flex-col items-center">
+        <div className="w-full flex flex-col items-center">
           {keyGroup[1].keys.map((key) => {
             return (
               <InstrumentKey
                 key={key.name}
                 name={key.name}
-                style={key.style}
+                className={key.className}
                 activeKeys={activeKeys}
                 toggleOn={toggleOn}
                 setToggleOn={setToggleOn}

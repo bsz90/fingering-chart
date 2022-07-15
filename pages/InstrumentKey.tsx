@@ -1,9 +1,10 @@
 import { CSSProperties, Dispatch, SetStateAction } from "react";
 import { SaxophoneKeys, Woodwind } from "./types";
+import * as Tooltip from "@radix-ui/react-tooltip";
 
 export const InstrumentKey = ({
   name,
-  style,
+  className,
   activeKeys,
   toggleOn,
   setToggleOn,
@@ -11,7 +12,7 @@ export const InstrumentKey = ({
   setCurrentInstrument,
 }: {
   name: SaxophoneKeys;
-  style: CSSProperties;
+  className: string;
   activeKeys: SaxophoneKeys[];
   toggleOn: boolean;
   setToggleOn: Dispatch<SetStateAction<boolean>>;
@@ -58,26 +59,27 @@ export const InstrumentKey = ({
   const buttonState = activeKeys.includes(name);
 
   return (
-    <button
-      className="overflow-hidden"
-      key={name}
-      style={style}
-      onPointerDown={() => {
-        handlePointerDown(name);
-      }}
-      onPointerEnter={({ buttons }) => {
-        if (buttons) {
-          handlePointerEnter(name);
-        }
-      }}
-      onPointerUp={() => {}}
-    >
-      <div
-        className="w-full h-full pointer-events-none touch-none"
-        style={{
-          backgroundColor: activeKeys?.includes(name) ? "gray" : "white",
-        }}
-      ></div>
-    </button>
+    <Tooltip.Provider key={name} delayDuration={0}>
+      <Tooltip.Root>
+        <Tooltip.Trigger
+          className={`border-4 border-slate-600 overflow-hidden drop-shadow-md ${className} ${
+            activeKeys?.includes(name) ? "bg-slate-400" : "bg-white"
+          }`}
+          onPointerDown={() => {
+            handlePointerDown(name);
+          }}
+          onPointerEnter={({ buttons }) => {
+            if (buttons) {
+              handlePointerEnter(name);
+            }
+          }}
+          onPointerUp={() => {}}
+        />
+        <Tooltip.Content className="bg-stone-800 opacity-95 drop-shadow-md text-white text-sm px-4 py-1 flex items-center justify-center rounded-full">
+          <Tooltip.Arrow />
+          {name} Key
+        </Tooltip.Content>
+      </Tooltip.Root>
+    </Tooltip.Provider>
   );
 };
