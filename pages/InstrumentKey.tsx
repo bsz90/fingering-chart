@@ -74,7 +74,7 @@ export const InstrumentKey = ({
           onPointerUp={() => {}}
         />
         <Tooltip.Content className="bg-stone-800 opacity-95 drop-shadow-md text-white text-sm px-4 py-1 flex items-center justify-center rounded-full">
-          <Tooltip.Arrow className="opacity-95" />
+          <Tooltip.Arrow />
           {name} Key
         </Tooltip.Content>
       </Tooltip.Root>
