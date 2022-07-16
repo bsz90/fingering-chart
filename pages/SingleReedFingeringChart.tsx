@@ -6,14 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
-import {
-  Accidental,
-  Formatter,
-  StaveNote,
-  TickContext,
-  Vex,
-  Voice,
-} from "vexflow";
+import { Accidental, Formatter, StaveNote, Vex, Voice } from "vexflow";
 import { notes } from "./constants";
 import { InstrumentKeyGroup } from "./InstrumentKeyGroup";
 import { SaxophoneKeys, Woodwind, KeyGroup, Note } from "./types";
@@ -34,18 +27,27 @@ export const SingleReedFingeringChart = ({
 
   const ref = useRef<HTMLDivElement | null>(null);
 
-  const currentFingering = useMemo(() => {
-    const instrumentRange = notes.slice(
-      currentInstrument.range.lowestNote,
-      currentInstrument.range.highestNote + 1
-    );
+  const instrumentRange = notes.slice(
+    currentInstrument.range.lowestNote,
+    currentInstrument.range.highestNote + 1
+  );
 
-    const { activeKeys, fingerings } = currentInstrument;
+  const initialFingering = (() => {
+    const index = Object.values(currentInstrument.fingerings).findIndex(
+      (fingering) => fingering.length === 0
+    );
+    if (index > -1) return instrumentRange[index];
+  })();
+
+  const currentFingering = useMemo(() => {
+    if (currentInstrument.activeKeys.length === 0) {
+      return initialFingering;
+    }
 
     const checkArray = (array: SaxophoneKeys[]) => {
       return (
-        array.every((key) => activeKeys.includes(key)) &&
-        array.length === activeKeys.length
+        array.every((key) => currentInstrument.activeKeys.includes(key)) &&
+        array.length === currentInstrument.activeKeys.length
       );
     };
 
@@ -53,15 +55,22 @@ export const SingleReedFingeringChart = ({
       return nestedArray.some((array) => checkArray(array));
     };
 
-    const index = Object.values(fingerings).findIndex((fingering) => {
-      if (typeof fingering[0] === "string") {
-        return checkArray(fingering as SaxophoneKeys[]);
+    const index = Object.values(currentInstrument.fingerings).findIndex(
+      (fingering) => {
+        if (typeof fingering[0] === "string") {
+          return checkArray(fingering as SaxophoneKeys[]);
+        }
+        return checkNestedArray(fingering as SaxophoneKeys[][]);
       }
-      return checkNestedArray(fingering as SaxophoneKeys[][]);
-    });
+    );
 
     if (index > -1) return instrumentRange[index];
-  }, [currentInstrument]);
+  }, [
+    currentInstrument.activeKeys,
+    currentInstrument.fingerings,
+    initialFingering,
+    instrumentRange,
+  ]);
 
   useEffect(() => {
     if (ref.current) {
@@ -84,7 +93,15 @@ export const SingleReedFingeringChart = ({
           if (typeof currentFingering.name === "string") {
             return currentFingering.name.match(regex);
           }
-          return currentFingering.name[0].match(regex);
+
+          const match = currentFingering.name.sort((string) => {
+            if (!string?.includes("♭" || "♯")) {
+              return -1;
+            }
+            return 1;
+          });
+
+          return match[0].match(regex);
         }
         return;
       })();
@@ -95,9 +112,6 @@ export const SingleReedFingeringChart = ({
           return { note, modifier, octave };
         }
       })();
-      console.log(match);
-      console.log(currentNote);
-      console.log(`${currentNote?.note}/${currentNote?.octave}`);
 
       const notes = currentNote
         ? [
@@ -113,7 +127,13 @@ export const SingleReedFingeringChart = ({
             }).setXShift(30),
           ];
 
-      const accidental = new Accidental();
+      if (currentNote?.modifier) {
+        notes[0].addModifier(
+          new Accidental(currentNote.modifier === "♭" ? "b" : "#").setXShift(
+            -20
+          )
+        );
+      }
 
       // Create a voice in 4/4 and add above notes
       const voices = [
@@ -131,9 +151,9 @@ export const SingleReedFingeringChart = ({
         v.draw(context, stave);
       });
 
-      return () => {
-        if (ref.current) ref.current.innerHTML = "";
-      };
+      // return () => {
+      //   ref.current = null;
+      // };
     }
   }, [Renderer, Stave, currentFingering, currentInstrument]);
 
@@ -192,7 +212,6 @@ export const SingleReedFingeringChart = ({
               <InstrumentKeyGroup
                 key={id}
                 keyGroup={keyGroup}
-                activeKeys={currentInstrument.activeKeys}
                 position={id}
                 toggleOn={toggleOn}
                 setToggleOn={setToggleOn}

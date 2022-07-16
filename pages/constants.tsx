@@ -406,7 +406,7 @@ export const notes: Note[] = [
   { name: ["B0", "C♭1"], staffPosition: Notes.B0 },
   { name: ["B♯0", "C1"], staffPosition: Notes.C1 },
   {
-    name: ["C♯1", "D1"],
+    name: ["C♯1", "D♭1"],
     staffPosition: Notes.Db1,
   },
   { name: "D1", staffPosition: Notes.D1 },
@@ -430,7 +430,7 @@ export const notes: Note[] = [
   { name: ["B1", "C♭2"], staffPosition: Notes.B1 },
   { name: ["B♯1", "C2"], staffPosition: Notes.C2 },
   {
-    name: ["C♯2", "D2"],
+    name: ["C♯2", "D♭2"],
     staffPosition: Notes.Db2,
   },
   { name: "D2", staffPosition: Notes.D2 },
@@ -454,7 +454,7 @@ export const notes: Note[] = [
   { name: ["B2", "C♭3"], staffPosition: Notes.B2 },
   { name: ["B♯2", "C3"], staffPosition: Notes.C3 },
   {
-    name: ["C♯3", "D3"],
+    name: ["C♯3", "D♭3"],
     staffPosition: Notes.Db3,
   },
   { name: "D3", staffPosition: Notes.D3 },
@@ -478,7 +478,7 @@ export const notes: Note[] = [
   { name: ["B3", "C♭4"], staffPosition: Notes.B3 },
   { name: ["B♯3", "C4"], staffPosition: Notes.C4 },
   {
-    name: ["C♯4", "D4"],
+    name: ["C♯4", "D♭4"],
     staffPosition: Notes.Db4,
   },
   { name: "D4", staffPosition: Notes.D4 },
@@ -502,7 +502,7 @@ export const notes: Note[] = [
   { name: ["B4", "C♭5"], staffPosition: Notes.B4 },
   { name: ["B♯4", "C5"], staffPosition: Notes.C5 },
   {
-    name: ["C♯5", "D5"],
+    name: ["C♯4", "D♭5"],
     staffPosition: Notes.Db5,
   },
   { name: "D5", staffPosition: Notes.D5 },
@@ -526,7 +526,7 @@ export const notes: Note[] = [
   { name: ["B5", "C♭6"], staffPosition: Notes.B5 },
   { name: ["B♯5", "C6"], staffPosition: Notes.C6 },
   {
-    name: ["C♯6", "D6"],
+    name: ["C♯6", "D♭6"],
     staffPosition: Notes.Db6,
   },
   { name: "D6", staffPosition: Notes.D6 },
@@ -550,7 +550,7 @@ export const notes: Note[] = [
   { name: ["B6", "C♭7"], staffPosition: Notes.B6 },
   { name: ["B♯6", "C7"], staffPosition: Notes.C7 },
   {
-    name: ["C♯7", "D7"],
+    name: ["C♯7", "D♭7"],
     staffPosition: Notes.Db7,
   },
   { name: "D7", staffPosition: Notes.D7 },

@@ -11,7 +11,7 @@ export default function Home() {
   >(categories[0].instruments[0]);
 
   return (
-    <div className="w-full h-screen flex flex-col bg-neutral-100 items-center justify-start touch-none">
+    <div className="w-full h-screen flex flex-col bg-slate-200 items-center justify-start touch-none">
       {currentInstrument ? (
         <SingleReedFingeringChart
           currentInstrument={currentInstrument}
