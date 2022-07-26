@@ -6,7 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { Accidental, Formatter, StaveNote, Vex, Voice } from "vexflow";
+import { Accidental, Element, Formatter, StaveNote, Vex, Voice } from "vexflow";
 import { notes } from "./constants";
 import { InstrumentKeyGroup } from "./InstrumentKeyGroup";
 import { SaxophoneKeys, Woodwind, KeyGroup, Note } from "./types";
@@ -25,7 +25,12 @@ export const SingleReedFingeringChart = ({
   //VexFlow
   const { Renderer, Stave } = Vex.Flow;
 
+  //HTMLref for Vexflow
   const [ref, setRef] = useState<HTMLDivElement | null>(null!);
+
+  const [nextNote, setNextNote] = useState(null);
+
+  const determineNextNote = () => {};
 
   const instrumentRange = notes.slice(
     currentInstrument.range.lowestNote,
@@ -142,22 +147,42 @@ export const SingleReedFingeringChart = ({
           )
         );
       }
+      const newNote = [
+        new StaveNote({
+          keys: [`c/4`],
+          duration: "w",
+        })
+          .setXShift(30)
+          .setStyle({
+            fillStyle: "#DEDEDE",
+          }),
+      ];
 
-      // Create a voice in 4/4 and add above notes
+      newNote[0].setLedgerLineStyle({ strokeStyle: "#DEDEDE" });
+
       const voices = [
         new Voice({
           num_beats: 4,
           beat_value: 4,
         }).addTickables(notes),
+        new Voice({
+          num_beats: 4,
+          beat_value: 4,
+        })
+          .addTickables(newNote)
+          .setGroupStyle({ strokeStyle: "rgba(0, 0, 0, 0.5)" }),
       ];
 
       const formatter = new Formatter().formatToStave(voices, stave);
 
       stave.setContext(context).draw();
 
-      voices.forEach(function (v) {
-        v.draw(context, stave);
-      });
+      voices[0].draw(context, stave);
+      voices[1].setContext(context).setStave(stave).drawWithStyle();
+
+      // voices.forEach(function (v) {
+      //   v.draw(context, stave);
+      // });
 
       return () => {
         ref.innerHTML = "";
@@ -206,6 +231,15 @@ export const SingleReedFingeringChart = ({
               className="w-full flex justify-center overflow-hidden"
               ref={setRef}
               onPointerDown={() => {}}
+              onPointerOver={(event) => {
+                const rect = event.currentTarget.getBoundingClientRect();
+                const y = event.clientY - rect.top;
+                console.log(y);
+              }}
+              onPointerEnter={() => {}}
+              onPointerLeave={() => {
+                setNextNote(null);
+              }}
             ></div>
           </div>
           <div className="h-[15%]">
