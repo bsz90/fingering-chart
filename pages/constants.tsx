@@ -502,7 +502,7 @@ export const notes: Note[] = [
   { name: ["B4", "C♭5"], staffPosition: Notes.B4 },
   { name: ["B♯4", "C5"], staffPosition: Notes.C5 },
   {
-    name: ["C♯4", "D♭5"],
+    name: ["C♯5", "D♭5"],
     staffPosition: Notes.Db5,
   },
   { name: "D5", staffPosition: Notes.D5 },

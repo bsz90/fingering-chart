@@ -25,7 +25,7 @@ export const SingleReedFingeringChart = ({
   //VexFlow
   const { Renderer, Stave } = Vex.Flow;
 
-  const ref = useRef<HTMLDivElement | null>(null);
+  const [ref, setRef] = useState<HTMLDivElement | null>(null!);
 
   const instrumentRange = notes.slice(
     currentInstrument.range.lowestNote,
@@ -64,7 +64,25 @@ export const SingleReedFingeringChart = ({
       }
     );
 
-    if (index > -1) return instrumentRange[index];
+    if (index > -1) {
+      const newState = instrumentRange[index];
+      if (typeof newState.name === "string") return newState;
+      newState.name.sort((stringA, stringB) => {
+        const hasAccidental = (string: string) => {
+          if (string.includes("♯") || string.includes("♭")) return true;
+          return false;
+        };
+
+        if (hasAccidental(stringA) && !hasAccidental(stringB)) {
+          return 1;
+        }
+        if (!hasAccidental(stringA) && hasAccidental(stringB)) {
+          return -1;
+        }
+        return 0;
+      });
+      return newState;
+    }
   }, [
     currentInstrument.activeKeys,
     currentInstrument.fingerings,
@@ -73,20 +91,17 @@ export const SingleReedFingeringChart = ({
   ]);
 
   useEffect(() => {
-    if (ref.current) {
-      const renderer = new Renderer(ref.current, Renderer.Backends.SVG);
+    if (ref) {
+      const renderer = new Renderer(ref, Renderer.Backends.SVG);
 
       renderer.resize(384, 400);
       const context = renderer.getContext().scale(2.5, 2.5);
 
       const stave = new Stave(0, 0, 137);
 
-      stave
-        .addClef(currentInstrument.clef ? "bass" : "treble")
-        .setEndBarType(3)
-        .setX(8)
-        .setY(20);
+      stave.addClef(currentInstrument.clef).setEndBarType(3).setX(8).setY(20);
 
+      //converts constant into a useable string
       const match = (() => {
         const regex = /([A-G])(♭|♯)?(\d)/;
         if (currentFingering) {
@@ -94,14 +109,7 @@ export const SingleReedFingeringChart = ({
             return currentFingering.name.match(regex);
           }
 
-          const match = currentFingering.name.sort((string) => {
-            if (!string?.includes("♭" || "♯")) {
-              return -1;
-            }
-            return 1;
-          });
-
-          return match[0].match(regex);
+          return currentFingering.name[0].match(regex);
         }
         return;
       })();
@@ -151,11 +159,11 @@ export const SingleReedFingeringChart = ({
         v.draw(context, stave);
       });
 
-      // return () => {
-      //   ref.current = null;
-      // };
+      return () => {
+        ref.innerHTML = "";
+      };
     }
-  }, [Renderer, Stave, currentFingering, currentInstrument]);
+  }, [Renderer, Stave, currentFingering, currentInstrument, ref]);
 
   const sortKeyGroups = (keyGroup: KeyGroup[]) => {
     const sortedArray: KeyGroup[][] = [[], [], []];
@@ -196,7 +204,7 @@ export const SingleReedFingeringChart = ({
           <div className="w-[384px] rounded-xl flex flex-col justify-center items-center">
             <div
               className="w-full flex justify-center overflow-hidden"
-              ref={ref}
+              ref={setRef}
               onPointerDown={() => {}}
             ></div>
           </div>

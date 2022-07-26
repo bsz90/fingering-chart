@@ -1,5 +1,3 @@
-import { CSSProperties } from "react";
-
 export type Woodwind = {
   name: string;
   range: { lowestNote: Notes; highestNote: Notes };
@@ -28,32 +26,6 @@ export enum Position {
   LEFT,
   CENTER,
   RIGHT,
-}
-
-export enum SaxophoneKeys {
-  OCTAVE = "Octave",
-  FRONT_F = "Front F",
-  LEFT_FIRST_FINGER = "Left First Finger",
-  BIS = "Bis",
-  LEFT_SECOND_FINGER = "Left Second Finger",
-  LEFT_THIRD_FINGER = "Left Third Finger",
-  Eb_PALM = "E♭ Palm",
-  D_PALM = "D Palm",
-  F_PALM = "F Palm",
-  G_SHARP = "G♯",
-  LOW_C_SHARP = "Low C♯",
-  LOW_B = "Low B",
-  LOW_Bb = "Low B♭",
-  RIGHT_FIRST_FINGER = "Right First Finger",
-  RIGHT_SECOND_FINGER = "Right Second Finger",
-  RIGHT_THIRD_FINGER = "Right Third Finger",
-  E_SIDE = "E Side",
-  C_SIDE = "C Side",
-  Bb_SIDE = "B♭ Side",
-  HIGH_F_SHARP = "High F♯",
-  ALT_F = "Alt F",
-  LOW_Eb = "Low E♭",
-  LOW_C = "Low C",
 }
 
 type NoteName = string;
@@ -159,6 +131,75 @@ export enum Notes {
 }
 
 export enum Clef {
-  TREBLE,
-  BASS,
+  TREBLE = "treble",
+  BASS = "Bass",
+}
+
+// instrument specific enums
+
+export enum FluteKeys {
+  THUMB_Bb = "Thumb B♭",
+  THUMB_B = "Thumb B♮",
+  LEFT_FIRST_FINGER = "Left First Finger",
+  LEFT_SECOND_FINGER = "Left Second Finger",
+  LEFT_THIRD_FINGER = "Left Third Finger",
+  G_SHARP = "G♯",
+  RIGHT_FIRST_FINGER = "Right First Finger",
+  RIGHT_SECOND_FINGER = "Right Second Finger",
+  RIGHT_THIRD_FINGER = "Right Third Finger",
+  Bb_TRILL = "B♭ Trill",
+  C_SHARP_TRILL = "C♯ Trill",
+  D_TRILL = "D Trill",
+  D_SHARP_TRILL = "D♯ Trill",
+  Eb = "E♭",
+  LOW_C_SHARP = "Low C♯",
+  LOW_C = "Low C",
+  LOW_B = "Low B",
+}
+
+//needs to be done
+export enum ClarinetKeys {
+  THUMB = "Thumb",
+  REGISTER = "Register",
+  LEFT_FIRST_FINGER = "Left First Finger",
+  LEFT_SECOND_FINGER = "Left Second Finger",
+  LEFT_THIRD_FINGER = "Left Third Finger",
+  G_SHARP = "G♯",
+  RIGHT_FIRST_FINGER = "Right First Finger",
+  RIGHT_SECOND_FINGER = "Right Second Finger",
+  RIGHT_THIRD_FINGER = "Right Third Finger",
+  Bb_TRILL = "B♭ Trill",
+  C_SHARP_TRILL = "C♯ Trill",
+  D_TRILL = "D Trill",
+  D_SHARP_TRILL = "D♯ Trill",
+  Eb = "E♭",
+  LOW_C_SHARP = "Low C♯",
+  LOW_C = "Low C",
+  LOW_B = "Low B",
+}
+
+export enum SaxophoneKeys {
+  OCTAVE = "Octave",
+  FRONT_F = "Front F",
+  LEFT_FIRST_FINGER = "Left First Finger",
+  BIS = "Bis",
+  LEFT_SECOND_FINGER = "Left Second Finger",
+  LEFT_THIRD_FINGER = "Left Third Finger",
+  Eb_PALM = "E♭ Palm",
+  D_PALM = "D Palm",
+  F_PALM = "F Palm",
+  G_SHARP = "G♯",
+  LOW_C_SHARP = "Low C♯",
+  LOW_B = "Low B",
+  LOW_Bb = "Low B♭",
+  RIGHT_FIRST_FINGER = "Right First Finger",
+  RIGHT_SECOND_FINGER = "Right Second Finger",
+  RIGHT_THIRD_FINGER = "Right Third Finger",
+  E_SIDE = "E Side",
+  C_SIDE = "C Side",
+  Bb_SIDE = "B♭ Side",
+  HIGH_F_SHARP = "High F♯",
+  ALT_F = "Alt F",
+  LOW_Eb = "Low E♭",
+  LOW_C = "Low C",
 }
