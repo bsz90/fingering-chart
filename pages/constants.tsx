@@ -259,7 +259,6 @@ export const categories = [
               SaxophoneKeys.LEFT_SECOND_FINGER,
               SaxophoneKeys.Bb_SIDE,
             ],
-            [SaxophoneKeys.LEFT_FIRST_FINGER, SaxophoneKeys.RIGHT_FIRST_FINGER],
             [SaxophoneKeys.LEFT_FIRST_FINGER, SaxophoneKeys.BIS],
           ],
           [Notes.B4]: [SaxophoneKeys.LEFT_FIRST_FINGER],
@@ -441,7 +440,7 @@ export const notes: Note[] = [
   { name: ["E2", "F♭2"], staffPosition: Notes.E2 },
   { name: ["E♯2", "F2"], staffPosition: Notes.F2 },
   {
-    name: ["A♯2", "B♭2"],
+    name: ["F♯2", "G♭2"],
     staffPosition: Notes.Gb2,
   },
   { name: "G2", staffPosition: Notes.G2 },
