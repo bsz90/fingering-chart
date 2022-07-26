@@ -149,7 +149,7 @@ export const SingleReedFingeringChart = ({
         .setY(20)
         .setGroupStyle({ strokeStyle: "#000" });
 
-      const currentNote = (() => {
+      const currentFingeringRegex = (() => {
         if (currentFingering) {
           const regex = match(currentFingering);
           if (regex) {
@@ -159,10 +159,12 @@ export const SingleReedFingeringChart = ({
         }
       })();
 
-      const notes = currentNote
+      const currentStaveNote = currentFingeringRegex
         ? [
             new StaveNote({
-              keys: [`${currentNote.note}/${currentNote.octave}`],
+              keys: [
+                `${currentFingeringRegex.note}/${currentFingeringRegex.octave}`,
+              ],
               duration: "w",
             }).setXShift(30),
           ]
@@ -176,11 +178,11 @@ export const SingleReedFingeringChart = ({
           ];
 
       //add accidental if exists
-      if (currentNote?.modifier) {
-        notes[0].addModifier(
-          new Accidental(currentNote.modifier === "♭" ? "b" : "#").setXShift(
-            -20
-          )
+      if (currentFingeringRegex?.modifier) {
+        currentStaveNote[0].addModifier(
+          new Accidental(
+            currentFingeringRegex.modifier === "♭" ? "b" : "#"
+          ).setXShift(-20)
         );
       }
 
@@ -196,7 +198,7 @@ export const SingleReedFingeringChart = ({
       })();
 
       //note displayed on hover
-      const newNote = (() => {
+      const nextStaveNote = (() => {
         if (nextNote && nextNoteRegex) {
           const staveNote = [
             new StaveNote({
@@ -208,8 +210,10 @@ export const SingleReedFingeringChart = ({
                 fillStyle: draggingNote ? "rgba(0, 0, 0, 0)" : "#DEDEDE",
               }),
           ];
-          if (nextNoteRegex.note !== currentNote?.note) return staveNote;
-          if (nextNoteRegex.octave !== currentNote?.octave) return staveNote;
+          if (nextNoteRegex.note !== currentFingeringRegex?.note)
+            return staveNote;
+          if (nextNoteRegex.octave !== currentFingeringRegex?.octave)
+            return staveNote;
         }
         return [
           new StaveNote({
@@ -221,20 +225,45 @@ export const SingleReedFingeringChart = ({
         ];
       })();
 
-      newNote[0].setLedgerLineStyle({
+      const currentStaveNoteFirst = (() => {
+        if (currentStaveNote && nextStaveNote) {
+          const currentStaveNotePosition = currentStaveNote[0].getLineNumber();
+          const nextStaveNotePosition = nextStaveNote[0].getLineNumber();
+          const onStaff = (note: StaveNote) => {
+            return note.getLineNumber() >= 1 && note.getLineNumber() <= 5;
+          };
+
+          if (currentStaveNotePosition >= 1 && currentStaveNotePosition <= 5)
+            return true;
+          if (currentStaveNotePosition > 5)
+            return nextStaveNotePosition < currentStaveNotePosition;
+          if (currentStaveNotePosition < 1)
+            return nextStaveNotePosition > currentStaveNotePosition;
+
+          return false;
+        }
+      })();
+
+      nextStaveNote[0].setLedgerLineStyle({
         strokeStyle: draggingNote ? "rgba(0, 0, 0, 0)" : "#DEDEDE",
       });
+
+      console.log(currentStaveNote[0].getLineNumber());
 
       const voices = [
         new Voice({
           num_beats: 4,
           beat_value: 4,
-        }).addTickables(notes),
+        }).addTickables(
+          currentStaveNoteFirst ? currentStaveNote : nextStaveNote
+        ),
         new Voice({
           num_beats: 4,
           beat_value: 4,
         })
-          .addTickables(newNote)
+          .addTickables(
+            currentStaveNoteFirst ? nextStaveNote : currentStaveNote
+          )
           .setGroupStyle({ strokeStyle: "rgba(0, 0, 0, 0.5)" }),
       ];
 
@@ -302,12 +331,6 @@ export const SingleReedFingeringChart = ({
             <div
               className="w-full flex justify-center overflow-hidden"
               ref={setRef}
-              onPointerDown={() => {
-                setDraggingNote(true);
-              }}
-              onPointerUp={() => {
-                setDraggingNote(false);
-              }}
               onPointerMove={({ currentTarget, clientY, buttons }) => {
                 const { top } = currentTarget.getBoundingClientRect();
                 const windowSize = 384;
@@ -330,7 +353,6 @@ export const SingleReedFingeringChart = ({
                 }
               }}
               onPointerLeave={() => {
-                // console.log("leaving");
                 setNextNote(null);
               }}
             ></div>
