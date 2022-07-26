@@ -385,39 +385,41 @@ export const SingleReedFingeringChart = ({
   };
 
   return (
-    <div className="w-[1024px] px-24 py-20 h-full bg-white drop-shadow-md  flex flex-col justify-center items-center">
-      <div className="flex justify-between w-full h-fullbg-white">
-        <div className="w-full h-full flex flex-col items-center justify-center">
-          <div className="flex items-end h-[15%]">
-            <h1 className="h-20 text-[40px] capitalize text-bold text-center font-serif flex items-center">
-              {currentInstrument.name}
-            </h1>
-          </div>
-          <div className="w-[384px] rounded-xl flex flex-col justify-center items-center">
-            <div
-              className="w-full flex justify-center overflow-hidden"
-              ref={setRef}
-              onPointerMove={({ currentTarget, clientY, buttons }) => {
-                const { top } = currentTarget.getBoundingClientRect();
-                handlePointerMove(top, clientY, buttons);
-              }}
-              onClick={() => {
-                if (nextNote) {
-                  changeNote(nextNote);
-                }
-              }}
-              onPointerLeave={() => {
-                setNextNote(null);
-              }}
-            ></div>
-          </div>
-          <div className="h-[15%]">
-            <h2 className="w-full p-4 text-[40px] font-serif text-center">
-              {displayNote()}
-            </h2>
+    <div className="w-[1024px] px-24 py-20 h-full overflow-scroll bg-white drop-shadow-md  flex flex-col justify-start items-center">
+      <div className="flex justify-between w-full h-full bg-white">
+        <div className="flex justify-start">
+          <div className="w-full h-full flex flex-col items-center justify-center">
+            <div className="flex items-end h-[15%]">
+              <h1 className="h-20 text-[40px] capitalize text-bold text-center font-serif flex items-center">
+                {currentInstrument.name}
+              </h1>
+            </div>
+            <div className="w-[384px] rounded-xl flex flex-col justify-center items-center">
+              <div
+                className="w-full flex justify-center overflow-hidden"
+                ref={setRef}
+                onPointerMove={({ currentTarget, clientY, buttons }) => {
+                  const { top } = currentTarget.getBoundingClientRect();
+                  handlePointerMove(top, clientY, buttons);
+                }}
+                onClick={() => {
+                  if (nextNote) {
+                    changeNote(nextNote);
+                  }
+                }}
+                onPointerLeave={() => {
+                  setNextNote(null);
+                }}
+              ></div>
+            </div>
+            <div className="h-[15%]">
+              <h2 className="w-full p-4 text-[40px] font-serif text-center">
+                {displayNote()}
+              </h2>
+            </div>
           </div>
         </div>
-        <div className="w-96 h-[700px] flex flex-col items-center justify-start gap-12">
+        <div className="w-96 h-[700px] flex flex-col items-center justify-start">
           <div className="w-full h-full flex items-center justify-center">
             {sortKeyGroups(currentInstrument.keyGroups).map((keyGroup, id) => {
               return (
@@ -435,7 +437,7 @@ export const SingleReedFingeringChart = ({
           </div>
           <div className="flex justify-center items-center gap-20">
             <button
-              className={`w-12 h-6 bg-slate-600 text-white flex items-center justify-center rounded-md drop-shadow-md ${
+              className={`w-12 h-6 bg-slate-600 text-white flex items-center text-center justify-center rounded-md drop-shadow-md ${
                 disabled("left") ? "opacity-30" : "opacity-100"
               }`}
               disabled={disabled("left")}
@@ -450,7 +452,7 @@ export const SingleReedFingeringChart = ({
               &larr;
             </button>
             <button
-              className={`w-12 h-6 bg-slate-600 text-white flex items-center justify-center rounded-md drop-shadow-md ${
+              className={`w-12 h-6 bg-slate-600 text-white flex flex-row items-center text-center justify-center rounded-md drop-shadow-md ${
                 disabled("right") ? "opacity-30" : "opacity-100"
               }`}
               disabled={disabled("right")}
