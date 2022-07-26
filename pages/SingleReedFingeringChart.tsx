@@ -11,6 +11,19 @@ import { notes } from "./constants";
 import { InstrumentKeyGroup } from "./InstrumentKeyGroup";
 import { SaxophoneKeys, Woodwind, KeyGroup, Note } from "./types";
 
+//converts constant into a useable string
+const match = (currentFingering: Note) => {
+  const regex = /([A-G])(♭|♯)?(\d)/;
+  if (currentFingering) {
+    if (typeof currentFingering.name === "string") {
+      return currentFingering.name.match(regex);
+    }
+
+    return currentFingering.name[0].match(regex);
+  }
+  return;
+};
+
 export const SingleReedFingeringChart = ({
   currentInstrument,
   setCurrentInstrument,
@@ -28,14 +41,14 @@ export const SingleReedFingeringChart = ({
   //HTMLref for Vexflow
   const [ref, setRef] = useState<HTMLDivElement | null>(null!);
 
-  const [nextNote, setNextNote] = useState(null);
-
-  const determineNextNote = () => {};
+  const [nextNote, setNextNote] = useState<Note | null>(null);
 
   const instrumentRange = notes.slice(
     currentInstrument.range.lowestNote,
     currentInstrument.range.highestNote + 1
   );
+
+  const determineNextNote = () => {};
 
   const initialFingering = (() => {
     const index = Object.values(currentInstrument.fingerings).findIndex(
@@ -106,23 +119,13 @@ export const SingleReedFingeringChart = ({
 
       stave.addClef(currentInstrument.clef).setEndBarType(3).setX(8).setY(20);
 
-      //converts constant into a useable string
-      const match = (() => {
-        const regex = /([A-G])(♭|♯)?(\d)/;
-        if (currentFingering) {
-          if (typeof currentFingering.name === "string") {
-            return currentFingering.name.match(regex);
-          }
-
-          return currentFingering.name[0].match(regex);
-        }
-        return;
-      })();
-
       const currentNote = (() => {
-        if (match) {
-          const [_, note, modifier, octave] = match;
-          return { note, modifier, octave };
+        if (currentFingering) {
+          const regex = match(currentFingering);
+          if (regex) {
+            const [_, note, modifier, octave] = regex;
+            return { note, modifier, octave };
+          }
         }
       })();
 
@@ -137,7 +140,9 @@ export const SingleReedFingeringChart = ({
             new StaveNote({
               keys: [`c/4`],
               duration: "w",
-            }).setXShift(30),
+            })
+              .setXShift(30)
+              .setStyle({ fillStyle: "rgba(0, 0, 0, 0)" }),
           ];
 
       if (currentNote?.modifier) {
@@ -147,16 +152,65 @@ export const SingleReedFingeringChart = ({
           )
         );
       }
-      const newNote = [
-        new StaveNote({
-          keys: [`c/4`],
-          duration: "w",
-        })
-          .setXShift(30)
-          .setStyle({
-            fillStyle: "#DEDEDE",
-          }),
-      ];
+      // retrieve string from nextNote state to use
+      const nextNoteRegex = (() => {
+        if (nextNote) {
+          const regex = match(nextNote);
+          if (regex) {
+            const [_, note, modifier, octave] = regex;
+            return { note, modifier, octave };
+          }
+        }
+      })();
+
+      // note to display on hover
+      // const newNote =
+      // nextNote &&
+      // nextNoteRegex &&
+      // nextNoteRegex.note !== currentNote?.note
+      // ? [
+      //     new StaveNote({
+      //       keys: [`${nextNoteRegex.note}/${nextNoteRegex.octave}`],
+      //       duration: "w",
+      //     })
+      //       .setXShift(30)
+      //       .setStyle({
+      //         fillStyle: "#DEDEDE",
+      //       }),
+      //   ]
+      // : [
+      //     new StaveNote({
+      //       keys: [`e/4`],
+      //       duration: "w",
+      //     })
+      //       .setXShift(30)
+      //       .setStyle({ fillStyle: "rgba(0, 0, 0, 0)" }),
+      //   ];
+
+      const newNote = (() => {
+        if (nextNote && nextNoteRegex) {
+          const staveNote = [
+            new StaveNote({
+              keys: [`${nextNoteRegex.note}/${nextNoteRegex.octave}`],
+              duration: "w",
+            })
+              .setXShift(30)
+              .setStyle({
+                fillStyle: "#DEDEDE",
+              }),
+          ];
+          if (nextNoteRegex.note !== currentNote?.note) return staveNote;
+          if (nextNoteRegex.octave !== currentNote?.octave) return staveNote;
+        }
+        return [
+          new StaveNote({
+            keys: [`e/4`],
+            duration: "w",
+          })
+            .setXShift(30)
+            .setStyle({ fillStyle: "rgba(0, 0, 0, 0)" }),
+        ];
+      })();
 
       newNote[0].setLedgerLineStyle({ strokeStyle: "#DEDEDE" });
 
@@ -177,18 +231,17 @@ export const SingleReedFingeringChart = ({
 
       stave.setContext(context).draw();
 
-      voices[0].draw(context, stave);
-      voices[1].setContext(context).setStave(stave).drawWithStyle();
+      voices.forEach(function (v) {
+        v.draw(context, stave);
+      });
 
-      // voices.forEach(function (v) {
-      //   v.draw(context, stave);
-      // });
-
+      // console.log(notes[0].getFormatterMetrics());
+      // console.log(stave.getBoundingBox());
       return () => {
         ref.innerHTML = "";
       };
     }
-  }, [Renderer, Stave, currentFingering, currentInstrument, ref]);
+  }, [Renderer, Stave, currentFingering, currentInstrument, nextNote, ref]);
 
   const sortKeyGroups = (keyGroup: KeyGroup[]) => {
     const sortedArray: KeyGroup[][] = [[], [], []];
@@ -231,20 +284,51 @@ export const SingleReedFingeringChart = ({
               className="w-full flex justify-center overflow-hidden"
               ref={setRef}
               onPointerDown={() => {}}
-              onPointerOver={(event) => {
-                const rect = event.currentTarget.getBoundingClientRect();
-                const y = event.clientY - rect.top;
-                console.log(y);
+              onPointerUp={() => {}}
+              onPointerMove={(event) => {
+                const { top } = event.currentTarget.getBoundingClientRect();
+                const windowSize = 384;
+                const pixelsBetweenNotes = 5;
+                const offsetY = 70;
+                const y = Math.min(
+                  Math.max(
+                    Math.floor((event.clientY - top - offsetY) / 7.5),
+                    0
+                  ),
+                  instrumentRange.length
+                );
+                setNextNote(instrumentRange[instrumentRange.length - (y + 1)]);
               }}
-              onPointerEnter={() => {}}
+              onClick={() => {
+                if (nextNote) {
+                  setCurrentInstrument((prev) => {
+                    if (prev) {
+                      const index = nextNote.staffPosition;
+                      const newFingering = prev.fingerings[index];
+
+                      if (newFingering === undefined)
+                        return { ...prev, activeKeys: [] };
+
+                      if (Array.isArray(newFingering[0]))
+                        return { ...prev, activeKeys: [...newFingering[0]] };
+                      return {
+                        ...prev,
+                        activeKeys: [...(newFingering as SaxophoneKeys[])],
+                      };
+                    }
+                  });
+                }
+              }}
               onPointerLeave={() => {
+                // console.log("leaving");
                 setNextNote(null);
               }}
             ></div>
           </div>
           <div className="h-[15%]">
             <h2 className="w-full p-4 text-[40px] font-serif text-center">
-              {displayNote()}
+              {displayNote()} next note:
+              {nextNote ? JSON.stringify(nextNote.name) : "none"}
             </h2>
           </div>
         </div>

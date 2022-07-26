@@ -374,7 +374,6 @@ export const categories = [
             SaxophoneKeys.OCTAVE,
             SaxophoneKeys.D_PALM,
             SaxophoneKeys.Eb_PALM,
-            SaxophoneKeys.F_PALM,
             SaxophoneKeys.E_SIDE,
           ],
           [Notes.F6]: [
