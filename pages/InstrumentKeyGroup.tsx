@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { InstrumentKey } from "./InstrumentKey";
-import { KeyGroup, Position, SaxophoneKeys, Section, Woodwind } from "./types";
+import { KeyGroup, Position, Woodwind } from "./types";
 
 export const InstrumentKeyGroup = ({
   keyGroup,

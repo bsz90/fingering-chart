@@ -10,10 +10,10 @@ import {
 import { Accidental, Element, Formatter, StaveNote, Vex, Voice } from "vexflow";
 import { notes } from "./constants";
 import { InstrumentKeyGroup } from "./InstrumentKeyGroup";
-import { SaxophoneKeys, Woodwind, KeyGroup, Note } from "./types";
+import { Woodwind, KeyGroup, Note, WoodwindKeys } from "./types";
 
 //array comparison utils
-const checkArray = (array: SaxophoneKeys[], currentInstrument: Woodwind) => {
+const checkArray = (array: WoodwindKeys[], currentInstrument: Woodwind) => {
   return (
     array.every((key) => currentInstrument.activeKeys.includes(key)) &&
     array.length === currentInstrument.activeKeys.length
@@ -21,7 +21,7 @@ const checkArray = (array: SaxophoneKeys[], currentInstrument: Woodwind) => {
 };
 
 const checkNestedArray = (
-  nestedArray: SaxophoneKeys[][],
+  nestedArray: WoodwindKeys[][],
   currentInstrument: Woodwind
 ) => {
   return nestedArray.some((array) => checkArray(array, currentInstrument));
@@ -94,7 +94,7 @@ export const SingleReedFingeringChart = ({
           return { ...prev, activeKeys: [...newFingering[0]] };
         return {
           ...prev,
-          activeKeys: [...(newFingering as SaxophoneKeys[])],
+          activeKeys: [...(newFingering as WoodwindKeys[])],
         };
       }
     });
@@ -102,7 +102,7 @@ export const SingleReedFingeringChart = ({
 
   const handleButtonClick = (
     buttonType: string,
-    currentFingeringKeys: SaxophoneKeys[][],
+    currentFingeringKeys: WoodwindKeys[][],
     currentInstrument: Woodwind
   ) => {
     const currentIndex = currentFingeringKeys.findIndex((array) =>
@@ -133,10 +133,10 @@ export const SingleReedFingeringChart = ({
     const index = Object.values(currentInstrument.fingerings).findIndex(
       (fingering) => {
         if (typeof fingering[0] === "string") {
-          return checkArray(fingering as SaxophoneKeys[], currentInstrument);
+          return checkArray(fingering as WoodwindKeys[], currentInstrument);
         }
         return checkNestedArray(
-          fingering as SaxophoneKeys[][],
+          fingering as WoodwindKeys[][],
           currentInstrument
         );
       }
@@ -444,7 +444,7 @@ export const SingleReedFingeringChart = ({
               onClick={() =>
                 handleButtonClick(
                   "left",
-                  currentFingeringKeys as SaxophoneKeys[][],
+                  currentFingeringKeys as WoodwindKeys[][],
                   currentInstrument
                 )
               }
@@ -459,7 +459,7 @@ export const SingleReedFingeringChart = ({
               onClick={() =>
                 handleButtonClick(
                   "right",
-                  currentFingeringKeys as SaxophoneKeys[][],
+                  currentFingeringKeys as WoodwindKeys[][],
                   currentInstrument
                 )
               }
