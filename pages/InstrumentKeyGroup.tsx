@@ -5,15 +5,15 @@ import { KeyGroup, Position, SaxophoneKeys, Section, Woodwind } from "./types";
 export const InstrumentKeyGroup = ({
   keyGroup,
   position,
-  toggleOn,
-  setToggleOn,
+  toggleKeyOn,
+  setToggleKeyOn,
   currentInstrument,
   setCurrentInstrument,
 }: {
   keyGroup: KeyGroup[];
   position: Position;
-  toggleOn: boolean;
-  setToggleOn: Dispatch<SetStateAction<boolean>>;
+  toggleKeyOn: boolean;
+  setToggleKeyOn: Dispatch<SetStateAction<boolean>>;
   currentInstrument: Woodwind;
   setCurrentInstrument: Dispatch<SetStateAction<Woodwind | undefined>>;
 }) => {
@@ -45,8 +45,8 @@ export const InstrumentKeyGroup = ({
                 key={key.name}
                 name={key.name}
                 className={key.className}
-                toggleOn={toggleOn}
-                setToggleOn={setToggleOn}
+                toggleKeyOn={toggleKeyOn}
+                setToggleKeyOn={setToggleKeyOn}
                 currentInstrument={currentInstrument}
                 setCurrentInstrument={setCurrentInstrument}
               />
@@ -71,8 +71,8 @@ export const InstrumentKeyGroup = ({
                 key={key.name}
                 name={key.name}
                 className={key.className}
-                toggleOn={toggleOn}
-                setToggleOn={setToggleOn}
+                toggleKeyOn={toggleKeyOn}
+                setToggleKeyOn={setToggleKeyOn}
                 currentInstrument={currentInstrument}
                 setCurrentInstrument={setCurrentInstrument}
               />

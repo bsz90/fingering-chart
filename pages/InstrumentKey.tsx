@@ -5,21 +5,21 @@ import * as Tooltip from "@radix-ui/react-tooltip";
 export const InstrumentKey = ({
   name,
   className,
-  toggleOn,
-  setToggleOn,
+  toggleKeyOn,
+  setToggleKeyOn,
   currentInstrument,
   setCurrentInstrument,
 }: {
   name: SaxophoneKeys;
   className: string;
-  toggleOn: boolean;
-  setToggleOn: Dispatch<SetStateAction<boolean>>;
+  toggleKeyOn: boolean;
+  setToggleKeyOn: Dispatch<SetStateAction<boolean>>;
   currentInstrument: Woodwind;
   setCurrentInstrument: Dispatch<SetStateAction<Woodwind | undefined>>;
 }) => {
   const handlePointerDown = (newKey: SaxophoneKeys) => {
     if (currentInstrument.activeKeys.includes(newKey)) {
-      setToggleOn(false);
+      setToggleKeyOn(false);
       setCurrentInstrument((prev) => {
         if (prev)
           return {
@@ -31,14 +31,14 @@ export const InstrumentKey = ({
       });
       return;
     }
-    setToggleOn(true);
+    setToggleKeyOn(true);
     setCurrentInstrument((prev) => {
       if (prev) return { ...prev, activeKeys: [...prev.activeKeys, newKey] };
     });
   };
 
   const handlePointerEnter = (newKey: SaxophoneKeys) => {
-    toggleOn
+    toggleKeyOn
       ? setCurrentInstrument((prev) => {
           if (prev)
             return { ...prev, activeKeys: [...prev.activeKeys, newKey] };
