@@ -100,7 +100,7 @@ export const SingleReedFingeringChart = ({
     });
   };
 
-  const handleButton = (
+  const handleButtonClick = (
     buttonType: string,
     currentFingeringKeys: SaxophoneKeys[][],
     currentInstrument: Woodwind
@@ -150,7 +150,6 @@ export const SingleReedFingeringChart = ({
       return Object.values(currentInstrument.fingerings)[fingeringIndex];
   }, [currentInstrument.fingerings, fingeringIndex]);
 
-  console.log(currentFingeringKeys);
   const currentFingeringNote = useMemo(() => {
     if (fingeringIndex) {
       const newState = instrumentRange[fingeringIndex];
@@ -269,10 +268,10 @@ export const SingleReedFingeringChart = ({
         if (currentStaveNote && nextStaveNote) {
           const currentStaveNotePosition = currentStaveNote[0].getLineNumber();
           const nextStaveNotePosition = nextStaveNote[0].getLineNumber();
-          const onStaff = (note: StaveNote) => {
-            return note.getLineNumber() >= 1 && note.getLineNumber() <= 5;
-          };
 
+          if (Math.abs(currentStaveNotePosition - nextStaveNotePosition) < 1) {
+            return false;
+          }
           if (currentStaveNotePosition >= 1 && currentStaveNotePosition <= 5)
             return true;
           if (currentStaveNotePosition > 5)
@@ -441,7 +440,7 @@ export const SingleReedFingeringChart = ({
               }`}
               disabled={disabled("left")}
               onClick={() =>
-                handleButton(
+                handleButtonClick(
                   "left",
                   currentFingeringKeys as SaxophoneKeys[][],
                   currentInstrument
@@ -456,7 +455,7 @@ export const SingleReedFingeringChart = ({
               }`}
               disabled={disabled("right")}
               onClick={() =>
-                handleButton(
+                handleButtonClick(
                   "right",
                   currentFingeringKeys as SaxophoneKeys[][],
                   currentInstrument
