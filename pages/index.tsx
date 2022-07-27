@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { categories } from "./constants";
+import { NavBar } from "./NavBar";
 import { SingleReedFingeringChart } from "./SingleReedFingeringChart";
 import { Start } from "./Start";
 import { Woodwind } from "./types";
@@ -24,6 +25,11 @@ export default function Home() {
           setCurrentInstrument={setCurrentInstrument}
         />
       )}
+      <NavBar
+        currentInstrument={
+          currentInstrument ? currentInstrument.name : undefined
+        }
+      />
     </div>
   );
 }

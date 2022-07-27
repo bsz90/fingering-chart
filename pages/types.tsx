@@ -1,5 +1,5 @@
 export type Woodwind = {
-  name: string;
+  name: InstrumentName;
   range: { lowestNote: Notes; highestNote: Notes };
   activeKeys: WoodwindKeys[];
   keyGroups: KeyGroup[];
@@ -136,6 +136,19 @@ export enum Clef {
 }
 
 // instrument specific enums
+
+export enum InstrumentName {
+  FLUTE = "Flute",
+  OBOE = "Oboe",
+  CLARINET = "Clarinet",
+  SAXOPHONE = "Saxophone",
+  BASSOON = "Bassoon",
+  TRUMPET = "Trumpet",
+  FRENCH_HORN = "French Horn",
+  TROMBONE = "Trombone",
+  TUBA = "Tuba",
+}
+
 export type WoodwindKeys = FluteKeys | SaxophoneKeys | ClarinetKeys;
 
 export enum FluteKeys {

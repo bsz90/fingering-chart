@@ -1,6 +1,7 @@
 import {
   Clef,
   FluteKeys,
+  InstrumentName,
   Note,
   Notes,
   Position,
@@ -13,7 +14,7 @@ export const categories = [
     family: "woodwinds",
     instruments: [
       {
-        name: "alto saxophone",
+        name: InstrumentName.SAXOPHONE,
         range: {
           lowestNote: Notes.Bb3,
           highestNote: Notes.F6,
@@ -403,7 +404,7 @@ export const categories = [
         clef: Clef.TREBLE,
       },
       {
-        name: "flute",
+        name: InstrumentName.FLUTE,
         range: {
           lowestNote: Notes.C4,
           highestNote: Notes.C7,
