@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { useImmer } from "use-immer";
-import { instruments } from "./constants";
 import { NavBar } from "./NavBar";
 import { SingleReedFingeringChart } from "./SingleReedFingeringChart";
 import { Start } from "./Start";
@@ -26,7 +24,10 @@ export default function Home() {
           setCurrentInstrument={setCurrentInstrument}
         />
       )}
-      <NavBar currentInstrument={currentInstrument} />
+      <NavBar
+        currentInstrument={currentInstrument}
+        setCurrentInstrument={setCurrentInstrument}
+      />
     </div>
   );
 }

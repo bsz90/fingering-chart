@@ -15,7 +15,6 @@ export enum Instrument {
 export type InstrumentRange = {
   lowestNote: Notes;
   highestNote: Notes;
-  clef: Clef;
 };
 
 export enum Clef {

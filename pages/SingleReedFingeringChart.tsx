@@ -12,6 +12,7 @@ import {
   instrumentFingerings,
   notes,
   instrumentRanges,
+  instrumentClef,
 } from "./constants";
 import { InstrumentKeyGroup } from "./InstrumentKeyGroup";
 import {
@@ -149,6 +150,11 @@ export const SingleReedFingeringChart = ({
     return sortedArray;
   }, [currentInstrument]);
 
+  const currentInstrumentClef = useMemo(
+    () => instrumentClef[currentInstrument],
+    [currentInstrument]
+  );
+
   //memoized value of the index of the current fingering
   const fingeringIndex = useMemo(() => {
     if (possibleInstrumentFingerings) {
@@ -214,8 +220,7 @@ export const SingleReedFingeringChart = ({
       const stave = new Stave(0, 0, 137);
 
       stave
-        // .addClef(currentInstrumentRange.clef)
-        .addClef("Treble")
+        .addClef(currentInstrumentClef)
         .setEndBarType(3)
         .setX(8)
         .setY(20)
@@ -354,6 +359,7 @@ export const SingleReedFingeringChart = ({
     Stave,
     currentFingeringNote,
     currentInstrument,
+    currentInstrumentRange,
     draggingNote,
     nextNote,
     ref,

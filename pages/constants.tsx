@@ -13,6 +13,15 @@ import {
   InstrumentRange,
   InstrumentKeys,
 } from "./types";
+import Bassoon from "./icons/bassoon.svg";
+import Clarinet from "./icons/clarinet.svg";
+import Flute from "./icons/flute.svg";
+import FrenchHorn from "./icons/frenchhorn.svg";
+import Oboe from "./icons/oboe.svg";
+import Saxophone from "./icons/saxophone.svg";
+import Trombone from "./icons/trombone.svg";
+import Trumpet from "./icons/trumpet.svg";
+import Tuba from "./icons/tuba.svg";
 
 export const instruments = [
   Instrument.FLUTE,
@@ -30,48 +39,51 @@ export const instrumentRanges: { [key in Instrument]: InstrumentRange } = {
   [Instrument.FLUTE]: {
     lowestNote: Notes.C4,
     highestNote: Notes.C7,
-    clef: Clef.TREBLE,
   },
   [Instrument.OBOE]: {
     lowestNote: Notes.C4,
     highestNote: Notes.C7,
-    clef: Clef.TREBLE,
   },
   [Instrument.CLARINET]: {
     lowestNote: Notes.C4,
     highestNote: Notes.C7,
-    clef: Clef.TREBLE,
   },
   [Instrument.SAXOPHONE]: {
     lowestNote: Notes.Bb3,
     highestNote: Notes.F6,
-    clef: Clef.TREBLE,
   },
   [Instrument.BASSOON]: {
     lowestNote: Notes.C4,
     highestNote: Notes.C7,
-    clef: Clef.BASS,
   },
   [Instrument.TRUMPET]: {
     lowestNote: Notes.C4,
     highestNote: Notes.C7,
-    clef: Clef.TREBLE,
   },
   [Instrument.FRENCH_HORN]: {
     lowestNote: Notes.C4,
     highestNote: Notes.C7,
-    clef: Clef.TREBLE,
   },
   [Instrument.TROMBONE]: {
     lowestNote: Notes.C4,
     highestNote: Notes.C7,
-    clef: Clef.BASS,
   },
   [Instrument.TUBA]: {
     lowestNote: Notes.C4,
     highestNote: Notes.C7,
-    clef: Clef.BASS,
   },
+};
+
+export const instrumentClef: { [key in Instrument]: Clef } = {
+  [Instrument.FLUTE]: Clef.TREBLE,
+  [Instrument.OBOE]: Clef.TREBLE,
+  [Instrument.CLARINET]: Clef.TREBLE,
+  [Instrument.SAXOPHONE]: Clef.TREBLE,
+  [Instrument.BASSOON]: Clef.BASS,
+  [Instrument.TRUMPET]: Clef.TREBLE,
+  [Instrument.FRENCH_HORN]: Clef.TREBLE,
+  [Instrument.TROMBONE]: Clef.TREBLE,
+  [Instrument.TUBA]: Clef.BASS,
 };
 
 export const keyDiagrams: { [key in Instrument]: KeyGroup[] } = {
@@ -83,11 +95,11 @@ export const keyDiagrams: { [key in Instrument]: KeyGroup[] } = {
       keys: [
         {
           name: FluteKeys.THUMB_Bb,
-          className: "rounded-[10px] h-[62px] w-[24px] mb-[200px]",
+          className: "rounded-full h-[40px] w-[40px] mb-[20px]",
         },
         {
           name: FluteKeys.THUMB_B,
-          className: "rounded-[10px] h-[62px] w-[24px] mb-[200px]",
+          className: "rounded-[10px] h-[62px] w-[24px] mb-[150px]",
         },
       ],
     },
@@ -98,7 +110,7 @@ export const keyDiagrams: { [key in Instrument]: KeyGroup[] } = {
       keys: [
         {
           name: FluteKeys.LEFT_FIRST_FINGER,
-          className: "rounded-[50%] h-[62px] w-[62px] mb-[10px]",
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
         },
         {
           name: FluteKeys.LEFT_SECOND_FINGER,
@@ -117,7 +129,7 @@ export const keyDiagrams: { [key in Instrument]: KeyGroup[] } = {
       keys: [
         {
           name: FluteKeys.G_SHARP,
-          className: "rounded-[10px] h-[24px] w-[48px] mt-[-32px]",
+          className: "rounded-[10px] h-[24px] w-[48px] mr-[48px] mt-[-40px]",
         },
       ],
     },
@@ -143,46 +155,46 @@ export const keyDiagrams: { [key in Instrument]: KeyGroup[] } = {
     {
       groupName: FluteKeyGroup.RIGHT_HAND_TRILL,
       section: Section.BOTTOM,
-      position: Position.LEFT,
+      position: Position.RIGHT,
       keys: [
         {
           name: FluteKeys.Bb_TRILL,
-          className: "rounded-[10px] h-[48px] w-[24px] mt-[-40px]",
+          className: "rounded-[10px] h-[24px] w-[48px] mt-[20px] mr-[275px]",
         },
-        {
-          name: FluteKeys.C_SHARP_TRILL,
-          className: "rounded-[10px] h-[48px] w-[24px]",
-        },
+        // {
+        //   name: FluteKeys.C_SHARP_TRILL,
+        //   className: "rounded-[10px] h-[48px] w-[24px]",
+        // },
         {
           name: FluteKeys.D_TRILL,
-          className: "rounded-[10px] h-[48px] w-[24px]",
+          className: "rounded-[10px] h-[24px] w-[48px] mt-[73px] mr-[275px]",
         },
         {
           name: FluteKeys.D_SHARP_TRILL,
-          className: "rounded-[10px] h-[24px] w-[48px] mt-[15px] ml-[48px]",
+          className: "rounded-[10px] h-[24px] w-[48px] mt-[68px] mr-[275px]",
         },
       ],
     },
     {
       groupName: FluteKeyGroup.RIGHT_HAND_PINKY,
       section: Section.BOTTOM,
-      position: Position.RIGHT,
+      position: Position.LEFT,
       keys: [
         {
           name: FluteKeys.Eb,
-          className: "rounded-[10px] h-[48px] w-[24px] mt-[-40px]",
+          className: "rounded-[10px] h-[36px] w-[72px] mt-[200px]",
         },
         {
           name: FluteKeys.LOW_C_SHARP,
-          className: "rounded-[10px] h-[48px] w-[24px]",
+          className: "rounded-[10px] h-[48px] w-[24px] mr-[48px]",
         },
         {
           name: FluteKeys.LOW_C,
-          className: "rounded-[10px] h-[48px] w-[24px]",
+          className: "rounded-[10px] h-[48px] w-[24px] mt-[-48px]",
         },
         {
           name: FluteKeys.LOW_B,
-          className: "rounded-[10px] h-[24px] w-[48px] mt-[15px] ml-[48px]",
+          className: "rounded-[10px] h-[48px] w-[24px] mt-[-48px] mr-[-48px]",
         },
       ],
     },
@@ -1155,6 +1167,18 @@ export const instrumentFingerings: {
       ],
     ],
   },
+};
+
+export const instrumentIcons: { [key in Instrument]: any } = {
+  [Instrument.FLUTE]: <Flute />,
+  [Instrument.OBOE]: <Oboe />,
+  [Instrument.CLARINET]: <Clarinet />,
+  [Instrument.SAXOPHONE]: <Saxophone />,
+  [Instrument.BASSOON]: <Bassoon />,
+  [Instrument.TRUMPET]: <Trumpet />,
+  [Instrument.FRENCH_HORN]: <FrenchHorn />,
+  [Instrument.TROMBONE]: <Trombone />,
+  [Instrument.TUBA]: <Tuba />,
 };
 
 export const notes: Note[] = [

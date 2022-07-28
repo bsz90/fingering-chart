@@ -1,35 +1,17 @@
 import * as NavMenu from "@radix-ui/react-navigation-menu";
-import Bassoon from "./icons/bassoon.svg";
-import Clarinet from "./icons/clarinet.svg";
-import Flute from "./icons/flute.svg";
-import FrenchHorn from "./icons/frenchhorn.svg";
-import Oboe from "./icons/oboe.svg";
-import Saxophone from "./icons/saxophone.svg";
-import Trombone from "./icons/trombone.svg";
-import Trumpet from "./icons/trumpet.svg";
-import Tuba from "./icons/tuba.svg";
 import Home from "./icons/home.svg";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Instrument } from "./types";
+import { instrumentIcons } from "./constants";
 
-const icons = {
-  [Instrument.FLUTE]: <Flute />,
-  [Instrument.OBOE]: <Oboe />,
-  [Instrument.CLARINET]: <Clarinet />,
-  [Instrument.SAXOPHONE]: <Saxophone />,
-  [Instrument.BASSOON]: <Bassoon />,
-  [Instrument.TRUMPET]: <Trumpet />,
-  [Instrument.FRENCH_HORN]: <FrenchHorn />,
-  [Instrument.TROMBONE]: <Trombone />,
-  [Instrument.TUBA]: <Tuba />,
-};
-
-const array = Object.entries(icons);
+const array = Object.entries(instrumentIcons);
 
 export const NavBar = ({
   currentInstrument,
+  setCurrentInstrument,
 }: {
-  currentInstrument: Instrument | undefined;
+  currentInstrument: Instrument;
+  setCurrentInstrument: Dispatch<SetStateAction<Instrument>>;
 }) => {
   const [valueState, setValueState] = useState<string>(Instrument.FLUTE);
 
@@ -62,6 +44,7 @@ export const NavBar = ({
             >
               <NavMenu.Trigger
                 className={`box-content flex items-start w-16 h-16 text-5xl text-white`}
+                onClick={() => setCurrentInstrument(key as Instrument)}
               >
                 <div
                   className={`h-full w-full ease-out duration-150 flex items-center justify-center text-white ${
