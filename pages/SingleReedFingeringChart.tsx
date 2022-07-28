@@ -8,6 +8,7 @@ import {
 } from "./constants";
 import { InstrumentKeyGroup } from "./InstrumentKeyGroup";
 import { Stave } from "./Stave";
+import { ToggleFingeringButtons } from "./ToggleFingeringButtons";
 import { KeyGroup, Note, InstrumentKeys, Instrument, Notes } from "./types";
 import { checkArray, checkNestedArray } from "./utils";
 
@@ -26,20 +27,6 @@ export const SingleReedFingeringChart = ({
 
   //note displayed on mouse hover
   const [noteState, setNoteState] = useState<Note | undefined>(undefined);
-
-  //event handlers
-
-  const handleButtonClick = (
-    buttonType: string,
-    currentFingeringKeys: InstrumentKeys[][]
-  ) => {
-    const currentIndex = currentFingeringKeys.findIndex((array) =>
-      checkArray(array, activeKeys)
-    );
-    const change = buttonType === "right" ? 1 : -1;
-    const newActiveKeys = [...currentFingeringKeys[currentIndex + change]];
-    setActiveKeys(newActiveKeys);
-  };
 
   //array of notes available to the instrument
   const currentInstrumentRange = useMemo(() => {
@@ -147,32 +134,6 @@ export const SingleReedFingeringChart = ({
     possibleInstrumentFingerings,
   ]);
 
-  //disables button if there are no alternate fingerings
-  const disabled = (buttonType: string) => {
-    if (!currentFingeringNote) return true;
-    if (currentFingeringNote && currentFingeringKeys) {
-      if (currentFingeringKeys.some((item) => typeof item === "string"))
-        return true;
-
-      const currentFingeringIndex = currentFingeringKeys.findIndex(
-        (array) => typeof array !== "string" && checkArray(array, activeKeys)
-      );
-
-      if (
-        buttonType === "right" &&
-        typeof currentFingeringKeys[currentFingeringIndex + 1] === "undefined"
-      )
-        return true;
-      if (
-        buttonType === "left" &&
-        typeof currentFingeringKeys[currentFingeringIndex - 1] === "undefined"
-      )
-        return true;
-    }
-
-    return false;
-  };
-
   return (
     <div className="w-[1024px] px-24 py-20 h-full overflow-scroll bg-white drop-shadow-md  flex flex-col justify-start items-center">
       <div className="flex justify-between w-full h-full bg-white">
@@ -204,36 +165,12 @@ export const SingleReedFingeringChart = ({
               );
             })}
           </div>
-          <div className="flex justify-center items-center gap-20">
-            <button
-              className={`w-12 h-6 bg-slate-600 text-white flex items-center text-center justify-center rounded-md drop-shadow-md ${
-                disabled("left") ? "opacity-30" : "opacity-100"
-              }`}
-              disabled={disabled("left")}
-              onClick={() =>
-                handleButtonClick(
-                  "left",
-                  currentFingeringKeys as InstrumentKeys[][]
-                )
-              }
-            >
-              &larr;
-            </button>
-            <button
-              className={`w-12 h-6 bg-slate-600 text-white flex flex-row items-center text-center justify-center rounded-md drop-shadow-md ${
-                disabled("right") ? "opacity-30" : "opacity-100"
-              }`}
-              disabled={disabled("right")}
-              onClick={() =>
-                handleButtonClick(
-                  "right",
-                  currentFingeringKeys as InstrumentKeys[][]
-                )
-              }
-            >
-              &rarr;
-            </button>
-          </div>
+          <ToggleFingeringButtons
+            activeKeys={activeKeys}
+            setActiveKeys={setActiveKeys}
+            currentFingeringKeys={currentFingeringKeys}
+            currentFingeringNote={currentFingeringNote}
+          />
         </div>
       </div>
     </div>
