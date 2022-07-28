@@ -1,18 +1,23 @@
-import { InstrumentKeys, KeyGroup, Woodwind } from "./types";
+import { Instrument, InstrumentKeys, KeyGroup } from "./types";
 
 export const checkArray = (
   array: InstrumentKeys[],
-  currentInstrument: Woodwind
+  activeKeys: InstrumentKeys[] | undefined
 ) => {
-  return (
-    array.every((key) => currentInstrument.activeKeys.includes(key)) &&
-    array.length === currentInstrument.activeKeys.length
-  );
+  if (activeKeys) {
+    return (
+      array.every((key) => activeKeys.includes(key)) &&
+      array.length === activeKeys.length
+    );
+  }
+  return array.length === 0;
 };
 
 export const checkNestedArray = (
   nestedArray: InstrumentKeys[][],
-  currentInstrument: Woodwind
+  activeKeys: InstrumentKeys[] | undefined
 ) => {
-  return nestedArray.some((array) => checkArray(array, currentInstrument));
+  return nestedArray.some((array) => checkArray(array, activeKeys));
 };
+
+export const createUniqueKey = (a: string, b: number | string) => (a += b);

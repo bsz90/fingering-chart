@@ -1,10 +1,8 @@
-import { InstrumentKeyGroup } from "./InstrumentKeyGroup";
 import {
   Clef,
   FluteKeyGroup,
   FluteKeys,
-  InstrumentKeys,
-  InstrumentName,
+  Instrument as Instrument,
   KeyGroup,
   Note,
   Notes,
@@ -12,37 +10,72 @@ import {
   SaxophoneKeyGroup,
   SaxophoneKeys,
   Section,
+  InstrumentRange,
+  InstrumentKeys,
 } from "./types";
 
-export const categories = [
-  {
-    family: "woodwinds",
-    instruments: [
-      {
-        name: InstrumentName.SAXOPHONE,
-        range: {
-          lowestNote: Notes.Bb3,
-          highestNote: Notes.F6,
-        },
-        activeKeys: [],
-        clef: Clef.TREBLE,
-      },
-      {
-        name: InstrumentName.FLUTE,
-        range: {
-          lowestNote: Notes.C4,
-          highestNote: Notes.C7,
-        },
-        activeKeys: [],
-
-        clef: Clef.TREBLE,
-      },
-    ],
-  },
+export const instruments = [
+  Instrument.FLUTE,
+  Instrument.OBOE,
+  Instrument.CLARINET,
+  Instrument.SAXOPHONE,
+  Instrument.BASSOON,
+  Instrument.TRUMPET,
+  Instrument.FRENCH_HORN,
+  Instrument.TROMBONE,
+  Instrument.TUBA,
 ];
 
-export const keyDiagrams: { [key in InstrumentName]: KeyGroup[] } = {
-  [InstrumentName.FLUTE]: [
+export const instrumentRanges: { [key in Instrument]: InstrumentRange } = {
+  [Instrument.FLUTE]: {
+    lowestNote: Notes.C4,
+    highestNote: Notes.C7,
+    clef: Clef.TREBLE,
+  },
+  [Instrument.OBOE]: {
+    lowestNote: Notes.C4,
+    highestNote: Notes.C7,
+    clef: Clef.TREBLE,
+  },
+  [Instrument.CLARINET]: {
+    lowestNote: Notes.C4,
+    highestNote: Notes.C7,
+    clef: Clef.TREBLE,
+  },
+  [Instrument.SAXOPHONE]: {
+    lowestNote: Notes.Bb3,
+    highestNote: Notes.F6,
+    clef: Clef.TREBLE,
+  },
+  [Instrument.BASSOON]: {
+    lowestNote: Notes.C4,
+    highestNote: Notes.C7,
+    clef: Clef.BASS,
+  },
+  [Instrument.TRUMPET]: {
+    lowestNote: Notes.C4,
+    highestNote: Notes.C7,
+    clef: Clef.TREBLE,
+  },
+  [Instrument.FRENCH_HORN]: {
+    lowestNote: Notes.C4,
+    highestNote: Notes.C7,
+    clef: Clef.TREBLE,
+  },
+  [Instrument.TROMBONE]: {
+    lowestNote: Notes.C4,
+    highestNote: Notes.C7,
+    clef: Clef.BASS,
+  },
+  [Instrument.TUBA]: {
+    lowestNote: Notes.C4,
+    highestNote: Notes.C7,
+    clef: Clef.BASS,
+  },
+};
+
+export const keyDiagrams: { [key in Instrument]: KeyGroup[] } = {
+  [Instrument.FLUTE]: [
     {
       groupName: FluteKeyGroup.LEFT_THUMB,
       section: Section.TOP,
@@ -154,7 +187,7 @@ export const keyDiagrams: { [key in InstrumentName]: KeyGroup[] } = {
       ],
     },
   ],
-  [InstrumentName.OBOE]: [
+  [Instrument.OBOE]: [
     {
       groupName: FluteKeyGroup.LEFT_THUMB,
       section: Section.TOP,
@@ -171,7 +204,7 @@ export const keyDiagrams: { [key in InstrumentName]: KeyGroup[] } = {
       ],
     },
   ],
-  [InstrumentName.CLARINET]: [
+  [Instrument.CLARINET]: [
     {
       groupName: FluteKeyGroup.LEFT_THUMB,
       section: Section.TOP,
@@ -188,7 +221,7 @@ export const keyDiagrams: { [key in InstrumentName]: KeyGroup[] } = {
       ],
     },
   ],
-  [InstrumentName.SAXOPHONE]: [
+  [Instrument.SAXOPHONE]: [
     {
       groupName: SaxophoneKeyGroup.LEFT_THUMB,
       section: Section.TOP,
@@ -327,7 +360,7 @@ export const keyDiagrams: { [key in InstrumentName]: KeyGroup[] } = {
     },
   ],
 
-  [InstrumentName.BASSOON]: [
+  [Instrument.BASSOON]: [
     {
       groupName: FluteKeyGroup.RIGHT_HAND_MAIN,
       section: Section.BOTTOM,
@@ -348,7 +381,7 @@ export const keyDiagrams: { [key in InstrumentName]: KeyGroup[] } = {
       ],
     },
   ],
-  [InstrumentName.TRUMPET]: [
+  [Instrument.TRUMPET]: [
     {
       groupName: FluteKeyGroup.RIGHT_HAND_MAIN,
       section: Section.BOTTOM,
@@ -369,7 +402,7 @@ export const keyDiagrams: { [key in InstrumentName]: KeyGroup[] } = {
       ],
     },
   ],
-  [InstrumentName.FRENCH_HORN]: [
+  [Instrument.FRENCH_HORN]: [
     {
       groupName: FluteKeyGroup.LEFT_THUMB,
       section: Section.TOP,
@@ -386,7 +419,7 @@ export const keyDiagrams: { [key in InstrumentName]: KeyGroup[] } = {
       ],
     },
   ],
-  [InstrumentName.TROMBONE]: [
+  [Instrument.TROMBONE]: [
     {
       groupName: FluteKeyGroup.RIGHT_HAND_MAIN,
       section: Section.BOTTOM,
@@ -407,7 +440,7 @@ export const keyDiagrams: { [key in InstrumentName]: KeyGroup[] } = {
       ],
     },
   ],
-  [InstrumentName.TUBA]: [
+  [Instrument.TUBA]: [
     {
       groupName: FluteKeyGroup.RIGHT_HAND_MAIN,
       section: Section.BOTTOM,
@@ -430,8 +463,12 @@ export const keyDiagrams: { [key in InstrumentName]: KeyGroup[] } = {
   ],
 };
 
-export const fingerings = {
-  [InstrumentName.FLUTE]: {
+export const instrumentFingerings: {
+  [key in Instrument]: Partial<
+    Record<Notes, InstrumentKeys[] | InstrumentKeys[][]>
+  >;
+} = {
+  [Instrument.FLUTE]: {
     [Notes.C4]: [
       [
         FluteKeys.THUMB_B,
@@ -747,9 +784,45 @@ export const fingerings = {
       ],
     ],
   },
-  // // [InstrumentName.OBOE]: {},
-  // [InstrumentName.CLARINET]: {},
-  [InstrumentName.SAXOPHONE]: {
+  [Instrument.OBOE]: {
+    [Notes.C7]: [
+      [
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.G_SHARP,
+        FluteKeys.RIGHT_FIRST_FINGER,
+        FluteKeys.LOW_B,
+      ],
+      [
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.G_SHARP,
+        FluteKeys.RIGHT_FIRST_FINGER,
+      ],
+    ],
+  },
+  [Instrument.CLARINET]: {
+    [Notes.C7]: [
+      [
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.G_SHARP,
+        FluteKeys.RIGHT_FIRST_FINGER,
+        FluteKeys.LOW_B,
+      ],
+      [
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.G_SHARP,
+        FluteKeys.RIGHT_FIRST_FINGER,
+      ],
+    ],
+  },
+  [Instrument.SAXOPHONE]: {
     [Notes.Bb3]: [
       SaxophoneKeys.LEFT_FIRST_FINGER,
       SaxophoneKeys.LEFT_SECOND_FINGER,
@@ -987,11 +1060,101 @@ export const fingerings = {
       ],
     ],
   },
-  // [InstrumentName.BASSOON]: {},
-  // [InstrumentName.TRUMPET]: {},
-  // [InstrumentName.FRENCH_HORN]: {},
-  // [InstrumentName.TROMBONE]: {},
-  // [InstrumentName.TUBA]: {},
+  [Instrument.BASSOON]: {
+    [Notes.C7]: [
+      [
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.G_SHARP,
+        FluteKeys.RIGHT_FIRST_FINGER,
+        FluteKeys.LOW_B,
+      ],
+      [
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.G_SHARP,
+        FluteKeys.RIGHT_FIRST_FINGER,
+      ],
+    ],
+  },
+  [Instrument.TRUMPET]: {
+    [Notes.C7]: [
+      [
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.G_SHARP,
+        FluteKeys.RIGHT_FIRST_FINGER,
+        FluteKeys.LOW_B,
+      ],
+      [
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.G_SHARP,
+        FluteKeys.RIGHT_FIRST_FINGER,
+      ],
+    ],
+  },
+  [Instrument.FRENCH_HORN]: {
+    [Notes.C7]: [
+      [
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.G_SHARP,
+        FluteKeys.RIGHT_FIRST_FINGER,
+        FluteKeys.LOW_B,
+      ],
+      [
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.G_SHARP,
+        FluteKeys.RIGHT_FIRST_FINGER,
+      ],
+    ],
+  },
+  [Instrument.TROMBONE]: {
+    [Notes.C7]: [
+      [
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.G_SHARP,
+        FluteKeys.RIGHT_FIRST_FINGER,
+        FluteKeys.LOW_B,
+      ],
+      [
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.G_SHARP,
+        FluteKeys.RIGHT_FIRST_FINGER,
+      ],
+    ],
+  },
+  [Instrument.TUBA]: {
+    [Notes.C7]: [
+      [
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.G_SHARP,
+        FluteKeys.RIGHT_FIRST_FINGER,
+        FluteKeys.LOW_B,
+      ],
+      [
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.G_SHARP,
+        FluteKeys.RIGHT_FIRST_FINGER,
+      ],
+    ],
+  },
 };
 
 export const notes: Note[] = [

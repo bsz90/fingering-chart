@@ -10,18 +10,18 @@ import Trumpet from "./icons/trumpet.svg";
 import Tuba from "./icons/tuba.svg";
 import Home from "./icons/home.svg";
 import { useState } from "react";
-import { InstrumentName } from "./types";
+import { Instrument } from "./types";
 
 const icons = {
-  [InstrumentName.FLUTE]: <Flute />,
-  [InstrumentName.OBOE]: <Oboe />,
-  [InstrumentName.CLARINET]: <Clarinet />,
-  [InstrumentName.SAXOPHONE]: <Saxophone />,
-  [InstrumentName.BASSOON]: <Bassoon />,
-  [InstrumentName.TRUMPET]: <Trumpet />,
-  [InstrumentName.FRENCH_HORN]: <FrenchHorn />,
-  [InstrumentName.TROMBONE]: <Trombone />,
-  [InstrumentName.TUBA]: <Tuba />,
+  [Instrument.FLUTE]: <Flute />,
+  [Instrument.OBOE]: <Oboe />,
+  [Instrument.CLARINET]: <Clarinet />,
+  [Instrument.SAXOPHONE]: <Saxophone />,
+  [Instrument.BASSOON]: <Bassoon />,
+  [Instrument.TRUMPET]: <Trumpet />,
+  [Instrument.FRENCH_HORN]: <FrenchHorn />,
+  [Instrument.TROMBONE]: <Trombone />,
+  [Instrument.TUBA]: <Tuba />,
 };
 
 const array = Object.entries(icons);
@@ -29,9 +29,9 @@ const array = Object.entries(icons);
 export const NavBar = ({
   currentInstrument,
 }: {
-  currentInstrument: InstrumentName | undefined;
+  currentInstrument: Instrument | undefined;
 }) => {
-  const [valueState, setValueState] = useState<string>(InstrumentName.FLUTE);
+  const [valueState, setValueState] = useState<string>(Instrument.FLUTE);
 
   console.log(valueState);
 

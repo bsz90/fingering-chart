@@ -7,9 +7,20 @@ import {
   useState,
 } from "react";
 import { Accidental, Formatter, StaveNote, Vex, Voice } from "vexflow";
-import { keyDiagrams, fingerings, notes } from "./constants";
+import {
+  keyDiagrams,
+  instrumentFingerings,
+  notes,
+  instrumentRanges,
+} from "./constants";
 import { InstrumentKeyGroup } from "./InstrumentKeyGroup";
-import { Woodwind, KeyGroup, Note, InstrumentKeys } from "./types";
+import {
+  KeyGroup,
+  Note,
+  InstrumentKeys,
+  Instrument,
+  InstrumentRange,
+} from "./types";
 import { checkArray, checkNestedArray } from "./utils";
 
 //converts constant into a useable string
@@ -29,8 +40,8 @@ export const SingleReedFingeringChart = ({
   currentInstrument,
   setCurrentInstrument,
 }: {
-  currentInstrument: Woodwind;
-  setCurrentInstrument: Dispatch<SetStateAction<Woodwind | undefined>>;
+  currentInstrument: Instrument;
+  setCurrentInstrument: Dispatch<SetStateAction<Instrument>>;
 }) => {
   //Drag functionality for keys
   const [toggleKeyOn, setToggleKeyOn] = useState<boolean>(false);
@@ -47,81 +58,77 @@ export const SingleReedFingeringChart = ({
   //HTMLref for Vexflow
   const [ref, setRef] = useState<HTMLDivElement | null>(null!);
 
+  const [activeKeys, setActiveKeys] = useState<InstrumentKeys[] | undefined>(
+    []
+  );
+
   //note displayed on mouse hover
   const [nextNote, setNextNote] = useState<Note | null>(null);
 
   //event handlers
   const handlePointerMove = (top: number, clientY: number, buttons: number) => {
-    const windowSize = 384;
-    const pixelsBetweenNotes = 5;
-    const offsetY = 70;
-    const y = Math.min(
-      Math.max(Math.floor((clientY - top - offsetY) / 7.5), 0),
-      instrumentRange.length
-    );
-    setNextNote(instrumentRange[instrumentRange.length - (y + 1)]);
-    if (buttons) {
-      setDraggingNote(true);
-      if (nextNote) changeNote(nextNote);
+    if (currentInstrumentRange) {
+      const windowSize = 384;
+      const pixelsBetweenNotes = 5;
+      const offsetY = 70;
+      const y = Math.min(
+        Math.max(Math.floor((clientY - top - offsetY) / 7.5), 0),
+        currentInstrumentRange.length
+      );
+      setNextNote(
+        currentInstrumentRange[currentInstrumentRange.length - (y + 1)]
+      );
+      if (buttons) {
+        setDraggingNote(true);
+        if (nextNote) changeNote(nextNote);
+      }
+      if (!buttons) setDraggingNote(false);
     }
-    if (!buttons) setDraggingNote(false);
   };
   const changeNote = (nextNote: Note) => {
-    setCurrentInstrument((prev) => {
+    setActiveKeys((prev) => {
       if (prev) {
         const index = nextNote.staffPosition;
-        const newFingering = Object.values(possibleInstrumentFingerings!)[
-          index
-        ];
+        const newFingering = possibleInstrumentFingerings![index];
 
-        if (newFingering === undefined) return { ...prev, activeKeys: [] };
+        if (newFingering === undefined) return [];
 
         if (Array.isArray(newFingering[0]))
-          return { ...prev, activeKeys: [...newFingering[0]] };
-        return {
-          ...prev,
-          activeKeys: [...(newFingering as InstrumentKeys[])],
-        };
+          return [...(newFingering[0] as InstrumentKeys[])];
+        return [...(newFingering as InstrumentKeys[])];
       }
     });
   };
 
   const handleButtonClick = (
     buttonType: string,
-    currentFingeringKeys: InstrumentKeys[][],
-    currentInstrument: Woodwind
+    currentFingeringKeys: InstrumentKeys[][]
   ) => {
     const currentIndex = currentFingeringKeys.findIndex((array) =>
-      checkArray(array, currentInstrument)
+      checkArray(array, activeKeys)
     );
     const change = buttonType === "right" ? 1 : -1;
     const newActiveKeys = [...currentFingeringKeys[currentIndex + change]];
-    setCurrentInstrument((prev) => {
-      if (prev) return { ...prev, activeKeys: newActiveKeys };
-    });
+    setActiveKeys(newActiveKeys);
   };
 
   //array of notes available to the instrument
-  const instrumentRange = notes.slice(
-    currentInstrument.range.lowestNote,
-    currentInstrument.range.highestNote + 1
-  );
+  const currentInstrumentRange = useMemo(() => {
+    const range = instrumentRanges[currentInstrument];
+
+    if (range) return notes.slice(range.lowestNote, range.highestNote + 1);
+  }, [currentInstrument]);
 
   //memo'd values
   const possibleInstrumentFingerings = useMemo(
-    () =>
-      Object.entries(fingerings)
-        .flatMap(([name, obj]) => {
-          if (name === currentInstrument.name) return obj;
-        })
-        .pop(),
-    [currentInstrument.name]
+    () => instrumentFingerings[currentInstrument],
+    [currentInstrument]
   );
 
   const currentInstrumentKeyGroups = useMemo(() => {
     const currentKeyGroup = Object.entries(keyDiagrams)
       .flatMap(([string, keyGroup]) => {
-        if (string === currentInstrument.name) return keyGroup;
+        if (string === currentInstrument) return keyGroup;
       })
       .filter(Boolean);
 
@@ -140,33 +147,32 @@ export const SingleReedFingeringChart = ({
       });
     }
     return sortedArray;
-  }, [currentInstrument.name]);
+  }, [currentInstrument]);
 
   //memoized value of the index of the current fingering
   const fingeringIndex = useMemo(() => {
     if (possibleInstrumentFingerings) {
-      if (currentInstrument.activeKeys.length === 0) {
+      if (activeKeys) {
         const index = Object.values(possibleInstrumentFingerings).findIndex(
-          (fingering) => fingering.length === 0
+          (fingering) => {
+            if (typeof fingering[0] === "string") {
+              return checkArray(fingering as InstrumentKeys[], activeKeys);
+            }
+            return checkNestedArray(
+              fingering as InstrumentKeys[][],
+              activeKeys
+            );
+          }
         );
+
         if (index > -1) return index;
       }
-
       const index = Object.values(possibleInstrumentFingerings).findIndex(
-        (fingering) => {
-          if (typeof fingering[0] === "string") {
-            return checkArray(fingering as InstrumentKeys[], currentInstrument);
-          }
-          return checkNestedArray(
-            fingering as InstrumentKeys[][],
-            currentInstrument
-          );
-        }
+        (fingering) => fingering.length === 0
       );
-
       if (index > -1) return index;
     }
-  }, [currentInstrument, possibleInstrumentFingerings]);
+  }, [activeKeys, possibleInstrumentFingerings]);
 
   const currentFingeringKeys:
     | InstrumentKeys[]
@@ -177,8 +183,8 @@ export const SingleReedFingeringChart = ({
   }, [possibleInstrumentFingerings, fingeringIndex]);
 
   const currentFingeringNote = useMemo(() => {
-    if (fingeringIndex) {
-      const newState = instrumentRange[fingeringIndex];
+    if (fingeringIndex && currentInstrumentRange) {
+      const newState = currentInstrumentRange[fingeringIndex];
       if (typeof newState.name === "string") return newState;
       newState.name.sort((stringA, stringB) => {
         const hasAccidental = (string: string) => {
@@ -196,7 +202,7 @@ export const SingleReedFingeringChart = ({
       });
       return newState;
     }
-  }, [fingeringIndex, instrumentRange]);
+  }, [fingeringIndex, currentInstrumentRange]);
 
   useEffect(() => {
     if (ref) {
@@ -208,7 +214,8 @@ export const SingleReedFingeringChart = ({
       const stave = new Stave(0, 0, 137);
 
       stave
-        .addClef(currentInstrument.clef)
+        // .addClef(currentInstrumentRange.clef)
+        .addClef("Treble")
         .setEndBarType(3)
         .setX(8)
         .setY(20)
@@ -360,8 +367,7 @@ export const SingleReedFingeringChart = ({
         return true;
 
       const currentFingeringIndex = currentFingeringKeys.findIndex(
-        (array) =>
-          typeof array !== "string" && checkArray(array, currentInstrument)
+        (array) => typeof array !== "string" && checkArray(array, activeKeys)
       );
 
       if (
@@ -418,7 +424,7 @@ export const SingleReedFingeringChart = ({
           <div className="w-full h-full flex flex-col items-center justify-center">
             <div className="flex items-end h-[15%]">
               <h1 className="h-20 text-[40px] capitalize text-bold text-center font-serif flex items-center">
-                {currentInstrument.name}
+                {currentInstrument}
               </h1>
             </div>
             <div className="w-[384px] rounded-xl flex flex-col justify-center items-center">
@@ -457,7 +463,8 @@ export const SingleReedFingeringChart = ({
                   toggleKeyOn={toggleKeyOn}
                   setToggleKeyOn={setToggleKeyOn}
                   currentInstrument={currentInstrument}
-                  setCurrentInstrument={setCurrentInstrument}
+                  activeKeys={activeKeys}
+                  setActiveKeys={setActiveKeys}
                 />
               );
             })}
@@ -471,8 +478,7 @@ export const SingleReedFingeringChart = ({
               onClick={() =>
                 handleButtonClick(
                   "left",
-                  currentFingeringKeys as InstrumentKeys[][],
-                  currentInstrument
+                  currentFingeringKeys as InstrumentKeys[][]
                 )
               }
             >
@@ -486,8 +492,7 @@ export const SingleReedFingeringChart = ({
               onClick={() =>
                 handleButtonClick(
                   "right",
-                  currentFingeringKeys as InstrumentKeys[][],
-                  currentInstrument
+                  currentFingeringKeys as InstrumentKeys[][]
                 )
               }
             >

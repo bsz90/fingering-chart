@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { useImmer } from "use-immer";
-import { categories } from "./constants";
+import { instruments } from "./constants";
 import { NavBar } from "./NavBar";
 import { SingleReedFingeringChart } from "./SingleReedFingeringChart";
 import { Start } from "./Start";
-import { Woodwind } from "./types";
+import { Instrument } from "./types";
 
 export default function Home() {
   const [currentFamily, setCurrentFamily] = useState("woodwind");
-  const [currentInstrument, setCurrentInstrument] = useImmer<
-    Woodwind | undefined
-  >(categories[0].instruments[0]);
+  const [currentInstrument, setCurrentInstrument] = useState<Instrument>(
+    Instrument.SAXOPHONE
+  );
 
   return (
     <div className="w-full h-screen flex flex-col bg-slate-200 items-center justify-start touch-none">
@@ -26,11 +26,7 @@ export default function Home() {
           setCurrentInstrument={setCurrentInstrument}
         />
       )}
-      <NavBar
-        currentInstrument={
-          currentInstrument ? currentInstrument.name : undefined
-        }
-      />
+      <NavBar currentInstrument={currentInstrument} />
     </div>
   );
 }

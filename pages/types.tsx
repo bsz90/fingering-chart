@@ -1,11 +1,27 @@
-export type Woodwind = {
-  name: InstrumentName;
-  range: { lowestNote: Notes; highestNote: Notes };
-  activeKeys: InstrumentKeys[];
-  // keyGroups: KeyGroup[];
-  // fingerings: Partial<Record<Notes, InstrumentKeys[] | InstrumentKeys[][]>>;
+// instrument specific enums
+
+export enum Instrument {
+  FLUTE = "Flute",
+  OBOE = "Oboe",
+  CLARINET = "Clarinet",
+  SAXOPHONE = "Saxophone",
+  BASSOON = "Bassoon",
+  TRUMPET = "Trumpet",
+  FRENCH_HORN = "French Horn",
+  TROMBONE = "Trombone",
+  TUBA = "Tuba",
+}
+
+export type InstrumentRange = {
+  lowestNote: Notes;
+  highestNote: Notes;
   clef: Clef;
 };
+
+export enum Clef {
+  TREBLE = "treble",
+  BASS = "Bass",
+}
 
 export type KeyGroup = {
   groupName: InstrumentKeyGroup;
@@ -26,6 +42,95 @@ export enum Position {
   LEFT,
   CENTER,
   RIGHT,
+}
+
+export type InstrumentKeys = FluteKeys | SaxophoneKeys | ClarinetKeys;
+
+export enum FluteKeys {
+  THUMB_Bb = "Thumb B♭",
+  THUMB_B = "Thumb B♮",
+  LEFT_FIRST_FINGER = "Left First Finger",
+  LEFT_SECOND_FINGER = "Left Second Finger",
+  LEFT_THIRD_FINGER = "Left Third Finger",
+  G_SHARP = "G♯",
+  RIGHT_FIRST_FINGER = "Right First Finger",
+  RIGHT_SECOND_FINGER = "Right Second Finger",
+  RIGHT_THIRD_FINGER = "Right Third Finger",
+  Bb_TRILL = "B♭ Trill",
+  C_SHARP_TRILL = "C♯ Trill",
+  D_TRILL = "D Trill",
+  D_SHARP_TRILL = "D♯ Trill",
+  Eb = "E♭",
+  LOW_C_SHARP = "Low C♯",
+  LOW_C = "Low C",
+  LOW_B = "Low B",
+}
+
+//needs to be done
+export enum ClarinetKeys {
+  THUMB = "Thumb",
+  REGISTER = "Register",
+  LEFT_FIRST_FINGER = "Left First Finger",
+  LEFT_SECOND_FINGER = "Left Second Finger",
+  LEFT_THIRD_FINGER = "Left Third Finger",
+  G_SHARP = "G♯",
+  RIGHT_FIRST_FINGER = "Right First Finger",
+  RIGHT_SECOND_FINGER = "Right Second Finger",
+  RIGHT_THIRD_FINGER = "Right Third Finger",
+  Bb_TRILL = "B♭ Trill",
+  C_SHARP_TRILL = "C♯ Trill",
+  D_TRILL = "D Trill",
+  D_SHARP_TRILL = "D♯ Trill",
+  Eb = "E♭",
+  LOW_C_SHARP = "Low C♯",
+  LOW_C = "Low C",
+  LOW_B = "Low B",
+}
+
+export enum SaxophoneKeys {
+  OCTAVE = "Octave",
+  FRONT_F = "Front F",
+  LEFT_FIRST_FINGER = "Left First Finger",
+  BIS = "Bis",
+  LEFT_SECOND_FINGER = "Left Second Finger",
+  LEFT_THIRD_FINGER = "Left Third Finger",
+  Eb_PALM = "E♭ Palm",
+  D_PALM = "D Palm",
+  F_PALM = "F Palm",
+  G_SHARP = "G♯",
+  LOW_C_SHARP = "Low C♯",
+  LOW_B = "Low B",
+  LOW_Bb = "Low B♭",
+  RIGHT_FIRST_FINGER = "Right First Finger",
+  RIGHT_SECOND_FINGER = "Right Second Finger",
+  RIGHT_THIRD_FINGER = "Right Third Finger",
+  E_SIDE = "E Side",
+  C_SIDE = "C Side",
+  Bb_SIDE = "B♭ Side",
+  HIGH_F_SHARP = "High F♯",
+  ALT_F = "Alt F",
+  LOW_Eb = "Low E♭",
+  LOW_C = "Low C",
+}
+
+export type InstrumentKeyGroup = FluteKeyGroup | SaxophoneKeyGroup;
+
+export enum FluteKeyGroup {
+  LEFT_THUMB,
+  LEFT_HAND_MAIN,
+  LEFT_HAND_PINKY,
+  RIGHT_HAND_MAIN,
+  RIGHT_HAND_TRILL,
+  RIGHT_HAND_PINKY,
+}
+
+export enum SaxophoneKeyGroup {
+  LEFT_THUMB,
+  LEFT_HAND_MAIN,
+  LEFT_HAND_PALM,
+  LEFT_HAND_PINKY,
+  RIGHT_HAND_MAIN,
+  RIGHT_HAND_SIDE,
 }
 
 type NoteName = string;
@@ -128,112 +233,4 @@ export enum Notes {
   Bb7,
   B7,
   C8,
-}
-
-export enum Clef {
-  TREBLE = "treble",
-  BASS = "Bass",
-}
-
-// instrument specific enums
-
-export enum InstrumentName {
-  FLUTE = "Flute",
-  OBOE = "Oboe",
-  CLARINET = "Clarinet",
-  SAXOPHONE = "Saxophone",
-  BASSOON = "Bassoon",
-  TRUMPET = "Trumpet",
-  FRENCH_HORN = "French Horn",
-  TROMBONE = "Trombone",
-  TUBA = "Tuba",
-}
-
-export type InstrumentKeys = FluteKeys | SaxophoneKeys | ClarinetKeys;
-
-export enum FluteKeys {
-  THUMB_Bb = "Thumb B♭",
-  THUMB_B = "Thumb B♮",
-  LEFT_FIRST_FINGER = "Left First Finger",
-  LEFT_SECOND_FINGER = "Left Second Finger",
-  LEFT_THIRD_FINGER = "Left Third Finger",
-  G_SHARP = "G♯",
-  RIGHT_FIRST_FINGER = "Right First Finger",
-  RIGHT_SECOND_FINGER = "Right Second Finger",
-  RIGHT_THIRD_FINGER = "Right Third Finger",
-  Bb_TRILL = "B♭ Trill",
-  C_SHARP_TRILL = "C♯ Trill",
-  D_TRILL = "D Trill",
-  D_SHARP_TRILL = "D♯ Trill",
-  Eb = "E♭",
-  LOW_C_SHARP = "Low C♯",
-  LOW_C = "Low C",
-  LOW_B = "Low B",
-}
-
-//needs to be done
-export enum ClarinetKeys {
-  THUMB = "Thumb",
-  REGISTER = "Register",
-  LEFT_FIRST_FINGER = "Left First Finger",
-  LEFT_SECOND_FINGER = "Left Second Finger",
-  LEFT_THIRD_FINGER = "Left Third Finger",
-  G_SHARP = "G♯",
-  RIGHT_FIRST_FINGER = "Right First Finger",
-  RIGHT_SECOND_FINGER = "Right Second Finger",
-  RIGHT_THIRD_FINGER = "Right Third Finger",
-  Bb_TRILL = "B♭ Trill",
-  C_SHARP_TRILL = "C♯ Trill",
-  D_TRILL = "D Trill",
-  D_SHARP_TRILL = "D♯ Trill",
-  Eb = "E♭",
-  LOW_C_SHARP = "Low C♯",
-  LOW_C = "Low C",
-  LOW_B = "Low B",
-}
-
-export enum SaxophoneKeys {
-  OCTAVE = "Octave",
-  FRONT_F = "Front F",
-  LEFT_FIRST_FINGER = "Left First Finger",
-  BIS = "Bis",
-  LEFT_SECOND_FINGER = "Left Second Finger",
-  LEFT_THIRD_FINGER = "Left Third Finger",
-  Eb_PALM = "E♭ Palm",
-  D_PALM = "D Palm",
-  F_PALM = "F Palm",
-  G_SHARP = "G♯",
-  LOW_C_SHARP = "Low C♯",
-  LOW_B = "Low B",
-  LOW_Bb = "Low B♭",
-  RIGHT_FIRST_FINGER = "Right First Finger",
-  RIGHT_SECOND_FINGER = "Right Second Finger",
-  RIGHT_THIRD_FINGER = "Right Third Finger",
-  E_SIDE = "E Side",
-  C_SIDE = "C Side",
-  Bb_SIDE = "B♭ Side",
-  HIGH_F_SHARP = "High F♯",
-  ALT_F = "Alt F",
-  LOW_Eb = "Low E♭",
-  LOW_C = "Low C",
-}
-
-export type InstrumentKeyGroup = FluteKeyGroup | SaxophoneKeyGroup;
-
-export enum FluteKeyGroup {
-  LEFT_THUMB,
-  LEFT_HAND_MAIN,
-  LEFT_HAND_PINKY,
-  RIGHT_HAND_MAIN,
-  RIGHT_HAND_TRILL,
-  RIGHT_HAND_PINKY,
-}
-
-export enum SaxophoneKeyGroup {
-  LEFT_THUMB,
-  LEFT_HAND_MAIN,
-  LEFT_HAND_PALM,
-  LEFT_HAND_PINKY,
-  RIGHT_HAND_MAIN,
-  RIGHT_HAND_SIDE,
 }

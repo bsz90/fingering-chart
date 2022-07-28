@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { Woodwind, InstrumentKeys } from "./types";
+import { Instrument, InstrumentKeys } from "./types";
 import * as Tooltip from "@radix-ui/react-tooltip";
 
 export const InstrumentKey = ({
@@ -7,50 +7,42 @@ export const InstrumentKey = ({
   className,
   toggleKeyOn,
   setToggleKeyOn,
-  currentInstrument,
-  setCurrentInstrument,
+  activeKeys,
+  setActiveKeys,
 }: {
   name: InstrumentKeys;
   className: string;
   toggleKeyOn: boolean;
   setToggleKeyOn: Dispatch<SetStateAction<boolean>>;
-  currentInstrument: Woodwind;
-  setCurrentInstrument: Dispatch<SetStateAction<Woodwind | undefined>>;
+  activeKeys: InstrumentKeys[] | undefined;
+  setActiveKeys: Dispatch<SetStateAction<InstrumentKeys[] | undefined>>;
 }) => {
   const handlePointerDown = (newKey: InstrumentKeys) => {
-    if (currentInstrument.activeKeys.includes(newKey)) {
-      setToggleKeyOn(false);
-      setCurrentInstrument((prev) => {
-        if (prev)
-          return {
-            ...prev,
-            activeKeys: prev.activeKeys.filter(
-              (activeKey) => activeKey !== newKey
-            ),
-          };
+    if (activeKeys) {
+      if (activeKeys.includes(newKey)) {
+        setToggleKeyOn(false);
+        setActiveKeys((prev) => {
+          if (prev)
+            return [...prev.filter((activeKey) => activeKey !== newKey)];
+        });
+      }
+      setToggleKeyOn(true);
+      setActiveKeys((prev) => {
+        return [...activeKeys, newKey];
       });
-      return;
     }
     setToggleKeyOn(true);
-    setCurrentInstrument((prev) => {
-      if (prev) return { ...prev, activeKeys: [...prev.activeKeys, newKey] };
-    });
+    setActiveKeys([newKey]);
   };
 
   const handlePointerEnter = (newKey: InstrumentKeys) => {
     toggleKeyOn
-      ? setCurrentInstrument((prev) => {
-          if (prev)
-            return { ...prev, activeKeys: [...prev.activeKeys, newKey] };
+      ? setActiveKeys((prev) => {
+          if (prev) return [...prev, newKey];
         })
-      : setCurrentInstrument((prev) => {
+      : setActiveKeys((prev) => {
           if (prev)
-            return {
-              ...prev,
-              activeKeys: prev.activeKeys.filter(
-                (activeKey) => activeKey !== newKey
-              ),
-            };
+            return [...prev.filter((activeKey) => activeKey !== newKey)];
         });
   };
 
@@ -59,9 +51,7 @@ export const InstrumentKey = ({
       <Tooltip.Root>
         <Tooltip.Trigger
           className={`border-4 border-slate-600 overflow-hidden drop-shadow-md ${className} ${
-            currentInstrument.activeKeys?.includes(name)
-              ? "bg-slate-400"
-              : "bg-white"
+            activeKeys?.includes(name) ? "bg-slate-400" : "bg-white"
           }`}
           onPointerDown={() => {
             handlePointerDown(name);

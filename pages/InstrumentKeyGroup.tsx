@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { InstrumentKey } from "./InstrumentKey";
-import { KeyGroup, Position, Woodwind } from "./types";
+import { Instrument, InstrumentKeys, KeyGroup, Position } from "./types";
+import { createUniqueKey } from "./utils";
 
 export const InstrumentKeyGroup = ({
   keyGroup,
@@ -8,14 +9,16 @@ export const InstrumentKeyGroup = ({
   toggleKeyOn,
   setToggleKeyOn,
   currentInstrument,
-  setCurrentInstrument,
+  activeKeys,
+  setActiveKeys,
 }: {
   keyGroup: KeyGroup[];
   position: Position;
   toggleKeyOn: boolean;
   setToggleKeyOn: Dispatch<SetStateAction<boolean>>;
-  currentInstrument: Woodwind;
-  setCurrentInstrument: Dispatch<SetStateAction<Woodwind | undefined>>;
+  currentInstrument: Instrument;
+  activeKeys: InstrumentKeys[] | undefined;
+  setActiveKeys: Dispatch<SetStateAction<InstrumentKeys[] | undefined>>;
 }) => {
   function determineJustify(position: Position) {
     switch (position) {
@@ -32,23 +35,22 @@ export const InstrumentKeyGroup = ({
   return (
     <div className="w-32 h-full flex flex-col items-center justify-center">
       <div
-        key={keyGroup[0].group}
         className="w-full h-[48%] flex flex-end items-end"
         style={{
           justifyContent: determineJustify(keyGroup[0].position),
         }}
       >
         <div className="w-full flex flex-col items-center">
-          {keyGroup[0].keys.map((key) => {
+          {keyGroup[0].keys.map(({ name, className }) => {
             return (
               <InstrumentKey
-                key={key.name}
-                name={key.name}
-                className={key.className}
+                key={createUniqueKey(currentInstrument, name)}
+                name={name}
+                className={className}
                 toggleKeyOn={toggleKeyOn}
                 setToggleKeyOn={setToggleKeyOn}
-                currentInstrument={currentInstrument}
-                setCurrentInstrument={setCurrentInstrument}
+                activeKeys={activeKeys}
+                setActiveKeys={setActiveKeys}
               />
             );
           })}
@@ -58,23 +60,22 @@ export const InstrumentKeyGroup = ({
         <hr className="border-2 rounded-full border-slate-600 w-3/5" />
       ) : null}
       <div
-        key={keyGroup[1].group}
         className="w-full h-[48%] flex flex-start items-start"
         style={{
           justifyContent: determineJustify(keyGroup[0].position),
         }}
       >
         <div className="w-full flex flex-col items-center">
-          {keyGroup[1].keys.map((key) => {
+          {keyGroup[1].keys.map(({ name, className }) => {
             return (
               <InstrumentKey
-                key={key.name}
-                name={key.name}
-                className={key.className}
+                key={createUniqueKey(currentInstrument, name)}
+                name={name}
+                className={className}
                 toggleKeyOn={toggleKeyOn}
                 setToggleKeyOn={setToggleKeyOn}
-                currentInstrument={currentInstrument}
-                setCurrentInstrument={setCurrentInstrument}
+                activeKeys={activeKeys}
+                setActiveKeys={setActiveKeys}
               />
             );
           })}
