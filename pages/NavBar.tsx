@@ -15,8 +15,6 @@ export const NavBar = ({
 }) => {
   const [valueState, setValueState] = useState<string>(Instrument.FLUTE);
 
-  console.log(valueState);
-
   return (
     <NavMenu.Root
       className="box-content w-16 h-full absolute drop-shadow left-0 bg-slate-700 text-white"
