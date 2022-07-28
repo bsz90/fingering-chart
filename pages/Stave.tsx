@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Accidental, Formatter, StaveNote, Vex, Voice } from "vexflow";
 import { Clef, Instrument, InstrumentKeys, Note, Notes } from "./types";
 import { getRegex } from "./utils";
@@ -211,6 +211,7 @@ export const Stave = ({
   const changeNote = (nextNote: Note) => {
     setActiveKeys((prev) => {
       if (prev) {
+        console.log("changeNote firing");
         const index = nextNote.staffPosition;
         const newFingering = possibleInstrumentFingerings[index];
         if (newFingering === undefined) return [];
@@ -219,8 +220,10 @@ export const Stave = ({
         return [...(newFingering as InstrumentKeys[])];
       }
     });
+    setNoteState({ ...nextNote });
   };
-
+  {
+  }
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
       <div className="flex items-end h-[15%]">
@@ -237,8 +240,7 @@ export const Stave = ({
             handlePointerMove(top, clientY, buttons);
           }}
           onClick={() => {
-            if (nextNote && possibleInstrumentFingerings) {
-              setNoteState(nextNote);
+            if (nextNote) {
               changeNote(nextNote);
             }
           }}
@@ -247,8 +249,8 @@ export const Stave = ({
           }}
         ></div>
       </div>
-      <div className="h-[15%]">
-        <h2 className="w-full p-4 text-[40px] font-serif text-center">
+      <div className="h-[15%] w-full">
+        <h2 className="w-full p-4 text-[40px] font-serif text-center text-s">
           {displayNote()}
         </h2>
       </div>

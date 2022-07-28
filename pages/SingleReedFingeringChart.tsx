@@ -28,14 +28,13 @@ export const SingleReedFingeringChart = ({
   //note displayed on mouse hover
   const [noteState, setNoteState] = useState<Note | undefined>(undefined);
 
-  //array of notes available to the instrument
+  //get memo'd values from constants using currentInstrument
   const currentInstrumentRange = useMemo(() => {
     const range = instrumentRanges[currentInstrument];
 
     if (range) return notes.slice(range.lowestNote, range.highestNote + 1);
   }, [currentInstrument]);
 
-  //memo'd values
   const possibleInstrumentFingerings = useMemo(
     () => instrumentFingerings[currentInstrument],
     [currentInstrument]
