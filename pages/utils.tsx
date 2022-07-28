@@ -20,6 +20,19 @@ export const checkNestedArray = (
   return nestedArray.some((array) => checkArray(array, activeKeys));
 };
 
+export const checkIfSameFingerings = (
+  fingering: InstrumentKeys[] | InstrumentKeys[][] | undefined,
+  activeKeys: InstrumentKeys[] | undefined
+) => {
+  if (fingering) {
+    if (typeof fingering[0] === "string") {
+      return checkArray(fingering as InstrumentKeys[], activeKeys);
+    }
+    return checkNestedArray(fingering as InstrumentKeys[][], activeKeys);
+  }
+  return false;
+};
+
 export const createUniqueKey = (a: string, b: number | string) => (a += b);
 
 //converts constant into a useable string
@@ -43,3 +56,5 @@ export const getRegex = (note: Note | undefined) => {
     }
   }
 };
+
+// handles toggleButtons for octaves/similar fingerings

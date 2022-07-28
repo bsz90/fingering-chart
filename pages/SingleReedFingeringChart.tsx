@@ -9,8 +9,9 @@ import {
 import { InstrumentKeyGroup } from "./InstrumentKeyGroup";
 import { Stave } from "./Stave";
 import { ToggleFingeringButtons } from "./ToggleFingeringButtons";
+import { ToggleOctaveButtons } from "./ToggleOctaveButtons";
 import { KeyGroup, Note, InstrumentKeys, Instrument, Notes } from "./types";
-import { checkArray, checkNestedArray } from "./utils";
+import { checkIfSameFingerings } from "./utils";
 
 export const SingleReedFingeringChart = ({
   currentInstrument,
@@ -35,7 +36,7 @@ export const SingleReedFingeringChart = ({
     if (range) return notes.slice(range.lowestNote, range.highestNote + 1);
   }, [currentInstrument]);
 
-  const possibleInstrumentFingerings = useMemo(
+  const allPossibleInstrumentFingerings = useMemo(
     () => instrumentFingerings[currentInstrument],
     [currentInstrument]
   );
@@ -70,13 +71,13 @@ export const SingleReedFingeringChart = ({
     [currentInstrument]
   );
 
-  const currentFingeringKeys:
+  const currentNotesPossibleFingerings:
     | InstrumentKeys[]
     | InstrumentKeys[][]
     | undefined = useMemo(() => {
-    if (noteState && possibleInstrumentFingerings)
-      return possibleInstrumentFingerings[noteState.staffPosition];
-  }, [possibleInstrumentFingerings, noteState]);
+    if (noteState && allPossibleInstrumentFingerings)
+      return allPossibleInstrumentFingerings[noteState.staffPosition];
+  }, [allPossibleInstrumentFingerings, noteState]);
 
   const currentFingeringNote = useMemo(() => {
     if (noteState && currentInstrumentRange) {
@@ -105,48 +106,70 @@ export const SingleReedFingeringChart = ({
     }
   }, [noteState, currentInstrumentRange]);
 
-  useEffect(() => {
-    if (noteState) {
-      const fingeringIsCorrect =
-        possibleInstrumentFingerings[noteState.staffPosition] === activeKeys;
+  const currentFingeringsPossibleNotes = useMemo(
+    () =>
+      Object.entries(allPossibleInstrumentFingerings).filter(
+        ([staffPosition, fingering]) =>
+          checkIfSameFingerings(fingering, activeKeys)
+      ),
+    [activeKeys, allPossibleInstrumentFingerings]
+  );
 
-      if (fingeringIsCorrect) {
-        const index = Object.values(possibleInstrumentFingerings).findIndex(
-          (fingering) => {
-            if (typeof fingering[0] === "string") {
-              return checkArray(fingering as InstrumentKeys[], activeKeys);
-            }
-            return checkNestedArray(
-              fingering as InstrumentKeys[][],
-              activeKeys
-            );
-          }
+  const fingeringIsCorrect = useMemo(() => {
+    if (noteState && activeKeys)
+      return checkIfSameFingerings(
+        allPossibleInstrumentFingerings[noteState.staffPosition],
+        activeKeys
+      );
+  }, [activeKeys, noteState, allPossibleInstrumentFingerings]);
+
+  useEffect(() => {
+    if (!fingeringIsCorrect && noteState && currentFingeringsPossibleNotes) {
+      if (currentFingeringsPossibleNotes.length > 0 && currentInstrumentRange) {
+        const findClosestNote = (a: string, b: string) =>
+          Math.abs(+a - noteState.staffPosition) -
+          Math.abs(+b - noteState.staffPosition);
+
+        const closestNote = currentFingeringsPossibleNotes.sort(([a], [b]) =>
+          findClosestNote(a, b)
+        )[0][0];
+
+        const newNoteState = currentInstrumentRange.find(
+          (obj) => obj.staffPosition === +closestNote
         );
-        if (index > -1 && currentInstrumentRange)
-          setNoteState(currentInstrumentRange[index]);
+
+        if (newNoteState) setNoteState({ ...newNoteState });
       }
     }
   }, [
     activeKeys,
     currentInstrumentRange,
+    fingeringIsCorrect,
     noteState,
-    possibleInstrumentFingerings,
+    allPossibleInstrumentFingerings,
+    currentFingeringsPossibleNotes,
   ]);
 
   return (
-    <div className="w-[1024px] px-24 py-20 h-full overflow-scroll bg-white drop-shadow-md  flex flex-col justify-start items-center">
-      <div className="flex justify-between w-full h-full bg-white">
+    <div className="w-[1024px] px-4 py-20 h-full overflow-scroll bg-white drop-shadow-md  flex flex-col justify-start items-center">
+      <div className="flex justify-around w-full h-full bg-white">
         <div className="flex justify-start">
           <Stave
             currentInstrument={currentInstrument}
             currentInstrumentClef={currentInstrumentClef}
             currentInstrumentRange={currentInstrumentRange}
-            possibleInstrumentFingerings={possibleInstrumentFingerings}
+            allPossibleInstrumentFingerings={allPossibleInstrumentFingerings}
             currentFingeringNote={currentFingeringNote}
             setActiveKeys={setActiveKeys}
             setNoteState={setNoteState}
           />
         </div>
+        <ToggleOctaveButtons
+          noteState={noteState}
+          setNoteState={setNoteState}
+          currentInstrumentRange={currentInstrumentRange}
+          currentFingeringsPossibleNotes={currentFingeringsPossibleNotes}
+        />
         <div className="w-96 h-[700px] flex flex-col items-center justify-start">
           <div className="w-full h-full flex items-center justify-center">
             {currentInstrumentKeyGroups.map((keyGroup, id) => {
@@ -167,7 +190,7 @@ export const SingleReedFingeringChart = ({
           <ToggleFingeringButtons
             activeKeys={activeKeys}
             setActiveKeys={setActiveKeys}
-            currentFingeringKeys={currentFingeringKeys}
+            currentNotesPossibleFingerings={currentNotesPossibleFingerings}
             currentFingeringNote={currentFingeringNote}
           />
         </div>

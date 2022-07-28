@@ -7,7 +7,7 @@ export const Stave = ({
   currentInstrument,
   currentInstrumentClef,
   currentInstrumentRange,
-  possibleInstrumentFingerings,
+  allPossibleInstrumentFingerings,
   currentFingeringNote,
   setActiveKeys,
   setNoteState,
@@ -15,7 +15,7 @@ export const Stave = ({
   currentInstrument: Instrument;
   currentInstrumentClef: Clef;
   currentInstrumentRange: Note[] | undefined;
-  possibleInstrumentFingerings: Partial<
+  allPossibleInstrumentFingerings: Partial<
     Record<Notes, InstrumentKeys[] | InstrumentKeys[][]>
   >;
   currentFingeringNote: Note | undefined;
@@ -211,9 +211,8 @@ export const Stave = ({
   const changeNote = (nextNote: Note) => {
     setActiveKeys((prev) => {
       if (prev) {
-        console.log("changeNote firing");
         const index = nextNote.staffPosition;
-        const newFingering = possibleInstrumentFingerings[index];
+        const newFingering = allPossibleInstrumentFingerings[index];
         if (newFingering === undefined) return [];
         if (Array.isArray(newFingering[0]))
           return [...(newFingering[0] as InstrumentKeys[])];
@@ -222,8 +221,7 @@ export const Stave = ({
     });
     setNoteState({ ...nextNote });
   };
-  {
-  }
+
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
       <div className="flex items-end h-[15%]">

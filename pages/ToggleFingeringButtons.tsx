@@ -5,46 +5,53 @@ import { checkArray } from "./utils";
 export const ToggleFingeringButtons = ({
   activeKeys,
   setActiveKeys,
-  currentFingeringKeys,
+  currentNotesPossibleFingerings,
   currentFingeringNote,
 }: {
   activeKeys: InstrumentKeys[] | undefined;
   setActiveKeys: Dispatch<SetStateAction<InstrumentKeys[] | undefined>>;
-  currentFingeringKeys: InstrumentKeys[] | InstrumentKeys[][] | undefined;
+  currentNotesPossibleFingerings:
+    | InstrumentKeys[]
+    | InstrumentKeys[][]
+    | undefined;
   currentFingeringNote: Note | undefined;
 }) => {
   //event handler
   const handleButtonClick = (
     buttonType: string,
-    currentFingeringKeys: InstrumentKeys[][]
+    currentNotesFingeringKeys: InstrumentKeys[][]
   ) => {
-    const currentIndex = currentFingeringKeys.findIndex((array) =>
+    const currentIndex = currentNotesFingeringKeys.findIndex((array) =>
       checkArray(array, activeKeys)
     );
     const change = buttonType === "right" ? 1 : -1;
-    const newActiveKeys = [...currentFingeringKeys[currentIndex + change]];
+    const newActiveKeys = [...currentNotesFingeringKeys[currentIndex + change]];
     setActiveKeys(newActiveKeys);
   };
 
   //disables button if there are no alternate fingerings
   const disabled = (buttonType: string) => {
     if (!currentFingeringNote) return true;
-    if (currentFingeringNote && currentFingeringKeys) {
-      if (currentFingeringKeys.some((item) => typeof item === "string"))
+    if (currentFingeringNote && currentNotesPossibleFingerings) {
+      if (
+        currentNotesPossibleFingerings.some((item) => typeof item === "string")
+      )
         return true;
 
-      const currentFingeringIndex = currentFingeringKeys.findIndex(
+      const currentFingeringIndex = currentNotesPossibleFingerings.findIndex(
         (array) => typeof array !== "string" && checkArray(array, activeKeys)
       );
 
       if (
         buttonType === "right" &&
-        typeof currentFingeringKeys[currentFingeringIndex + 1] === "undefined"
+        typeof currentNotesPossibleFingerings[currentFingeringIndex + 1] ===
+          "undefined"
       )
         return true;
       if (
         buttonType === "left" &&
-        typeof currentFingeringKeys[currentFingeringIndex - 1] === "undefined"
+        typeof currentNotesPossibleFingerings[currentFingeringIndex - 1] ===
+          "undefined"
       )
         return true;
     }
@@ -60,7 +67,10 @@ export const ToggleFingeringButtons = ({
         }`}
         disabled={disabled("left")}
         onClick={() =>
-          handleButtonClick("left", currentFingeringKeys as InstrumentKeys[][])
+          handleButtonClick(
+            "left",
+            currentNotesPossibleFingerings as InstrumentKeys[][]
+          )
         }
       >
         &larr;
@@ -71,7 +81,10 @@ export const ToggleFingeringButtons = ({
         }`}
         disabled={disabled("right")}
         onClick={() =>
-          handleButtonClick("right", currentFingeringKeys as InstrumentKeys[][])
+          handleButtonClick(
+            "right",
+            currentNotesPossibleFingerings as InstrumentKeys[][]
+          )
         }
       >
         &rarr;
