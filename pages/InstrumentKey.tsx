@@ -36,9 +36,11 @@ export const InstrumentKey = ({
 
   const handlePointerEnter = (newKey: InstrumentKeys) => {
     toggleKeyOn
-      ? setActiveKeys((prev) => {
-          if (prev) return [...prev, newKey];
-        })
+      ? activeKeys && !activeKeys.includes(newKey)
+        ? setActiveKeys((prev) => {
+            if (prev) return [...prev, newKey];
+          })
+        : null
       : setActiveKeys((prev) => {
           if (prev)
             return [...prev.filter((activeKey) => activeKey !== newKey)];
