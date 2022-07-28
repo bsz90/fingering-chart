@@ -354,6 +354,7 @@ export const SingleReedFingeringChart = ({
 
   //disables button if there are no alternate fingerings
   const disabled = (buttonType: string) => {
+    if (!currentFingeringNote) return true;
     if (currentFingeringNote && fingeringIndex && currentFingeringKeys) {
       if (currentFingeringKeys.some((item) => typeof item === "string"))
         return true;
