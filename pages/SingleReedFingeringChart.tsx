@@ -15,27 +15,8 @@ import {
   instrumentClef,
 } from "./constants";
 import { InstrumentKeyGroup } from "./InstrumentKeyGroup";
-import {
-  KeyGroup,
-  Note,
-  InstrumentKeys,
-  Instrument,
-  InstrumentRange,
-} from "./types";
-import { checkArray, checkNestedArray } from "./utils";
-
-//converts constant into a useable string
-const match = (currentFingering: Note) => {
-  const regex = /([A-G])(♭|♯)?(\d)/;
-  if (currentFingering) {
-    if (typeof currentFingering.name === "string") {
-      return currentFingering.name.match(regex);
-    }
-
-    return currentFingering.name[0].match(regex);
-  }
-  return;
-};
+import { KeyGroup, Note, InstrumentKeys, Instrument, Notes } from "./types";
+import { checkArray, checkNestedArray, getRegex } from "./utils";
 
 export const SingleReedFingeringChart = ({
   currentInstrument,
@@ -64,7 +45,8 @@ export const SingleReedFingeringChart = ({
   );
 
   //note displayed on mouse hover
-  const [nextNote, setNextNote] = useState<Note | null>(null);
+  const [noteState, setNoteState] = useState<Note | undefined>(undefined);
+  const [nextNote, setNextNote] = useState<Note | undefined>(undefined);
 
   //event handlers
   const handlePointerMove = (top: number, clientY: number, buttons: number) => {
@@ -90,10 +72,8 @@ export const SingleReedFingeringChart = ({
     setActiveKeys((prev) => {
       if (prev) {
         const index = nextNote.staffPosition;
-        const newFingering = possibleInstrumentFingerings![index];
-
+        const newFingering = possibleInstrumentFingerings[index];
         if (newFingering === undefined) return [];
-
         if (Array.isArray(newFingering[0]))
           return [...(newFingering[0] as InstrumentKeys[])];
         return [...(newFingering as InstrumentKeys[])];
@@ -155,10 +135,47 @@ export const SingleReedFingeringChart = ({
     [currentInstrument]
   );
 
-  //memoized value of the index of the current fingering
-  const fingeringIndex = useMemo(() => {
-    if (possibleInstrumentFingerings) {
-      if (activeKeys) {
+  const currentFingeringKeys:
+    | InstrumentKeys[]
+    | InstrumentKeys[][]
+    | undefined = useMemo(() => {
+    if (noteState && possibleInstrumentFingerings)
+      return possibleInstrumentFingerings[noteState.staffPosition];
+  }, [possibleInstrumentFingerings, noteState]);
+
+  const currentFingeringNote = useMemo(() => {
+    if (noteState && currentInstrumentRange) {
+      const newState = currentInstrumentRange.find(
+        ({ name, staffPosition }) => staffPosition == noteState.staffPosition
+      );
+
+      if (newState) {
+        if (typeof newState.name === "string") return newState;
+        newState.name.sort((stringA, stringB) => {
+          const hasAccidental = (string: string) => {
+            if (string.includes("♯") || string.includes("♭")) return true;
+            return false;
+          };
+
+          if (hasAccidental(stringA) && !hasAccidental(stringB)) {
+            return 1;
+          }
+          if (!hasAccidental(stringA) && hasAccidental(stringB)) {
+            return -1;
+          }
+          return 0;
+        });
+        return newState;
+      }
+    }
+  }, [noteState, currentInstrumentRange]);
+
+  useEffect(() => {
+    if (noteState) {
+      const fingeringIsCorrect =
+        possibleInstrumentFingerings[noteState.staffPosition] === activeKeys;
+
+      if (fingeringIsCorrect) {
         const index = Object.values(possibleInstrumentFingerings).findIndex(
           (fingering) => {
             if (typeof fingering[0] === "string") {
@@ -170,45 +187,16 @@ export const SingleReedFingeringChart = ({
             );
           }
         );
-
-        if (index > -1) return index;
+        if (index > -1 && currentInstrumentRange)
+          setNoteState(currentInstrumentRange[index]);
       }
-      const index = Object.values(possibleInstrumentFingerings).findIndex(
-        (fingering) => fingering.length === 0
-      );
-      if (index > -1) return index;
     }
-  }, [activeKeys, possibleInstrumentFingerings]);
-
-  const currentFingeringKeys:
-    | InstrumentKeys[]
-    | InstrumentKeys[][]
-    | undefined = useMemo(() => {
-    if (fingeringIndex && possibleInstrumentFingerings)
-      return Object.values(possibleInstrumentFingerings)[fingeringIndex];
-  }, [possibleInstrumentFingerings, fingeringIndex]);
-
-  const currentFingeringNote = useMemo(() => {
-    if (fingeringIndex && currentInstrumentRange) {
-      const newState = currentInstrumentRange[fingeringIndex];
-      if (typeof newState.name === "string") return newState;
-      newState.name.sort((stringA, stringB) => {
-        const hasAccidental = (string: string) => {
-          if (string.includes("♯") || string.includes("♭")) return true;
-          return false;
-        };
-
-        if (hasAccidental(stringA) && !hasAccidental(stringB)) {
-          return 1;
-        }
-        if (!hasAccidental(stringA) && hasAccidental(stringB)) {
-          return -1;
-        }
-        return 0;
-      });
-      return newState;
-    }
-  }, [fingeringIndex, currentInstrumentRange]);
+  }, [
+    activeKeys,
+    currentInstrumentRange,
+    noteState,
+    possibleInstrumentFingerings,
+  ]);
 
   useEffect(() => {
     if (ref) {
@@ -226,15 +214,7 @@ export const SingleReedFingeringChart = ({
         .setY(20)
         .setGroupStyle({ strokeStyle: "#000" });
 
-      const currentFingeringRegex = (() => {
-        if (currentFingeringNote) {
-          const regex = match(currentFingeringNote);
-          if (regex) {
-            const [_, note, modifier, octave] = regex;
-            return { note, modifier, octave };
-          }
-        }
-      })();
+      const currentFingeringRegex = getRegex(currentFingeringNote);
 
       const currentStaveNote = currentFingeringRegex
         ? [
@@ -264,15 +244,7 @@ export const SingleReedFingeringChart = ({
       }
 
       // retrieve string from nextNote state to use
-      const nextNoteRegex = (() => {
-        if (nextNote) {
-          const regex = match(nextNote);
-          if (regex) {
-            const [_, note, modifier, octave] = regex;
-            return { note, modifier, octave };
-          }
-        }
-      })();
+      const nextNoteRegex = getRegex(nextNote);
 
       //note displayed on hover
       const nextStaveNote = (() => {
@@ -359,6 +331,7 @@ export const SingleReedFingeringChart = ({
     Stave,
     currentFingeringNote,
     currentInstrument,
+    currentInstrumentClef,
     currentInstrumentRange,
     draggingNote,
     nextNote,
@@ -368,7 +341,7 @@ export const SingleReedFingeringChart = ({
   //disables button if there are no alternate fingerings
   const disabled = (buttonType: string) => {
     if (!currentFingeringNote) return true;
-    if (currentFingeringNote && fingeringIndex && currentFingeringKeys) {
+    if (currentFingeringNote && currentFingeringKeys) {
       if (currentFingeringKeys.some((item) => typeof item === "string"))
         return true;
 
@@ -443,17 +416,19 @@ export const SingleReedFingeringChart = ({
                 }}
                 onClick={() => {
                   if (nextNote && possibleInstrumentFingerings) {
+                    setNoteState(nextNote);
                     changeNote(nextNote);
                   }
                 }}
                 onPointerLeave={() => {
-                  setNextNote(null);
+                  setNextNote(undefined);
                 }}
               ></div>
             </div>
             <div className="h-[15%]">
               <h2 className="w-full p-4 text-[40px] font-serif text-center">
                 {displayNote()}
+                {JSON.stringify(noteState)}
               </h2>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { Instrument, InstrumentKeys, KeyGroup } from "./types";
+import { Instrument, InstrumentKeys, KeyGroup, Note } from "./types";
 
 export const checkArray = (
   array: InstrumentKeys[],
@@ -21,3 +21,25 @@ export const checkNestedArray = (
 };
 
 export const createUniqueKey = (a: string, b: number | string) => (a += b);
+
+//converts constant into a useable string
+export const match = (note: Note | undefined) => {
+  const regex = /([A-G])(♭|♯)?(\d)/;
+  if (note) {
+    if (typeof note.name === "string") {
+      return note.name.match(regex);
+    }
+    return note.name[0].match(regex);
+  }
+};
+
+//gets regex from note string
+export const getRegex = (note: Note | undefined) => {
+  if (note) {
+    const regex = match(note);
+    if (regex) {
+      const [_, note, modifier, octave] = regex;
+      return { note, modifier, octave };
+    }
+  }
+};

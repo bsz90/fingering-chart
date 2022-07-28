@@ -161,10 +161,6 @@ export const keyDiagrams: { [key in Instrument]: KeyGroup[] } = {
           name: FluteKeys.Bb_TRILL,
           className: "rounded-[10px] h-[24px] w-[48px] mt-[20px] mr-[275px]",
         },
-        // {
-        //   name: FluteKeys.C_SHARP_TRILL,
-        //   className: "rounded-[10px] h-[48px] w-[24px]",
-        // },
         {
           name: FluteKeys.D_TRILL,
           className: "rounded-[10px] h-[24px] w-[48px] mt-[73px] mr-[275px]",

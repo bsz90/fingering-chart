@@ -25,14 +25,13 @@ export const InstrumentKey = ({
           if (prev)
             return [...prev.filter((activeKey) => activeKey !== newKey)];
         });
+        return;
       }
       setToggleKeyOn(true);
       setActiveKeys((prev) => {
-        return [...activeKeys, newKey];
+        if (prev) return [...prev, newKey];
       });
     }
-    setToggleKeyOn(true);
-    setActiveKeys([newKey]);
   };
 
   const handlePointerEnter = (newKey: InstrumentKeys) => {
