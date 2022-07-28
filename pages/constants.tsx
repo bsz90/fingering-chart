@@ -1,10 +1,15 @@
+import { InstrumentKeyGroup } from "./InstrumentKeyGroup";
 import {
   Clef,
+  FluteKeyGroup,
   FluteKeys,
+  InstrumentKeys,
   InstrumentName,
+  KeyGroup,
   Note,
   Notes,
   Position,
+  SaxophoneKeyGroup,
   SaxophoneKeys,
   Section,
 } from "./types";
@@ -20,387 +25,6 @@ export const categories = [
           highestNote: Notes.F6,
         },
         activeKeys: [],
-        keyGroups: [
-          {
-            group: "Left Thumb Keys",
-            section: Section.TOP,
-            position: Position.LEFT,
-            keys: [
-              {
-                name: SaxophoneKeys.OCTAVE,
-                className: "rounded-[10px] h-[62px] w-[24px] mb-[200px]",
-              },
-            ],
-          },
-          {
-            group: "Left Hand Main Keys",
-            section: Section.TOP,
-            position: Position.CENTER,
-            keys: [
-              {
-                name: SaxophoneKeys.FRONT_F,
-                className: "rounded-[50%] h-[24px] w-[24px] mb-[10px]",
-              },
-              {
-                name: SaxophoneKeys.LEFT_FIRST_FINGER,
-                className: "rounded-[50%] h-[62px] w-[62px] mb-[10px]",
-              },
-              {
-                name: SaxophoneKeys.BIS,
-                className: "rounded-[50%] h-[24px] w-[24px] mb-[10px]",
-              },
-              {
-                name: SaxophoneKeys.LEFT_SECOND_FINGER,
-                className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
-              },
-              {
-                name: SaxophoneKeys.LEFT_THIRD_FINGER,
-                className: "rounded-[50%] h-[62px] w-[62px] mb-[50px]",
-              },
-            ],
-          },
-          {
-            group: "Left Hand Palm Keys",
-            section: Section.TOP,
-            position: Position.RIGHT,
-            keys: [
-              {
-                name: SaxophoneKeys.Eb_PALM,
-                className: "rounded-[10px] h-[62px] w-[24px] mb-[-31px]",
-              },
-              {
-                name: SaxophoneKeys.D_PALM,
-                className:
-                  "rounded-[10px] h-[62px] w-[24px] mb-[-31px] ml-[48px]",
-              },
-              {
-                name: SaxophoneKeys.F_PALM,
-                className: "rounded-[10px] h-[62px] w-[24px] mb-[125px]",
-              },
-            ],
-          },
-          {
-            group: "Left Pinky Keys",
-            section: Section.BOTTOM,
-            position: Position.RIGHT,
-            keys: [
-              {
-                name: SaxophoneKeys.G_SHARP,
-                className: "rounded-[10px] h-[24px] w-[48px] mt-[-32px]",
-              },
-              {
-                name: SaxophoneKeys.LOW_B,
-                className: "rounded-[7px] h-[24px] w-[24px] mt-[0px] ml-[24px]",
-              },
-              {
-                name: SaxophoneKeys.LOW_C_SHARP,
-                className:
-                  "rounded-[7px] h-[24px] w-[24px] mt-[-24px] ml-[-24px]",
-              },
-              {
-                name: SaxophoneKeys.LOW_Bb,
-                className: "rounded-[10px] h-[24px] w-[48px] mt-[0px]",
-              },
-            ],
-          },
-          {
-            group: "Right Hand Main Keys",
-            section: Section.BOTTOM,
-            position: Position.CENTER,
-            keys: [
-              {
-                name: SaxophoneKeys.RIGHT_FIRST_FINGER,
-                className: "rounded-[50%] h-[62px] w-[62px] mt-[50px]",
-              },
-              {
-                name: SaxophoneKeys.RIGHT_SECOND_FINGER,
-                className: "rounded-[50%] h-[62px] w-[62px] mt-[30px]",
-              },
-              {
-                name: SaxophoneKeys.RIGHT_THIRD_FINGER,
-                className: "rounded-[50%] h-[62px] w-[62px] mt-[30px]",
-              },
-            ],
-          },
-          {
-            group: "Right Hand Side Keys",
-            section: Section.BOTTOM,
-            position: Position.LEFT,
-            keys: [
-              {
-                name: SaxophoneKeys.E_SIDE,
-                className: "rounded-[10px] h-[48px] w-[24px] mt-[-40px]",
-              },
-              {
-                name: SaxophoneKeys.C_SIDE,
-                className: "rounded-[10px] h-[48px] w-[24px]",
-              },
-              {
-                name: SaxophoneKeys.Bb_SIDE,
-                className: "rounded-[10px] h-[48px] w-[24px]",
-              },
-              {
-                name: SaxophoneKeys.HIGH_F_SHARP,
-                className:
-                  "rounded-[10px] h-[24px] w-[48px] mt-[15px] ml-[48px]",
-              },
-              {
-                name: SaxophoneKeys.ALT_F,
-                className:
-                  "rounded-[10px] h-[24px] w-[48px] mt-[66px] ml-[48px]",
-              },
-              {
-                name: SaxophoneKeys.LOW_Eb,
-                className:
-                  "rounded-tl-[50px] rounded-tr-[50px] rounded-bl-[15px] rounded-br-[15px] h-[25px] w-[40px] mt-[38px]",
-              },
-              {
-                name: SaxophoneKeys.LOW_C,
-                className:
-                  "rounded-bl-[50px] rounded-br-[50px] rounded-tl-[15px] rounded-tr-[15px] h-[25px] w-[40px] mt-[1px]",
-              },
-            ],
-          },
-        ],
-        fingerings: {
-          [Notes.Bb3]: [
-            SaxophoneKeys.LEFT_FIRST_FINGER,
-            SaxophoneKeys.LEFT_SECOND_FINGER,
-            SaxophoneKeys.LEFT_THIRD_FINGER,
-            SaxophoneKeys.RIGHT_FIRST_FINGER,
-            SaxophoneKeys.RIGHT_SECOND_FINGER,
-            SaxophoneKeys.RIGHT_THIRD_FINGER,
-            SaxophoneKeys.LOW_C,
-            SaxophoneKeys.LOW_Bb,
-          ],
-          [Notes.B3]: [
-            SaxophoneKeys.LEFT_FIRST_FINGER,
-            SaxophoneKeys.LEFT_SECOND_FINGER,
-            SaxophoneKeys.LEFT_THIRD_FINGER,
-            SaxophoneKeys.RIGHT_FIRST_FINGER,
-            SaxophoneKeys.RIGHT_SECOND_FINGER,
-            SaxophoneKeys.RIGHT_THIRD_FINGER,
-            SaxophoneKeys.LOW_C,
-            SaxophoneKeys.LOW_B,
-          ],
-          [Notes.C4]: [
-            SaxophoneKeys.LEFT_FIRST_FINGER,
-            SaxophoneKeys.LEFT_SECOND_FINGER,
-            SaxophoneKeys.LEFT_THIRD_FINGER,
-            SaxophoneKeys.RIGHT_FIRST_FINGER,
-            SaxophoneKeys.RIGHT_SECOND_FINGER,
-            SaxophoneKeys.RIGHT_THIRD_FINGER,
-            SaxophoneKeys.LOW_C,
-          ],
-          [Notes.Db4]: [
-            SaxophoneKeys.LEFT_FIRST_FINGER,
-            SaxophoneKeys.LEFT_SECOND_FINGER,
-            SaxophoneKeys.LEFT_THIRD_FINGER,
-            SaxophoneKeys.RIGHT_FIRST_FINGER,
-            SaxophoneKeys.RIGHT_SECOND_FINGER,
-            SaxophoneKeys.RIGHT_THIRD_FINGER,
-            SaxophoneKeys.LOW_C,
-            SaxophoneKeys.LOW_C_SHARP,
-          ],
-          [Notes.D4]: [
-            SaxophoneKeys.LEFT_FIRST_FINGER,
-            SaxophoneKeys.LEFT_SECOND_FINGER,
-            SaxophoneKeys.LEFT_THIRD_FINGER,
-            SaxophoneKeys.RIGHT_FIRST_FINGER,
-            SaxophoneKeys.RIGHT_SECOND_FINGER,
-            SaxophoneKeys.RIGHT_THIRD_FINGER,
-          ],
-          [Notes.Eb4]: [
-            SaxophoneKeys.LEFT_FIRST_FINGER,
-            SaxophoneKeys.LEFT_SECOND_FINGER,
-            SaxophoneKeys.LEFT_THIRD_FINGER,
-            SaxophoneKeys.RIGHT_FIRST_FINGER,
-            SaxophoneKeys.RIGHT_SECOND_FINGER,
-            SaxophoneKeys.RIGHT_THIRD_FINGER,
-            SaxophoneKeys.LOW_Eb,
-          ],
-          [Notes.E4]: [
-            SaxophoneKeys.LEFT_FIRST_FINGER,
-            SaxophoneKeys.LEFT_SECOND_FINGER,
-            SaxophoneKeys.LEFT_THIRD_FINGER,
-            SaxophoneKeys.RIGHT_FIRST_FINGER,
-            SaxophoneKeys.RIGHT_SECOND_FINGER,
-          ],
-          [Notes.F4]: [
-            SaxophoneKeys.LEFT_FIRST_FINGER,
-            SaxophoneKeys.LEFT_SECOND_FINGER,
-            SaxophoneKeys.LEFT_THIRD_FINGER,
-            SaxophoneKeys.RIGHT_FIRST_FINGER,
-          ],
-          [Notes.Gb4]: [
-            [
-              SaxophoneKeys.LEFT_FIRST_FINGER,
-              SaxophoneKeys.LEFT_SECOND_FINGER,
-              SaxophoneKeys.LEFT_THIRD_FINGER,
-              SaxophoneKeys.RIGHT_SECOND_FINGER,
-            ],
-            [
-              SaxophoneKeys.LEFT_FIRST_FINGER,
-              SaxophoneKeys.LEFT_SECOND_FINGER,
-              SaxophoneKeys.LEFT_THIRD_FINGER,
-              SaxophoneKeys.RIGHT_FIRST_FINGER,
-              SaxophoneKeys.ALT_F,
-            ],
-          ],
-          [Notes.G4]: [
-            SaxophoneKeys.LEFT_FIRST_FINGER,
-            SaxophoneKeys.LEFT_SECOND_FINGER,
-            SaxophoneKeys.LEFT_THIRD_FINGER,
-          ],
-          [Notes.Ab4]: [
-            SaxophoneKeys.LEFT_FIRST_FINGER,
-            SaxophoneKeys.LEFT_SECOND_FINGER,
-            SaxophoneKeys.LEFT_THIRD_FINGER,
-            SaxophoneKeys.G_SHARP,
-          ],
-          [Notes.A4]: [
-            SaxophoneKeys.LEFT_FIRST_FINGER,
-            SaxophoneKeys.LEFT_SECOND_FINGER,
-          ],
-          [Notes.Bb4]: [
-            [
-              SaxophoneKeys.LEFT_FIRST_FINGER,
-              SaxophoneKeys.LEFT_SECOND_FINGER,
-              SaxophoneKeys.Bb_SIDE,
-            ],
-            [SaxophoneKeys.LEFT_FIRST_FINGER, SaxophoneKeys.BIS],
-          ],
-          [Notes.B4]: [SaxophoneKeys.LEFT_FIRST_FINGER],
-          [Notes.C5]: [
-            [SaxophoneKeys.LEFT_SECOND_FINGER],
-            [SaxophoneKeys.LEFT_FIRST_FINGER, SaxophoneKeys.C_SIDE],
-          ],
-          [Notes.Db5]: [],
-          [Notes.D5]: [
-            SaxophoneKeys.OCTAVE,
-            SaxophoneKeys.LEFT_FIRST_FINGER,
-            SaxophoneKeys.LEFT_SECOND_FINGER,
-            SaxophoneKeys.LEFT_THIRD_FINGER,
-            SaxophoneKeys.RIGHT_FIRST_FINGER,
-            SaxophoneKeys.RIGHT_SECOND_FINGER,
-            SaxophoneKeys.RIGHT_THIRD_FINGER,
-          ],
-          [Notes.Eb5]: [
-            SaxophoneKeys.OCTAVE,
-            SaxophoneKeys.LEFT_FIRST_FINGER,
-            SaxophoneKeys.LEFT_SECOND_FINGER,
-            SaxophoneKeys.LEFT_THIRD_FINGER,
-            SaxophoneKeys.RIGHT_FIRST_FINGER,
-            SaxophoneKeys.RIGHT_SECOND_FINGER,
-            SaxophoneKeys.RIGHT_THIRD_FINGER,
-            SaxophoneKeys.LOW_Eb,
-          ],
-          [Notes.E5]: [
-            SaxophoneKeys.OCTAVE,
-            SaxophoneKeys.LEFT_FIRST_FINGER,
-            SaxophoneKeys.LEFT_SECOND_FINGER,
-            SaxophoneKeys.LEFT_THIRD_FINGER,
-            SaxophoneKeys.RIGHT_FIRST_FINGER,
-            SaxophoneKeys.RIGHT_SECOND_FINGER,
-          ],
-          [Notes.F5]: [
-            SaxophoneKeys.OCTAVE,
-            SaxophoneKeys.LEFT_FIRST_FINGER,
-            SaxophoneKeys.LEFT_SECOND_FINGER,
-            SaxophoneKeys.LEFT_THIRD_FINGER,
-            SaxophoneKeys.RIGHT_FIRST_FINGER,
-          ],
-          [Notes.Gb5]: [
-            [
-              SaxophoneKeys.OCTAVE,
-              SaxophoneKeys.LEFT_FIRST_FINGER,
-              SaxophoneKeys.LEFT_SECOND_FINGER,
-              SaxophoneKeys.LEFT_THIRD_FINGER,
-              SaxophoneKeys.RIGHT_SECOND_FINGER,
-            ],
-            [
-              SaxophoneKeys.OCTAVE,
-              SaxophoneKeys.LEFT_FIRST_FINGER,
-              SaxophoneKeys.LEFT_SECOND_FINGER,
-              SaxophoneKeys.LEFT_THIRD_FINGER,
-              SaxophoneKeys.RIGHT_FIRST_FINGER,
-              SaxophoneKeys.ALT_F,
-            ],
-          ],
-          [Notes.G5]: [
-            SaxophoneKeys.OCTAVE,
-            SaxophoneKeys.LEFT_FIRST_FINGER,
-            SaxophoneKeys.LEFT_SECOND_FINGER,
-            SaxophoneKeys.LEFT_THIRD_FINGER,
-          ],
-          [Notes.Ab5]: [
-            SaxophoneKeys.OCTAVE,
-            SaxophoneKeys.LEFT_FIRST_FINGER,
-            SaxophoneKeys.LEFT_SECOND_FINGER,
-            SaxophoneKeys.LEFT_THIRD_FINGER,
-            SaxophoneKeys.G_SHARP,
-          ],
-          [Notes.A5]: [
-            SaxophoneKeys.OCTAVE,
-            SaxophoneKeys.LEFT_FIRST_FINGER,
-            SaxophoneKeys.LEFT_SECOND_FINGER,
-          ],
-          [Notes.Bb5]: [
-            [
-              SaxophoneKeys.OCTAVE,
-              SaxophoneKeys.LEFT_FIRST_FINGER,
-              SaxophoneKeys.LEFT_SECOND_FINGER,
-              SaxophoneKeys.Bb_SIDE,
-            ],
-            [
-              SaxophoneKeys.OCTAVE,
-              SaxophoneKeys.LEFT_FIRST_FINGER,
-              SaxophoneKeys.RIGHT_FIRST_FINGER,
-            ],
-            [
-              SaxophoneKeys.OCTAVE,
-              SaxophoneKeys.LEFT_FIRST_FINGER,
-              SaxophoneKeys.BIS,
-            ],
-          ],
-          [Notes.B5]: [SaxophoneKeys.OCTAVE, SaxophoneKeys.LEFT_FIRST_FINGER],
-          [Notes.C6]: [
-            [SaxophoneKeys.OCTAVE, SaxophoneKeys.LEFT_SECOND_FINGER],
-            [
-              SaxophoneKeys.OCTAVE,
-              SaxophoneKeys.LEFT_FIRST_FINGER,
-              SaxophoneKeys.C_SIDE,
-            ],
-          ],
-          [Notes.Db6]: [SaxophoneKeys.OCTAVE],
-          [Notes.D6]: [SaxophoneKeys.OCTAVE, SaxophoneKeys.D_PALM],
-          [Notes.Eb6]: [
-            SaxophoneKeys.OCTAVE,
-            SaxophoneKeys.D_PALM,
-            SaxophoneKeys.Eb_PALM,
-          ],
-          [Notes.E6]: [
-            SaxophoneKeys.OCTAVE,
-            SaxophoneKeys.D_PALM,
-            SaxophoneKeys.Eb_PALM,
-            SaxophoneKeys.E_SIDE,
-          ],
-          [Notes.F6]: [
-            [
-              SaxophoneKeys.OCTAVE,
-              SaxophoneKeys.D_PALM,
-              SaxophoneKeys.Eb_PALM,
-              SaxophoneKeys.F_PALM,
-              SaxophoneKeys.E_SIDE,
-            ],
-            [
-              SaxophoneKeys.FRONT_F,
-              SaxophoneKeys.OCTAVE,
-              SaxophoneKeys.LEFT_SECOND_FINGER,
-            ],
-          ],
-        },
-
         clef: Clef.TREBLE,
       },
       {
@@ -410,450 +34,965 @@ export const categories = [
           highestNote: Notes.C7,
         },
         activeKeys: [],
-        keyGroups: [
-          {
-            group: "Left Thumb Keys",
-            section: Section.TOP,
-            position: Position.LEFT,
-            keys: [
-              {
-                name: FluteKeys.THUMB_Bb,
-                className: "rounded-[10px] h-[62px] w-[24px] mb-[200px]",
-              },
-              {
-                name: FluteKeys.THUMB_B,
-                className: "rounded-[10px] h-[62px] w-[24px] mb-[200px]",
-              },
-            ],
-          },
-          {
-            group: "Left Hand Main Keys",
-            section: Section.TOP,
-            position: Position.CENTER,
-            keys: [
-              {
-                name: FluteKeys.LEFT_FIRST_FINGER,
-                className: "rounded-[50%] h-[62px] w-[62px] mb-[10px]",
-              },
-              {
-                name: FluteKeys.LEFT_SECOND_FINGER,
-                className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
-              },
-              {
-                name: FluteKeys.LEFT_THIRD_FINGER,
-                className: "rounded-[50%] h-[62px] w-[62px] mb-[50px]",
-              },
-            ],
-          },
-          {
-            group: "Left Pinky Keys",
-            section: Section.TOP,
-            position: Position.RIGHT,
-            keys: [
-              {
-                name: FluteKeys.G_SHARP,
-                className: "rounded-[10px] h-[24px] w-[48px] mt-[-32px]",
-              },
-            ],
-          },
-          {
-            group: "Right Hand Main Keys",
-            section: Section.BOTTOM,
-            position: Position.CENTER,
-            keys: [
-              {
-                name: FluteKeys.RIGHT_FIRST_FINGER,
-                className: "rounded-[50%] h-[62px] w-[62px] mt-[50px]",
-              },
-              {
-                name: FluteKeys.RIGHT_SECOND_FINGER,
-                className: "rounded-[50%] h-[62px] w-[62px] mt-[30px]",
-              },
-              {
-                name: FluteKeys.RIGHT_THIRD_FINGER,
-                className: "rounded-[50%] h-[62px] w-[62px] mt-[30px]",
-              },
-            ],
-          },
-          {
-            group: "Right Hand Trill Keys",
-            section: Section.BOTTOM,
-            position: Position.LEFT,
-            keys: [
-              {
-                name: FluteKeys.Bb_TRILL,
-                className: "rounded-[10px] h-[48px] w-[24px] mt-[-40px]",
-              },
-              {
-                name: FluteKeys.C_SHARP_TRILL,
-                className: "rounded-[10px] h-[48px] w-[24px]",
-              },
-              {
-                name: FluteKeys.D_TRILL,
-                className: "rounded-[10px] h-[48px] w-[24px]",
-              },
-              {
-                name: FluteKeys.D_SHARP_TRILL,
-                className:
-                  "rounded-[10px] h-[24px] w-[48px] mt-[15px] ml-[48px]",
-              },
-            ],
-          },
-          {
-            group: "Right Hand Pinky Keys",
-            section: Section.BOTTOM,
-            position: Position.RIGHT,
-            keys: [
-              {
-                name: FluteKeys.Eb,
-                className: "rounded-[10px] h-[48px] w-[24px] mt-[-40px]",
-              },
-              {
-                name: FluteKeys.LOW_C_SHARP,
-                className: "rounded-[10px] h-[48px] w-[24px]",
-              },
-              {
-                name: FluteKeys.LOW_C,
-                className: "rounded-[10px] h-[48px] w-[24px]",
-              },
-              {
-                name: FluteKeys.LOW_B,
-                className:
-                  "rounded-[10px] h-[24px] w-[48px] mt-[15px] ml-[48px]",
-              },
-            ],
-          },
-        ],
-        fingerings: {
-          [Notes.C4]: [
-            [
-              FluteKeys.THUMB_B,
-              FluteKeys.LEFT_FIRST_FINGER,
-              FluteKeys.LEFT_SECOND_FINGER,
-              FluteKeys.LEFT_THIRD_FINGER,
-              FluteKeys.RIGHT_FIRST_FINGER,
-              FluteKeys.RIGHT_SECOND_FINGER,
-              FluteKeys.RIGHT_THIRD_FINGER,
-              FluteKeys.LOW_C_SHARP,
-              FluteKeys.LOW_C,
-            ],
-          ],
-          [Notes.Db4]: [
-            [
-              FluteKeys.THUMB_B,
-              FluteKeys.LEFT_FIRST_FINGER,
-              FluteKeys.LEFT_SECOND_FINGER,
-              FluteKeys.LEFT_THIRD_FINGER,
-              FluteKeys.RIGHT_FIRST_FINGER,
-              FluteKeys.RIGHT_SECOND_FINGER,
-              FluteKeys.RIGHT_THIRD_FINGER,
-              FluteKeys.LOW_C_SHARP,
-            ],
-          ],
-          [Notes.D4]: [
-            [
-              FluteKeys.THUMB_B,
-              FluteKeys.LEFT_FIRST_FINGER,
-              FluteKeys.LEFT_SECOND_FINGER,
-              FluteKeys.LEFT_THIRD_FINGER,
-              FluteKeys.RIGHT_FIRST_FINGER,
-              FluteKeys.RIGHT_SECOND_FINGER,
-              FluteKeys.RIGHT_THIRD_FINGER,
-            ],
-          ],
-          [Notes.Eb4]: [
-            [
-              FluteKeys.THUMB_B,
-              FluteKeys.LEFT_FIRST_FINGER,
-              FluteKeys.LEFT_SECOND_FINGER,
-              FluteKeys.LEFT_THIRD_FINGER,
-              FluteKeys.RIGHT_FIRST_FINGER,
-              FluteKeys.RIGHT_SECOND_FINGER,
-              FluteKeys.RIGHT_THIRD_FINGER,
-              FluteKeys.Eb,
-            ],
-          ],
-          [Notes.E4]: [
-            [
-              FluteKeys.THUMB_B,
-              FluteKeys.LEFT_FIRST_FINGER,
-              FluteKeys.LEFT_SECOND_FINGER,
-              FluteKeys.LEFT_THIRD_FINGER,
-              FluteKeys.RIGHT_FIRST_FINGER,
-              FluteKeys.RIGHT_SECOND_FINGER,
-              FluteKeys.Eb,
-            ],
-          ],
-          [Notes.F4]: [
-            [
-              FluteKeys.THUMB_B,
-              FluteKeys.LEFT_FIRST_FINGER,
-              FluteKeys.LEFT_SECOND_FINGER,
-              FluteKeys.LEFT_THIRD_FINGER,
-              FluteKeys.RIGHT_FIRST_FINGER,
-              FluteKeys.Eb,
-            ],
-          ],
-          [Notes.Gb4]: [
-            [
-              FluteKeys.THUMB_B,
-              FluteKeys.LEFT_FIRST_FINGER,
-              FluteKeys.LEFT_SECOND_FINGER,
-              FluteKeys.LEFT_THIRD_FINGER,
-              FluteKeys.RIGHT_SECOND_FINGER,
-              FluteKeys.Eb,
-            ],
-            [
-              FluteKeys.THUMB_B,
-              FluteKeys.LEFT_FIRST_FINGER,
-              FluteKeys.LEFT_SECOND_FINGER,
-              FluteKeys.LEFT_THIRD_FINGER,
-              FluteKeys.RIGHT_THIRD_FINGER,
-              FluteKeys.Eb,
-            ],
-          ],
-          [Notes.G4]: [
-            [
-              FluteKeys.THUMB_B,
-              FluteKeys.LEFT_FIRST_FINGER,
-              FluteKeys.LEFT_SECOND_FINGER,
-              FluteKeys.LEFT_THIRD_FINGER,
-              FluteKeys.Eb,
-            ],
-          ],
-          [Notes.Ab4]: [
-            [
-              FluteKeys.THUMB_B,
-              FluteKeys.LEFT_FIRST_FINGER,
-              FluteKeys.LEFT_SECOND_FINGER,
-              FluteKeys.LEFT_THIRD_FINGER,
-              FluteKeys.G_SHARP,
-              FluteKeys.Eb,
-            ],
-          ],
-          [Notes.A4]: [
-            [
-              FluteKeys.THUMB_B,
-              FluteKeys.LEFT_FIRST_FINGER,
-              FluteKeys.LEFT_SECOND_FINGER,
-              FluteKeys.Eb,
-            ],
-          ],
-          [Notes.Bb4]: [
-            [
-              FluteKeys.THUMB_B,
-              FluteKeys.LEFT_FIRST_FINGER,
-              FluteKeys.RIGHT_FIRST_FINGER,
-              FluteKeys.Eb,
-            ],
-
-            [FluteKeys.THUMB_Bb, FluteKeys.LEFT_FIRST_FINGER, FluteKeys.Eb],
-
-            [
-              FluteKeys.THUMB_B,
-              FluteKeys.LEFT_FIRST_FINGER,
-              FluteKeys.Bb_TRILL,
-              FluteKeys.Eb,
-            ],
-          ],
-          [Notes.B4]: [
-            FluteKeys.THUMB_B,
-            FluteKeys.LEFT_FIRST_FINGER,
-            FluteKeys.Eb,
-          ],
-          [Notes.C5]: [[FluteKeys.LEFT_FIRST_FINGER, FluteKeys.Eb]],
-          [Notes.Db5]: [FluteKeys.Eb],
-          [Notes.D5]: [
-            FluteKeys.THUMB_B,
-            FluteKeys.LEFT_SECOND_FINGER,
-            FluteKeys.LEFT_THIRD_FINGER,
-            FluteKeys.RIGHT_FIRST_FINGER,
-            FluteKeys.RIGHT_SECOND_FINGER,
-            FluteKeys.RIGHT_THIRD_FINGER,
-          ],
-          [Notes.Eb5]: [
-            FluteKeys.THUMB_B,
-            FluteKeys.LEFT_SECOND_FINGER,
-            FluteKeys.LEFT_THIRD_FINGER,
-            FluteKeys.RIGHT_FIRST_FINGER,
-            FluteKeys.RIGHT_SECOND_FINGER,
-            FluteKeys.RIGHT_THIRD_FINGER,
-            FluteKeys.Eb,
-          ],
-          [Notes.E5]: [
-            FluteKeys.THUMB_B,
-            FluteKeys.LEFT_FIRST_FINGER,
-            FluteKeys.LEFT_SECOND_FINGER,
-            FluteKeys.LEFT_THIRD_FINGER,
-            FluteKeys.RIGHT_FIRST_FINGER,
-            FluteKeys.RIGHT_SECOND_FINGER,
-            FluteKeys.Eb,
-          ],
-          [Notes.F5]: [
-            FluteKeys.THUMB_B,
-            FluteKeys.LEFT_FIRST_FINGER,
-            FluteKeys.LEFT_SECOND_FINGER,
-            FluteKeys.LEFT_THIRD_FINGER,
-            FluteKeys.RIGHT_FIRST_FINGER,
-            FluteKeys.Eb,
-          ],
-          [Notes.Gb5]: [
-            [
-              FluteKeys.THUMB_B,
-              FluteKeys.LEFT_FIRST_FINGER,
-              FluteKeys.LEFT_SECOND_FINGER,
-              FluteKeys.LEFT_THIRD_FINGER,
-              FluteKeys.RIGHT_THIRD_FINGER,
-              FluteKeys.Eb,
-            ],
-            [
-              FluteKeys.THUMB_B,
-              FluteKeys.LEFT_FIRST_FINGER,
-              FluteKeys.LEFT_SECOND_FINGER,
-              FluteKeys.LEFT_THIRD_FINGER,
-              FluteKeys.RIGHT_SECOND_FINGER,
-              FluteKeys.Eb,
-            ],
-          ],
-          [Notes.G5]: [
-            FluteKeys.THUMB_B,
-            FluteKeys.LEFT_FIRST_FINGER,
-            FluteKeys.LEFT_SECOND_FINGER,
-            FluteKeys.LEFT_THIRD_FINGER,
-            FluteKeys.Eb,
-          ],
-          [Notes.Ab5]: [
-            FluteKeys.THUMB_B,
-            FluteKeys.LEFT_FIRST_FINGER,
-            FluteKeys.LEFT_SECOND_FINGER,
-            FluteKeys.LEFT_THIRD_FINGER,
-            FluteKeys.G_SHARP,
-            FluteKeys.Eb,
-          ],
-          [Notes.A5]: [
-            FluteKeys.THUMB_B,
-            FluteKeys.LEFT_FIRST_FINGER,
-            FluteKeys.LEFT_SECOND_FINGER,
-            FluteKeys.Eb,
-          ],
-          [Notes.Bb5]: [
-            [
-              FluteKeys.THUMB_B,
-              FluteKeys.LEFT_FIRST_FINGER,
-              FluteKeys.RIGHT_FIRST_FINGER,
-              FluteKeys.Eb,
-            ],
-            [FluteKeys.THUMB_Bb, FluteKeys.LEFT_FIRST_FINGER, FluteKeys.Eb],
-            [
-              FluteKeys.THUMB_B,
-              FluteKeys.LEFT_FIRST_FINGER,
-              FluteKeys.Bb_TRILL,
-              FluteKeys.Eb,
-            ],
-          ],
-          [Notes.B5]: [
-            FluteKeys.THUMB_B,
-            FluteKeys.LEFT_FIRST_FINGER,
-            FluteKeys.Eb,
-          ],
-          [Notes.C6]: [FluteKeys.LEFT_FIRST_FINGER, FluteKeys.Eb],
-          [Notes.Db6]: [FluteKeys.Eb],
-          [Notes.D6]: [
-            FluteKeys.THUMB_B,
-            FluteKeys.LEFT_SECOND_FINGER,
-            FluteKeys.LEFT_THIRD_FINGER,
-            FluteKeys.G_SHARP,
-            FluteKeys.RIGHT_FIRST_FINGER,
-            FluteKeys.RIGHT_SECOND_FINGER,
-            FluteKeys.RIGHT_THIRD_FINGER,
-            FluteKeys.Eb,
-          ],
-          [Notes.Eb6]: [
-            FluteKeys.THUMB_B,
-            FluteKeys.LEFT_FIRST_FINGER,
-            FluteKeys.LEFT_SECOND_FINGER,
-            FluteKeys.LEFT_THIRD_FINGER,
-            FluteKeys.G_SHARP,
-            FluteKeys.RIGHT_FIRST_FINGER,
-            FluteKeys.RIGHT_SECOND_FINGER,
-            FluteKeys.RIGHT_THIRD_FINGER,
-            FluteKeys.Eb,
-          ],
-          [Notes.E6]: [
-            FluteKeys.THUMB_B,
-            FluteKeys.LEFT_FIRST_FINGER,
-            FluteKeys.LEFT_SECOND_FINGER,
-            FluteKeys.RIGHT_FIRST_FINGER,
-            FluteKeys.RIGHT_SECOND_FINGER,
-            FluteKeys.Eb,
-          ],
-          [Notes.F6]: [
-            FluteKeys.THUMB_B,
-            FluteKeys.LEFT_FIRST_FINGER,
-            FluteKeys.LEFT_THIRD_FINGER,
-            FluteKeys.RIGHT_FIRST_FINGER,
-            FluteKeys.Eb,
-          ],
-          [Notes.Gb6]: [
-            FluteKeys.THUMB_B,
-            FluteKeys.LEFT_FIRST_FINGER,
-            FluteKeys.LEFT_THIRD_FINGER,
-            FluteKeys.RIGHT_THIRD_FINGER,
-            FluteKeys.Eb,
-          ],
-          [Notes.G6]: [
-            FluteKeys.LEFT_FIRST_FINGER,
-            FluteKeys.LEFT_SECOND_FINGER,
-            FluteKeys.LEFT_THIRD_FINGER,
-            FluteKeys.Eb,
-          ],
-          [Notes.Ab6]: [
-            FluteKeys.LEFT_SECOND_FINGER,
-            FluteKeys.LEFT_THIRD_FINGER,
-            FluteKeys.G_SHARP,
-            FluteKeys.Eb,
-          ],
-          [Notes.A6]: [
-            FluteKeys.THUMB_B,
-            FluteKeys.LEFT_SECOND_FINGER,
-            FluteKeys.RIGHT_FIRST_FINGER,
-            FluteKeys.Eb,
-          ],
-          [Notes.Bb6]: [
-            FluteKeys.THUMB_B,
-            FluteKeys.RIGHT_FIRST_FINGER,
-            FluteKeys.D_TRILL,
-          ],
-          [Notes.B6]: [
-            FluteKeys.THUMB_B,
-            FluteKeys.LEFT_FIRST_FINGER,
-            FluteKeys.LEFT_THIRD_FINGER,
-            FluteKeys.D_SHARP_TRILL,
-          ],
-          [Notes.C7]: [
-            [
-              FluteKeys.LEFT_FIRST_FINGER,
-              FluteKeys.LEFT_SECOND_FINGER,
-              FluteKeys.LEFT_THIRD_FINGER,
-              FluteKeys.G_SHARP,
-              FluteKeys.RIGHT_FIRST_FINGER,
-              FluteKeys.LOW_B,
-            ],
-            [
-              FluteKeys.LEFT_FIRST_FINGER,
-              FluteKeys.LEFT_SECOND_FINGER,
-              FluteKeys.LEFT_THIRD_FINGER,
-              FluteKeys.G_SHARP,
-              FluteKeys.RIGHT_FIRST_FINGER,
-            ],
-          ],
-        },
 
         clef: Clef.TREBLE,
       },
     ],
   },
 ];
+
+export const keyDiagrams: { [key in InstrumentName]: KeyGroup[] } = {
+  [InstrumentName.FLUTE]: [
+    {
+      groupName: FluteKeyGroup.LEFT_THUMB,
+      section: Section.TOP,
+      position: Position.LEFT,
+      keys: [
+        {
+          name: FluteKeys.THUMB_Bb,
+          className: "rounded-[10px] h-[62px] w-[24px] mb-[200px]",
+        },
+        {
+          name: FluteKeys.THUMB_B,
+          className: "rounded-[10px] h-[62px] w-[24px] mb-[200px]",
+        },
+      ],
+    },
+    {
+      groupName: FluteKeyGroup.LEFT_HAND_MAIN,
+      section: Section.TOP,
+      position: Position.CENTER,
+      keys: [
+        {
+          name: FluteKeys.LEFT_FIRST_FINGER,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[10px]",
+        },
+        {
+          name: FluteKeys.LEFT_SECOND_FINGER,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
+        },
+        {
+          name: FluteKeys.LEFT_THIRD_FINGER,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[50px]",
+        },
+      ],
+    },
+    {
+      groupName: FluteKeyGroup.LEFT_HAND_PINKY,
+      section: Section.TOP,
+      position: Position.RIGHT,
+      keys: [
+        {
+          name: FluteKeys.G_SHARP,
+          className: "rounded-[10px] h-[24px] w-[48px] mt-[-32px]",
+        },
+      ],
+    },
+    {
+      groupName: FluteKeyGroup.RIGHT_HAND_MAIN,
+      section: Section.BOTTOM,
+      position: Position.CENTER,
+      keys: [
+        {
+          name: FluteKeys.RIGHT_FIRST_FINGER,
+          className: "rounded-[50%] h-[62px] w-[62px] mt-[50px]",
+        },
+        {
+          name: FluteKeys.RIGHT_SECOND_FINGER,
+          className: "rounded-[50%] h-[62px] w-[62px] mt-[30px]",
+        },
+        {
+          name: FluteKeys.RIGHT_THIRD_FINGER,
+          className: "rounded-[50%] h-[62px] w-[62px] mt-[30px]",
+        },
+      ],
+    },
+    {
+      groupName: FluteKeyGroup.RIGHT_HAND_TRILL,
+      section: Section.BOTTOM,
+      position: Position.LEFT,
+      keys: [
+        {
+          name: FluteKeys.Bb_TRILL,
+          className: "rounded-[10px] h-[48px] w-[24px] mt-[-40px]",
+        },
+        {
+          name: FluteKeys.C_SHARP_TRILL,
+          className: "rounded-[10px] h-[48px] w-[24px]",
+        },
+        {
+          name: FluteKeys.D_TRILL,
+          className: "rounded-[10px] h-[48px] w-[24px]",
+        },
+        {
+          name: FluteKeys.D_SHARP_TRILL,
+          className: "rounded-[10px] h-[24px] w-[48px] mt-[15px] ml-[48px]",
+        },
+      ],
+    },
+    {
+      groupName: FluteKeyGroup.RIGHT_HAND_PINKY,
+      section: Section.BOTTOM,
+      position: Position.RIGHT,
+      keys: [
+        {
+          name: FluteKeys.Eb,
+          className: "rounded-[10px] h-[48px] w-[24px] mt-[-40px]",
+        },
+        {
+          name: FluteKeys.LOW_C_SHARP,
+          className: "rounded-[10px] h-[48px] w-[24px]",
+        },
+        {
+          name: FluteKeys.LOW_C,
+          className: "rounded-[10px] h-[48px] w-[24px]",
+        },
+        {
+          name: FluteKeys.LOW_B,
+          className: "rounded-[10px] h-[24px] w-[48px] mt-[15px] ml-[48px]",
+        },
+      ],
+    },
+  ],
+  [InstrumentName.OBOE]: [
+    {
+      groupName: FluteKeyGroup.LEFT_THUMB,
+      section: Section.TOP,
+      position: Position.LEFT,
+      keys: [
+        {
+          name: FluteKeys.THUMB_Bb,
+          className: "rounded-[10px] h-[62px] w-[24px] mb-[200px]",
+        },
+        {
+          name: FluteKeys.THUMB_B,
+          className: "rounded-[10px] h-[62px] w-[24px] mb-[200px]",
+        },
+      ],
+    },
+  ],
+  [InstrumentName.CLARINET]: [
+    {
+      groupName: FluteKeyGroup.LEFT_THUMB,
+      section: Section.TOP,
+      position: Position.LEFT,
+      keys: [
+        {
+          name: FluteKeys.THUMB_Bb,
+          className: "rounded-[10px] h-[62px] w-[24px] mb-[200px]",
+        },
+        {
+          name: FluteKeys.THUMB_B,
+          className: "rounded-[10px] h-[62px] w-[24px] mb-[200px]",
+        },
+      ],
+    },
+  ],
+  [InstrumentName.SAXOPHONE]: [
+    {
+      groupName: SaxophoneKeyGroup.LEFT_THUMB,
+      section: Section.TOP,
+      position: Position.LEFT,
+      keys: [
+        {
+          name: SaxophoneKeys.OCTAVE,
+          className: "rounded-[10px] h-[62px] w-[24px] mb-[200px]",
+        },
+      ],
+    },
+    {
+      groupName: SaxophoneKeyGroup.LEFT_HAND_MAIN,
+      section: Section.TOP,
+      position: Position.CENTER,
+      keys: [
+        {
+          name: SaxophoneKeys.FRONT_F,
+          className: "rounded-[50%] h-[24px] w-[24px] mb-[10px]",
+        },
+        {
+          name: SaxophoneKeys.LEFT_FIRST_FINGER,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[10px]",
+        },
+        {
+          name: SaxophoneKeys.BIS,
+          className: "rounded-[50%] h-[24px] w-[24px] mb-[10px]",
+        },
+        {
+          name: SaxophoneKeys.LEFT_SECOND_FINGER,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
+        },
+        {
+          name: SaxophoneKeys.LEFT_THIRD_FINGER,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[50px]",
+        },
+      ],
+    },
+    {
+      groupName: SaxophoneKeyGroup.LEFT_HAND_PALM,
+      section: Section.TOP,
+      position: Position.RIGHT,
+      keys: [
+        {
+          name: SaxophoneKeys.Eb_PALM,
+          className: "rounded-[10px] h-[62px] w-[24px] mb-[-31px]",
+        },
+        {
+          name: SaxophoneKeys.D_PALM,
+          className: "rounded-[10px] h-[62px] w-[24px] mb-[-31px] ml-[48px]",
+        },
+        {
+          name: SaxophoneKeys.F_PALM,
+          className: "rounded-[10px] h-[62px] w-[24px] mb-[125px]",
+        },
+      ],
+    },
+    {
+      groupName: SaxophoneKeyGroup.LEFT_HAND_PINKY,
+      section: Section.BOTTOM,
+      position: Position.RIGHT,
+      keys: [
+        {
+          name: SaxophoneKeys.G_SHARP,
+          className: "rounded-[10px] h-[24px] w-[48px] mt-[-32px]",
+        },
+        {
+          name: SaxophoneKeys.LOW_B,
+          className: "rounded-[7px] h-[24px] w-[24px] mt-[0px] ml-[24px]",
+        },
+        {
+          name: SaxophoneKeys.LOW_C_SHARP,
+          className: "rounded-[7px] h-[24px] w-[24px] mt-[-24px] ml-[-24px]",
+        },
+        {
+          name: SaxophoneKeys.LOW_Bb,
+          className: "rounded-[10px] h-[24px] w-[48px] mt-[0px]",
+        },
+      ],
+    },
+    {
+      groupName: SaxophoneKeyGroup.RIGHT_HAND_MAIN,
+      section: Section.BOTTOM,
+      position: Position.CENTER,
+      keys: [
+        {
+          name: SaxophoneKeys.RIGHT_FIRST_FINGER,
+          className: "rounded-[50%] h-[62px] w-[62px] mt-[50px]",
+        },
+        {
+          name: SaxophoneKeys.RIGHT_SECOND_FINGER,
+          className: "rounded-[50%] h-[62px] w-[62px] mt-[30px]",
+        },
+        {
+          name: SaxophoneKeys.RIGHT_THIRD_FINGER,
+          className: "rounded-[50%] h-[62px] w-[62px] mt-[30px]",
+        },
+      ],
+    },
+    {
+      groupName: SaxophoneKeyGroup.RIGHT_HAND_SIDE,
+      section: Section.BOTTOM,
+      position: Position.LEFT,
+      keys: [
+        {
+          name: SaxophoneKeys.E_SIDE,
+          className: "rounded-[10px] h-[48px] w-[24px] mt-[-40px]",
+        },
+        {
+          name: SaxophoneKeys.C_SIDE,
+          className: "rounded-[10px] h-[48px] w-[24px]",
+        },
+        {
+          name: SaxophoneKeys.Bb_SIDE,
+          className: "rounded-[10px] h-[48px] w-[24px]",
+        },
+        {
+          name: SaxophoneKeys.HIGH_F_SHARP,
+          className: "rounded-[10px] h-[24px] w-[48px] mt-[15px] ml-[48px]",
+        },
+        {
+          name: SaxophoneKeys.ALT_F,
+          className: "rounded-[10px] h-[24px] w-[48px] mt-[66px] ml-[48px]",
+        },
+        {
+          name: SaxophoneKeys.LOW_Eb,
+          className:
+            "rounded-tl-[50px] rounded-tr-[50px] rounded-bl-[15px] rounded-br-[15px] h-[25px] w-[40px] mt-[38px]",
+        },
+        {
+          name: SaxophoneKeys.LOW_C,
+          className:
+            "rounded-bl-[50px] rounded-br-[50px] rounded-tl-[15px] rounded-tr-[15px] h-[25px] w-[40px] mt-[1px]",
+        },
+      ],
+    },
+  ],
+
+  [InstrumentName.BASSOON]: [
+    {
+      groupName: FluteKeyGroup.RIGHT_HAND_MAIN,
+      section: Section.BOTTOM,
+      position: Position.CENTER,
+      keys: [
+        {
+          name: FluteKeys.RIGHT_FIRST_FINGER,
+          className: "rounded-[50%] h-[62px] w-[62px] mt-[50px]",
+        },
+        {
+          name: FluteKeys.RIGHT_SECOND_FINGER,
+          className: "rounded-[50%] h-[62px] w-[62px] mt-[30px]",
+        },
+        {
+          name: FluteKeys.RIGHT_THIRD_FINGER,
+          className: "rounded-[50%] h-[62px] w-[62px] mt-[30px]",
+        },
+      ],
+    },
+  ],
+  [InstrumentName.TRUMPET]: [
+    {
+      groupName: FluteKeyGroup.RIGHT_HAND_MAIN,
+      section: Section.BOTTOM,
+      position: Position.CENTER,
+      keys: [
+        {
+          name: FluteKeys.RIGHT_FIRST_FINGER,
+          className: "rounded-[50%] h-[62px] w-[62px] mt-[50px]",
+        },
+        {
+          name: FluteKeys.RIGHT_SECOND_FINGER,
+          className: "rounded-[50%] h-[62px] w-[62px] mt-[30px]",
+        },
+        {
+          name: FluteKeys.RIGHT_THIRD_FINGER,
+          className: "rounded-[50%] h-[62px] w-[62px] mt-[30px]",
+        },
+      ],
+    },
+  ],
+  [InstrumentName.FRENCH_HORN]: [
+    {
+      groupName: FluteKeyGroup.LEFT_THUMB,
+      section: Section.TOP,
+      position: Position.LEFT,
+      keys: [
+        {
+          name: FluteKeys.THUMB_Bb,
+          className: "rounded-[10px] h-[62px] w-[24px] mb-[200px]",
+        },
+        {
+          name: FluteKeys.THUMB_B,
+          className: "rounded-[10px] h-[62px] w-[24px] mb-[200px]",
+        },
+      ],
+    },
+  ],
+  [InstrumentName.TROMBONE]: [
+    {
+      groupName: FluteKeyGroup.RIGHT_HAND_MAIN,
+      section: Section.BOTTOM,
+      position: Position.CENTER,
+      keys: [
+        {
+          name: FluteKeys.RIGHT_FIRST_FINGER,
+          className: "rounded-[50%] h-[62px] w-[62px] mt-[50px]",
+        },
+        {
+          name: FluteKeys.RIGHT_SECOND_FINGER,
+          className: "rounded-[50%] h-[62px] w-[62px] mt-[30px]",
+        },
+        {
+          name: FluteKeys.RIGHT_THIRD_FINGER,
+          className: "rounded-[50%] h-[62px] w-[62px] mt-[30px]",
+        },
+      ],
+    },
+  ],
+  [InstrumentName.TUBA]: [
+    {
+      groupName: FluteKeyGroup.RIGHT_HAND_MAIN,
+      section: Section.BOTTOM,
+      position: Position.CENTER,
+      keys: [
+        {
+          name: FluteKeys.RIGHT_FIRST_FINGER,
+          className: "rounded-[50%] h-[62px] w-[62px] mt-[50px]",
+        },
+        {
+          name: FluteKeys.RIGHT_SECOND_FINGER,
+          className: "rounded-[50%] h-[62px] w-[62px] mt-[30px]",
+        },
+        {
+          name: FluteKeys.RIGHT_THIRD_FINGER,
+          className: "rounded-[50%] h-[62px] w-[62px] mt-[30px]",
+        },
+      ],
+    },
+  ],
+};
+
+export const fingerings = {
+  [InstrumentName.FLUTE]: {
+    [Notes.C4]: [
+      [
+        FluteKeys.THUMB_B,
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.RIGHT_FIRST_FINGER,
+        FluteKeys.RIGHT_SECOND_FINGER,
+        FluteKeys.RIGHT_THIRD_FINGER,
+        FluteKeys.LOW_C_SHARP,
+        FluteKeys.LOW_C,
+      ],
+    ],
+    [Notes.Db4]: [
+      [
+        FluteKeys.THUMB_B,
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.RIGHT_FIRST_FINGER,
+        FluteKeys.RIGHT_SECOND_FINGER,
+        FluteKeys.RIGHT_THIRD_FINGER,
+        FluteKeys.LOW_C_SHARP,
+      ],
+    ],
+    [Notes.D4]: [
+      [
+        FluteKeys.THUMB_B,
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.RIGHT_FIRST_FINGER,
+        FluteKeys.RIGHT_SECOND_FINGER,
+        FluteKeys.RIGHT_THIRD_FINGER,
+      ],
+    ],
+    [Notes.Eb4]: [
+      [
+        FluteKeys.THUMB_B,
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.RIGHT_FIRST_FINGER,
+        FluteKeys.RIGHT_SECOND_FINGER,
+        FluteKeys.RIGHT_THIRD_FINGER,
+        FluteKeys.Eb,
+      ],
+    ],
+    [Notes.E4]: [
+      [
+        FluteKeys.THUMB_B,
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.RIGHT_FIRST_FINGER,
+        FluteKeys.RIGHT_SECOND_FINGER,
+        FluteKeys.Eb,
+      ],
+    ],
+    [Notes.F4]: [
+      [
+        FluteKeys.THUMB_B,
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.RIGHT_FIRST_FINGER,
+        FluteKeys.Eb,
+      ],
+    ],
+    [Notes.Gb4]: [
+      [
+        FluteKeys.THUMB_B,
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.RIGHT_SECOND_FINGER,
+        FluteKeys.Eb,
+      ],
+      [
+        FluteKeys.THUMB_B,
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.RIGHT_THIRD_FINGER,
+        FluteKeys.Eb,
+      ],
+    ],
+    [Notes.G4]: [
+      [
+        FluteKeys.THUMB_B,
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.Eb,
+      ],
+    ],
+    [Notes.Ab4]: [
+      [
+        FluteKeys.THUMB_B,
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.G_SHARP,
+        FluteKeys.Eb,
+      ],
+    ],
+    [Notes.A4]: [
+      [
+        FluteKeys.THUMB_B,
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.Eb,
+      ],
+    ],
+    [Notes.Bb4]: [
+      [
+        FluteKeys.THUMB_B,
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.RIGHT_FIRST_FINGER,
+        FluteKeys.Eb,
+      ],
+
+      [FluteKeys.THUMB_Bb, FluteKeys.LEFT_FIRST_FINGER, FluteKeys.Eb],
+
+      [
+        FluteKeys.THUMB_B,
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.Bb_TRILL,
+        FluteKeys.Eb,
+      ],
+    ],
+    [Notes.B4]: [FluteKeys.THUMB_B, FluteKeys.LEFT_FIRST_FINGER, FluteKeys.Eb],
+    [Notes.C5]: [[FluteKeys.LEFT_FIRST_FINGER, FluteKeys.Eb]],
+    [Notes.Db5]: [FluteKeys.Eb],
+    [Notes.D5]: [
+      FluteKeys.THUMB_B,
+      FluteKeys.LEFT_SECOND_FINGER,
+      FluteKeys.LEFT_THIRD_FINGER,
+      FluteKeys.RIGHT_FIRST_FINGER,
+      FluteKeys.RIGHT_SECOND_FINGER,
+      FluteKeys.RIGHT_THIRD_FINGER,
+    ],
+    [Notes.Eb5]: [
+      FluteKeys.THUMB_B,
+      FluteKeys.LEFT_SECOND_FINGER,
+      FluteKeys.LEFT_THIRD_FINGER,
+      FluteKeys.RIGHT_FIRST_FINGER,
+      FluteKeys.RIGHT_SECOND_FINGER,
+      FluteKeys.RIGHT_THIRD_FINGER,
+      FluteKeys.Eb,
+    ],
+    [Notes.E5]: [
+      FluteKeys.THUMB_B,
+      FluteKeys.LEFT_FIRST_FINGER,
+      FluteKeys.LEFT_SECOND_FINGER,
+      FluteKeys.LEFT_THIRD_FINGER,
+      FluteKeys.RIGHT_FIRST_FINGER,
+      FluteKeys.RIGHT_SECOND_FINGER,
+      FluteKeys.Eb,
+    ],
+    [Notes.F5]: [
+      FluteKeys.THUMB_B,
+      FluteKeys.LEFT_FIRST_FINGER,
+      FluteKeys.LEFT_SECOND_FINGER,
+      FluteKeys.LEFT_THIRD_FINGER,
+      FluteKeys.RIGHT_FIRST_FINGER,
+      FluteKeys.Eb,
+    ],
+    [Notes.Gb5]: [
+      [
+        FluteKeys.THUMB_B,
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.RIGHT_THIRD_FINGER,
+        FluteKeys.Eb,
+      ],
+      [
+        FluteKeys.THUMB_B,
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.RIGHT_SECOND_FINGER,
+        FluteKeys.Eb,
+      ],
+    ],
+    [Notes.G5]: [
+      FluteKeys.THUMB_B,
+      FluteKeys.LEFT_FIRST_FINGER,
+      FluteKeys.LEFT_SECOND_FINGER,
+      FluteKeys.LEFT_THIRD_FINGER,
+      FluteKeys.Eb,
+    ],
+    [Notes.Ab5]: [
+      FluteKeys.THUMB_B,
+      FluteKeys.LEFT_FIRST_FINGER,
+      FluteKeys.LEFT_SECOND_FINGER,
+      FluteKeys.LEFT_THIRD_FINGER,
+      FluteKeys.G_SHARP,
+      FluteKeys.Eb,
+    ],
+    [Notes.A5]: [
+      FluteKeys.THUMB_B,
+      FluteKeys.LEFT_FIRST_FINGER,
+      FluteKeys.LEFT_SECOND_FINGER,
+      FluteKeys.Eb,
+    ],
+    [Notes.Bb5]: [
+      [
+        FluteKeys.THUMB_B,
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.RIGHT_FIRST_FINGER,
+        FluteKeys.Eb,
+      ],
+      [FluteKeys.THUMB_Bb, FluteKeys.LEFT_FIRST_FINGER, FluteKeys.Eb],
+      [
+        FluteKeys.THUMB_B,
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.Bb_TRILL,
+        FluteKeys.Eb,
+      ],
+    ],
+    [Notes.B5]: [FluteKeys.THUMB_B, FluteKeys.LEFT_FIRST_FINGER, FluteKeys.Eb],
+    [Notes.C6]: [FluteKeys.LEFT_FIRST_FINGER, FluteKeys.Eb],
+    [Notes.Db6]: [FluteKeys.Eb],
+    [Notes.D6]: [
+      FluteKeys.THUMB_B,
+      FluteKeys.LEFT_SECOND_FINGER,
+      FluteKeys.LEFT_THIRD_FINGER,
+      FluteKeys.G_SHARP,
+      FluteKeys.RIGHT_FIRST_FINGER,
+      FluteKeys.RIGHT_SECOND_FINGER,
+      FluteKeys.RIGHT_THIRD_FINGER,
+      FluteKeys.Eb,
+    ],
+    [Notes.Eb6]: [
+      FluteKeys.THUMB_B,
+      FluteKeys.LEFT_FIRST_FINGER,
+      FluteKeys.LEFT_SECOND_FINGER,
+      FluteKeys.LEFT_THIRD_FINGER,
+      FluteKeys.G_SHARP,
+      FluteKeys.RIGHT_FIRST_FINGER,
+      FluteKeys.RIGHT_SECOND_FINGER,
+      FluteKeys.RIGHT_THIRD_FINGER,
+      FluteKeys.Eb,
+    ],
+    [Notes.E6]: [
+      FluteKeys.THUMB_B,
+      FluteKeys.LEFT_FIRST_FINGER,
+      FluteKeys.LEFT_SECOND_FINGER,
+      FluteKeys.RIGHT_FIRST_FINGER,
+      FluteKeys.RIGHT_SECOND_FINGER,
+      FluteKeys.Eb,
+    ],
+    [Notes.F6]: [
+      FluteKeys.THUMB_B,
+      FluteKeys.LEFT_FIRST_FINGER,
+      FluteKeys.LEFT_THIRD_FINGER,
+      FluteKeys.RIGHT_FIRST_FINGER,
+      FluteKeys.Eb,
+    ],
+    [Notes.Gb6]: [
+      FluteKeys.THUMB_B,
+      FluteKeys.LEFT_FIRST_FINGER,
+      FluteKeys.LEFT_THIRD_FINGER,
+      FluteKeys.RIGHT_THIRD_FINGER,
+      FluteKeys.Eb,
+    ],
+    [Notes.G6]: [
+      FluteKeys.LEFT_FIRST_FINGER,
+      FluteKeys.LEFT_SECOND_FINGER,
+      FluteKeys.LEFT_THIRD_FINGER,
+      FluteKeys.Eb,
+    ],
+    [Notes.Ab6]: [
+      FluteKeys.LEFT_SECOND_FINGER,
+      FluteKeys.LEFT_THIRD_FINGER,
+      FluteKeys.G_SHARP,
+      FluteKeys.Eb,
+    ],
+    [Notes.A6]: [
+      FluteKeys.THUMB_B,
+      FluteKeys.LEFT_SECOND_FINGER,
+      FluteKeys.RIGHT_FIRST_FINGER,
+      FluteKeys.Eb,
+    ],
+    [Notes.Bb6]: [
+      FluteKeys.THUMB_B,
+      FluteKeys.RIGHT_FIRST_FINGER,
+      FluteKeys.D_TRILL,
+    ],
+    [Notes.B6]: [
+      FluteKeys.THUMB_B,
+      FluteKeys.LEFT_FIRST_FINGER,
+      FluteKeys.LEFT_THIRD_FINGER,
+      FluteKeys.D_SHARP_TRILL,
+    ],
+    [Notes.C7]: [
+      [
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.G_SHARP,
+        FluteKeys.RIGHT_FIRST_FINGER,
+        FluteKeys.LOW_B,
+      ],
+      [
+        FluteKeys.LEFT_FIRST_FINGER,
+        FluteKeys.LEFT_SECOND_FINGER,
+        FluteKeys.LEFT_THIRD_FINGER,
+        FluteKeys.G_SHARP,
+        FluteKeys.RIGHT_FIRST_FINGER,
+      ],
+    ],
+  },
+  // // [InstrumentName.OBOE]: {},
+  // [InstrumentName.CLARINET]: {},
+  [InstrumentName.SAXOPHONE]: {
+    [Notes.Bb3]: [
+      SaxophoneKeys.LEFT_FIRST_FINGER,
+      SaxophoneKeys.LEFT_SECOND_FINGER,
+      SaxophoneKeys.LEFT_THIRD_FINGER,
+      SaxophoneKeys.RIGHT_FIRST_FINGER,
+      SaxophoneKeys.RIGHT_SECOND_FINGER,
+      SaxophoneKeys.RIGHT_THIRD_FINGER,
+      SaxophoneKeys.LOW_C,
+      SaxophoneKeys.LOW_Bb,
+    ],
+    [Notes.B3]: [
+      SaxophoneKeys.LEFT_FIRST_FINGER,
+      SaxophoneKeys.LEFT_SECOND_FINGER,
+      SaxophoneKeys.LEFT_THIRD_FINGER,
+      SaxophoneKeys.RIGHT_FIRST_FINGER,
+      SaxophoneKeys.RIGHT_SECOND_FINGER,
+      SaxophoneKeys.RIGHT_THIRD_FINGER,
+      SaxophoneKeys.LOW_C,
+      SaxophoneKeys.LOW_B,
+    ],
+    [Notes.C4]: [
+      SaxophoneKeys.LEFT_FIRST_FINGER,
+      SaxophoneKeys.LEFT_SECOND_FINGER,
+      SaxophoneKeys.LEFT_THIRD_FINGER,
+      SaxophoneKeys.RIGHT_FIRST_FINGER,
+      SaxophoneKeys.RIGHT_SECOND_FINGER,
+      SaxophoneKeys.RIGHT_THIRD_FINGER,
+      SaxophoneKeys.LOW_C,
+    ],
+    [Notes.Db4]: [
+      SaxophoneKeys.LEFT_FIRST_FINGER,
+      SaxophoneKeys.LEFT_SECOND_FINGER,
+      SaxophoneKeys.LEFT_THIRD_FINGER,
+      SaxophoneKeys.RIGHT_FIRST_FINGER,
+      SaxophoneKeys.RIGHT_SECOND_FINGER,
+      SaxophoneKeys.RIGHT_THIRD_FINGER,
+      SaxophoneKeys.LOW_C,
+      SaxophoneKeys.LOW_C_SHARP,
+    ],
+    [Notes.D4]: [
+      SaxophoneKeys.LEFT_FIRST_FINGER,
+      SaxophoneKeys.LEFT_SECOND_FINGER,
+      SaxophoneKeys.LEFT_THIRD_FINGER,
+      SaxophoneKeys.RIGHT_FIRST_FINGER,
+      SaxophoneKeys.RIGHT_SECOND_FINGER,
+      SaxophoneKeys.RIGHT_THIRD_FINGER,
+    ],
+    [Notes.Eb4]: [
+      SaxophoneKeys.LEFT_FIRST_FINGER,
+      SaxophoneKeys.LEFT_SECOND_FINGER,
+      SaxophoneKeys.LEFT_THIRD_FINGER,
+      SaxophoneKeys.RIGHT_FIRST_FINGER,
+      SaxophoneKeys.RIGHT_SECOND_FINGER,
+      SaxophoneKeys.RIGHT_THIRD_FINGER,
+      SaxophoneKeys.LOW_Eb,
+    ],
+    [Notes.E4]: [
+      SaxophoneKeys.LEFT_FIRST_FINGER,
+      SaxophoneKeys.LEFT_SECOND_FINGER,
+      SaxophoneKeys.LEFT_THIRD_FINGER,
+      SaxophoneKeys.RIGHT_FIRST_FINGER,
+      SaxophoneKeys.RIGHT_SECOND_FINGER,
+    ],
+    [Notes.F4]: [
+      SaxophoneKeys.LEFT_FIRST_FINGER,
+      SaxophoneKeys.LEFT_SECOND_FINGER,
+      SaxophoneKeys.LEFT_THIRD_FINGER,
+      SaxophoneKeys.RIGHT_FIRST_FINGER,
+    ],
+    [Notes.Gb4]: [
+      [
+        SaxophoneKeys.LEFT_FIRST_FINGER,
+        SaxophoneKeys.LEFT_SECOND_FINGER,
+        SaxophoneKeys.LEFT_THIRD_FINGER,
+        SaxophoneKeys.RIGHT_SECOND_FINGER,
+      ],
+      [
+        SaxophoneKeys.LEFT_FIRST_FINGER,
+        SaxophoneKeys.LEFT_SECOND_FINGER,
+        SaxophoneKeys.LEFT_THIRD_FINGER,
+        SaxophoneKeys.RIGHT_FIRST_FINGER,
+        SaxophoneKeys.ALT_F,
+      ],
+    ],
+    [Notes.G4]: [
+      SaxophoneKeys.LEFT_FIRST_FINGER,
+      SaxophoneKeys.LEFT_SECOND_FINGER,
+      SaxophoneKeys.LEFT_THIRD_FINGER,
+    ],
+    [Notes.Ab4]: [
+      SaxophoneKeys.LEFT_FIRST_FINGER,
+      SaxophoneKeys.LEFT_SECOND_FINGER,
+      SaxophoneKeys.LEFT_THIRD_FINGER,
+      SaxophoneKeys.G_SHARP,
+    ],
+    [Notes.A4]: [
+      SaxophoneKeys.LEFT_FIRST_FINGER,
+      SaxophoneKeys.LEFT_SECOND_FINGER,
+    ],
+    [Notes.Bb4]: [
+      [
+        SaxophoneKeys.LEFT_FIRST_FINGER,
+        SaxophoneKeys.LEFT_SECOND_FINGER,
+        SaxophoneKeys.Bb_SIDE,
+      ],
+      [SaxophoneKeys.LEFT_FIRST_FINGER, SaxophoneKeys.BIS],
+    ],
+    [Notes.B4]: [SaxophoneKeys.LEFT_FIRST_FINGER],
+    [Notes.C5]: [
+      [SaxophoneKeys.LEFT_SECOND_FINGER],
+      [SaxophoneKeys.LEFT_FIRST_FINGER, SaxophoneKeys.C_SIDE],
+    ],
+    [Notes.Db5]: [],
+    [Notes.D5]: [
+      SaxophoneKeys.OCTAVE,
+      SaxophoneKeys.LEFT_FIRST_FINGER,
+      SaxophoneKeys.LEFT_SECOND_FINGER,
+      SaxophoneKeys.LEFT_THIRD_FINGER,
+      SaxophoneKeys.RIGHT_FIRST_FINGER,
+      SaxophoneKeys.RIGHT_SECOND_FINGER,
+      SaxophoneKeys.RIGHT_THIRD_FINGER,
+    ],
+    [Notes.Eb5]: [
+      SaxophoneKeys.OCTAVE,
+      SaxophoneKeys.LEFT_FIRST_FINGER,
+      SaxophoneKeys.LEFT_SECOND_FINGER,
+      SaxophoneKeys.LEFT_THIRD_FINGER,
+      SaxophoneKeys.RIGHT_FIRST_FINGER,
+      SaxophoneKeys.RIGHT_SECOND_FINGER,
+      SaxophoneKeys.RIGHT_THIRD_FINGER,
+      SaxophoneKeys.LOW_Eb,
+    ],
+    [Notes.E5]: [
+      SaxophoneKeys.OCTAVE,
+      SaxophoneKeys.LEFT_FIRST_FINGER,
+      SaxophoneKeys.LEFT_SECOND_FINGER,
+      SaxophoneKeys.LEFT_THIRD_FINGER,
+      SaxophoneKeys.RIGHT_FIRST_FINGER,
+      SaxophoneKeys.RIGHT_SECOND_FINGER,
+    ],
+    [Notes.F5]: [
+      SaxophoneKeys.OCTAVE,
+      SaxophoneKeys.LEFT_FIRST_FINGER,
+      SaxophoneKeys.LEFT_SECOND_FINGER,
+      SaxophoneKeys.LEFT_THIRD_FINGER,
+      SaxophoneKeys.RIGHT_FIRST_FINGER,
+    ],
+    [Notes.Gb5]: [
+      [
+        SaxophoneKeys.OCTAVE,
+        SaxophoneKeys.LEFT_FIRST_FINGER,
+        SaxophoneKeys.LEFT_SECOND_FINGER,
+        SaxophoneKeys.LEFT_THIRD_FINGER,
+        SaxophoneKeys.RIGHT_SECOND_FINGER,
+      ],
+      [
+        SaxophoneKeys.OCTAVE,
+        SaxophoneKeys.LEFT_FIRST_FINGER,
+        SaxophoneKeys.LEFT_SECOND_FINGER,
+        SaxophoneKeys.LEFT_THIRD_FINGER,
+        SaxophoneKeys.RIGHT_FIRST_FINGER,
+        SaxophoneKeys.ALT_F,
+      ],
+    ],
+    [Notes.G5]: [
+      SaxophoneKeys.OCTAVE,
+      SaxophoneKeys.LEFT_FIRST_FINGER,
+      SaxophoneKeys.LEFT_SECOND_FINGER,
+      SaxophoneKeys.LEFT_THIRD_FINGER,
+    ],
+    [Notes.Ab5]: [
+      SaxophoneKeys.OCTAVE,
+      SaxophoneKeys.LEFT_FIRST_FINGER,
+      SaxophoneKeys.LEFT_SECOND_FINGER,
+      SaxophoneKeys.LEFT_THIRD_FINGER,
+      SaxophoneKeys.G_SHARP,
+    ],
+    [Notes.A5]: [
+      SaxophoneKeys.OCTAVE,
+      SaxophoneKeys.LEFT_FIRST_FINGER,
+      SaxophoneKeys.LEFT_SECOND_FINGER,
+    ],
+    [Notes.Bb5]: [
+      [
+        SaxophoneKeys.OCTAVE,
+        SaxophoneKeys.LEFT_FIRST_FINGER,
+        SaxophoneKeys.LEFT_SECOND_FINGER,
+        SaxophoneKeys.Bb_SIDE,
+      ],
+      [
+        SaxophoneKeys.OCTAVE,
+        SaxophoneKeys.LEFT_FIRST_FINGER,
+        SaxophoneKeys.RIGHT_FIRST_FINGER,
+      ],
+      [
+        SaxophoneKeys.OCTAVE,
+        SaxophoneKeys.LEFT_FIRST_FINGER,
+        SaxophoneKeys.BIS,
+      ],
+    ],
+    [Notes.B5]: [SaxophoneKeys.OCTAVE, SaxophoneKeys.LEFT_FIRST_FINGER],
+    [Notes.C6]: [
+      [SaxophoneKeys.OCTAVE, SaxophoneKeys.LEFT_SECOND_FINGER],
+      [
+        SaxophoneKeys.OCTAVE,
+        SaxophoneKeys.LEFT_FIRST_FINGER,
+        SaxophoneKeys.C_SIDE,
+      ],
+    ],
+    [Notes.Db6]: [SaxophoneKeys.OCTAVE],
+    [Notes.D6]: [SaxophoneKeys.OCTAVE, SaxophoneKeys.D_PALM],
+    [Notes.Eb6]: [
+      SaxophoneKeys.OCTAVE,
+      SaxophoneKeys.D_PALM,
+      SaxophoneKeys.Eb_PALM,
+    ],
+    [Notes.E6]: [
+      SaxophoneKeys.OCTAVE,
+      SaxophoneKeys.D_PALM,
+      SaxophoneKeys.Eb_PALM,
+      SaxophoneKeys.E_SIDE,
+    ],
+    [Notes.F6]: [
+      [
+        SaxophoneKeys.OCTAVE,
+        SaxophoneKeys.D_PALM,
+        SaxophoneKeys.Eb_PALM,
+        SaxophoneKeys.F_PALM,
+        SaxophoneKeys.E_SIDE,
+      ],
+      [
+        SaxophoneKeys.FRONT_F,
+        SaxophoneKeys.OCTAVE,
+        SaxophoneKeys.LEFT_SECOND_FINGER,
+      ],
+    ],
+  },
+  // [InstrumentName.BASSOON]: {},
+  // [InstrumentName.TRUMPET]: {},
+  // [InstrumentName.FRENCH_HORN]: {},
+  // [InstrumentName.TROMBONE]: {},
+  // [InstrumentName.TUBA]: {},
+};
 
 export const notes: Note[] = [
   { name: "A0", staffPosition: Notes.A0 },

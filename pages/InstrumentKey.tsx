@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { Woodwind, WoodwindKeys } from "./types";
+import { Woodwind, InstrumentKeys } from "./types";
 import * as Tooltip from "@radix-ui/react-tooltip";
 
 export const InstrumentKey = ({
@@ -10,14 +10,14 @@ export const InstrumentKey = ({
   currentInstrument,
   setCurrentInstrument,
 }: {
-  name: WoodwindKeys;
+  name: InstrumentKeys;
   className: string;
   toggleKeyOn: boolean;
   setToggleKeyOn: Dispatch<SetStateAction<boolean>>;
   currentInstrument: Woodwind;
   setCurrentInstrument: Dispatch<SetStateAction<Woodwind | undefined>>;
 }) => {
-  const handlePointerDown = (newKey: WoodwindKeys) => {
+  const handlePointerDown = (newKey: InstrumentKeys) => {
     if (currentInstrument.activeKeys.includes(newKey)) {
       setToggleKeyOn(false);
       setCurrentInstrument((prev) => {
@@ -37,7 +37,7 @@ export const InstrumentKey = ({
     });
   };
 
-  const handlePointerEnter = (newKey: WoodwindKeys) => {
+  const handlePointerEnter = (newKey: InstrumentKeys) => {
     toggleKeyOn
       ? setCurrentInstrument((prev) => {
           if (prev)

@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useImmer } from "use-immer";
 import { categories } from "./constants";
 import { NavBar } from "./NavBar";
 import { SingleReedFingeringChart } from "./SingleReedFingeringChart";
@@ -7,7 +8,7 @@ import { Woodwind } from "./types";
 
 export default function Home() {
   const [currentFamily, setCurrentFamily] = useState("woodwind");
-  const [currentInstrument, setCurrentInstrument] = useState<
+  const [currentInstrument, setCurrentInstrument] = useImmer<
     Woodwind | undefined
   >(categories[0].instruments[0]);
 

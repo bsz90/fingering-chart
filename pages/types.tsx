@@ -1,18 +1,18 @@
 export type Woodwind = {
   name: InstrumentName;
   range: { lowestNote: Notes; highestNote: Notes };
-  activeKeys: WoodwindKeys[];
-  keyGroups: KeyGroup[];
-  fingerings: Partial<Record<Notes, WoodwindKeys[] | WoodwindKeys[][]>>;
+  activeKeys: InstrumentKeys[];
+  // keyGroups: KeyGroup[];
+  // fingerings: Partial<Record<Notes, InstrumentKeys[] | InstrumentKeys[][]>>;
   clef: Clef;
 };
 
 export type KeyGroup = {
-  group: string;
+  groupName: InstrumentKeyGroup;
   section: Section;
   position: Position;
   keys: {
-    name: WoodwindKeys;
+    name: InstrumentKeys;
     className: string;
   }[];
 };
@@ -149,7 +149,7 @@ export enum InstrumentName {
   TUBA = "Tuba",
 }
 
-export type WoodwindKeys = FluteKeys | SaxophoneKeys | ClarinetKeys;
+export type InstrumentKeys = FluteKeys | SaxophoneKeys | ClarinetKeys;
 
 export enum FluteKeys {
   THUMB_Bb = "Thumb B♭",
@@ -216,4 +216,24 @@ export enum SaxophoneKeys {
   ALT_F = "Alt F",
   LOW_Eb = "Low E♭",
   LOW_C = "Low C",
+}
+
+export type InstrumentKeyGroup = FluteKeyGroup | SaxophoneKeyGroup;
+
+export enum FluteKeyGroup {
+  LEFT_THUMB,
+  LEFT_HAND_MAIN,
+  LEFT_HAND_PINKY,
+  RIGHT_HAND_MAIN,
+  RIGHT_HAND_TRILL,
+  RIGHT_HAND_PINKY,
+}
+
+export enum SaxophoneKeyGroup {
+  LEFT_THUMB,
+  LEFT_HAND_MAIN,
+  LEFT_HAND_PALM,
+  LEFT_HAND_PINKY,
+  RIGHT_HAND_MAIN,
+  RIGHT_HAND_SIDE,
 }

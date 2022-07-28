@@ -7,24 +7,10 @@ import {
   useState,
 } from "react";
 import { Accidental, Formatter, StaveNote, Vex, Voice } from "vexflow";
-import { notes } from "./constants";
+import { keyDiagrams, fingerings, notes } from "./constants";
 import { InstrumentKeyGroup } from "./InstrumentKeyGroup";
-import { Woodwind, KeyGroup, Note, WoodwindKeys } from "./types";
-
-//array comparison utils
-const checkArray = (array: WoodwindKeys[], currentInstrument: Woodwind) => {
-  return (
-    array.every((key) => currentInstrument.activeKeys.includes(key)) &&
-    array.length === currentInstrument.activeKeys.length
-  );
-};
-
-const checkNestedArray = (
-  nestedArray: WoodwindKeys[][],
-  currentInstrument: Woodwind
-) => {
-  return nestedArray.some((array) => checkArray(array, currentInstrument));
-};
+import { Woodwind, KeyGroup, Note, InstrumentKeys } from "./types";
+import { checkArray, checkNestedArray } from "./utils";
 
 //converts constant into a useable string
 const match = (currentFingering: Note) => {
@@ -80,12 +66,13 @@ export const SingleReedFingeringChart = ({
     }
     if (!buttons) setDraggingNote(false);
   };
-
   const changeNote = (nextNote: Note) => {
     setCurrentInstrument((prev) => {
       if (prev) {
         const index = nextNote.staffPosition;
-        const newFingering = prev.fingerings[index];
+        const newFingering = Object.values(possibleInstrumentFingerings!)[
+          index
+        ];
 
         if (newFingering === undefined) return { ...prev, activeKeys: [] };
 
@@ -93,7 +80,7 @@ export const SingleReedFingeringChart = ({
           return { ...prev, activeKeys: [...newFingering[0]] };
         return {
           ...prev,
-          activeKeys: [...(newFingering as WoodwindKeys[])],
+          activeKeys: [...(newFingering as InstrumentKeys[])],
         };
       }
     });
@@ -101,7 +88,7 @@ export const SingleReedFingeringChart = ({
 
   const handleButtonClick = (
     buttonType: string,
-    currentFingeringKeys: WoodwindKeys[][],
+    currentFingeringKeys: InstrumentKeys[][],
     currentInstrument: Woodwind
   ) => {
     const currentIndex = currentFingeringKeys.findIndex((array) =>
@@ -120,34 +107,74 @@ export const SingleReedFingeringChart = ({
     currentInstrument.range.highestNote + 1
   );
 
+  //memo'd values
+  const possibleInstrumentFingerings = useMemo(
+    () =>
+      Object.entries(fingerings)
+        .flatMap(([name, obj]) => {
+          if (name === currentInstrument.name) return obj;
+        })
+        .pop(),
+    [currentInstrument.name]
+  );
+
+  const currentInstrumentKeyGroups = useMemo(() => {
+    const currentKeyGroup = Object.entries(keyDiagrams)
+      .flatMap(([string, keyGroup]) => {
+        if (string === currentInstrument.name) return keyGroup;
+      })
+      .filter(Boolean);
+
+    const sortedArray: KeyGroup[][] = [[], [], []];
+
+    currentKeyGroup.forEach((arrayItem) => {
+      if (arrayItem) sortedArray[arrayItem.position].push(arrayItem);
+    });
+
+    for (let i = 0; i < sortedArray.length; i++) {
+      sortedArray[i].sort((keyGroupA, keyGroupB) => {
+        if (keyGroupA.position === keyGroupB.position) {
+          return keyGroupA.section < keyGroupB.section ? -1 : 1;
+        }
+        return keyGroupA.position < keyGroupB.position ? -1 : 1;
+      });
+    }
+    return sortedArray;
+  }, [currentInstrument.name]);
+
   //memoized value of the index of the current fingering
   const fingeringIndex = useMemo(() => {
-    if (currentInstrument.activeKeys.length === 0) {
-      const index = Object.values(currentInstrument.fingerings).findIndex(
-        (fingering) => fingering.length === 0
+    if (possibleInstrumentFingerings) {
+      if (currentInstrument.activeKeys.length === 0) {
+        const index = Object.values(possibleInstrumentFingerings).findIndex(
+          (fingering) => fingering.length === 0
+        );
+        if (index > -1) return index;
+      }
+
+      const index = Object.values(possibleInstrumentFingerings).findIndex(
+        (fingering) => {
+          if (typeof fingering[0] === "string") {
+            return checkArray(fingering as InstrumentKeys[], currentInstrument);
+          }
+          return checkNestedArray(
+            fingering as InstrumentKeys[][],
+            currentInstrument
+          );
+        }
       );
+
       if (index > -1) return index;
     }
+  }, [currentInstrument, possibleInstrumentFingerings]);
 
-    const index = Object.values(currentInstrument.fingerings).findIndex(
-      (fingering) => {
-        if (typeof fingering[0] === "string") {
-          return checkArray(fingering as WoodwindKeys[], currentInstrument);
-        }
-        return checkNestedArray(
-          fingering as WoodwindKeys[][],
-          currentInstrument
-        );
-      }
-    );
-
-    if (index > -1) return index;
-  }, [currentInstrument]);
-
-  const currentFingeringKeys = useMemo(() => {
-    if (fingeringIndex)
-      return Object.values(currentInstrument.fingerings)[fingeringIndex];
-  }, [currentInstrument.fingerings, fingeringIndex]);
+  const currentFingeringKeys:
+    | InstrumentKeys[]
+    | InstrumentKeys[][]
+    | undefined = useMemo(() => {
+    if (fingeringIndex && possibleInstrumentFingerings)
+      return Object.values(possibleInstrumentFingerings)[fingeringIndex];
+  }, [possibleInstrumentFingerings, fingeringIndex]);
 
   const currentFingeringNote = useMemo(() => {
     if (fingeringIndex) {
@@ -402,7 +429,7 @@ export const SingleReedFingeringChart = ({
                   handlePointerMove(top, clientY, buttons);
                 }}
                 onClick={() => {
-                  if (nextNote) {
+                  if (nextNote && possibleInstrumentFingerings) {
                     changeNote(nextNote);
                   }
                 }}
@@ -420,7 +447,7 @@ export const SingleReedFingeringChart = ({
         </div>
         <div className="w-96 h-[700px] flex flex-col items-center justify-start">
           <div className="w-full h-full flex items-center justify-center">
-            {sortKeyGroups(currentInstrument.keyGroups).map((keyGroup, id) => {
+            {currentInstrumentKeyGroups.map((keyGroup, id) => {
               return (
                 <InstrumentKeyGroup
                   key={id}
@@ -443,7 +470,7 @@ export const SingleReedFingeringChart = ({
               onClick={() =>
                 handleButtonClick(
                   "left",
-                  currentFingeringKeys as WoodwindKeys[][],
+                  currentFingeringKeys as InstrumentKeys[][],
                   currentInstrument
                 )
               }
@@ -458,7 +485,7 @@ export const SingleReedFingeringChart = ({
               onClick={() =>
                 handleButtonClick(
                   "right",
-                  currentFingeringKeys as WoodwindKeys[][],
+                  currentFingeringKeys as InstrumentKeys[][],
                   currentInstrument
                 )
               }
