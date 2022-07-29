@@ -47,7 +47,14 @@ export enum Position {
   RIGHT,
 }
 
-export type InstrumentKeys = FluteKeys | SaxophoneKeys | ClarinetKeys;
+export type InstrumentKeys =
+  | FluteKeys
+  | SaxophoneKeys
+  | ClarinetKeys
+  | TrumpetValves
+  | FrenchHornValves
+  | TrombonePositions
+  | TubaValves;
 
 export enum FluteKeys {
   THUMB_Bb = "Thumb B♭",
@@ -69,25 +76,31 @@ export enum FluteKeys {
   LOW_B = "Low B",
 }
 
-//needs to be done
 export enum ClarinetKeys {
   THUMB = "Thumb",
   REGISTER = "Register",
   LEFT_FIRST_FINGER = "Left First Finger",
   LEFT_SECOND_FINGER = "Left Second Finger",
   LEFT_THIRD_FINGER = "Left Third Finger",
-  G_SHARP = "G♯",
+  SIDE_G_SHARP = "Side G♯",
+  Eb_Bb_SLIVER = "E♭/B♭ Sliver",
+  A = "A",
+  E_B = "E/B",
+  F_C = "F/C",
+  F_SHARP_C_SHARP = "F♯/C♯",
+  C_SHARP_G_SHARP = "C♯/G♯",
+  RIGHT_FIRST_SIDE = "Right First Side",
+  RIGHT_SECOND_SIDE = "Right Second Side",
+  RIGHT_THIRD_SIDE = "Right Third Side",
+  RIGHT_FOURTH_SIDE = "Right Fourth Side",
   RIGHT_FIRST_FINGER = "Right First Finger",
   RIGHT_SECOND_FINGER = "Right Second Finger",
   RIGHT_THIRD_FINGER = "Right Third Finger",
-  Bb_TRILL = "B♭ Trill",
-  C_SHARP_TRILL = "C♯ Trill",
-  D_TRILL = "D Trill",
-  D_SHARP_TRILL = "D♯ Trill",
-  Eb = "E♭",
-  LOW_C_SHARP = "Low C♯",
-  LOW_C = "Low C",
-  LOW_B = "Low B",
+  B_F_SHARP_SLIVER = "B/F♯ Sliver",
+  LOW_E_B = "Low E/B",
+  LOW_F_C = "Low F/C",
+  LOW_F_SHARP_C_SHARP = "Low F♯/C♯",
+  LOW_G_SHARP_D_SHARP = "Low G♯/D♯",
 }
 
 export enum SaxophoneKeys {
@@ -116,7 +129,41 @@ export enum SaxophoneKeys {
   LOW_C = "Low C",
 }
 
-export type InstrumentKeyGroup = FluteKeyGroup | SaxophoneKeyGroup;
+export enum TrumpetValves {
+  FIRST = "First",
+  SECOND = "Second",
+  THIRD = "Third",
+}
+
+export enum FrenchHornValves {
+  FIRST = "First",
+  SECOND = "Second",
+  THIRD = "Third",
+  TRIGGER = "Trigger",
+}
+
+export enum TrombonePositions {
+  FIRST = "First",
+  SECOND = "Second",
+  THIRD = "Third",
+  FOURTH = "Fourth",
+  FIFTH = "Fifth",
+  SIXTH = "Sixth",
+  SEVENTH = "Seventh",
+  TRIGGER = "TRIGGER",
+}
+
+export enum TubaValves {
+  FIRST = "First",
+  SECOND = "Second",
+  THIRD = "Third",
+  FOURTH = "Fourth",
+}
+
+export type InstrumentKeyGroup =
+  | FluteKeyGroup
+  | SaxophoneKeyGroup
+  | ClarinetKeyGroup;
 
 export enum FluteKeyGroup {
   LEFT_THUMB,
@@ -125,6 +172,15 @@ export enum FluteKeyGroup {
   RIGHT_HAND_MAIN,
   RIGHT_HAND_TRILL,
   RIGHT_HAND_PINKY,
+}
+
+export enum ClarinetKeyGroup {
+  LEFT_THUMB,
+  LEFT_HAND_MAIN,
+  LEFT_HAND_SIDE,
+  LEFT_HAND_PINKY,
+  RIGHT_HAND_SIDE,
+  RIGHT_HAND_MAIN,
 }
 
 export enum SaxophoneKeyGroup {
