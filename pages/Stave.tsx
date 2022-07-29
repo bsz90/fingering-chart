@@ -188,16 +188,15 @@ export const Stave = ({
     const windowSize = 384;
     const pixelsBetweenNotes = 5;
     const offsetY = 70;
-    const maxNotes = 88;
+    const max = notes.length - 1;
 
     const nextNoteId = Math.min(
       Math.max(
-        Math.floor((clientY - top) / 7.5),
+        max - Math.floor((clientY - top) / 7.5),
         instrumentRanges[currentInstrument].lowestNote
       ),
       instrumentRanges[currentInstrument].highestNote
     );
-    console.log(nextNoteId);
 
     setNextNote(notes[nextNoteId]);
     if (buttons) {
