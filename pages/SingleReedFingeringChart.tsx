@@ -6,12 +6,12 @@ import {
   instrumentRanges,
   instrumentClef,
 } from "./constants";
-import { InstrumentKeyGroup } from "./InstrumentKeyGroup";
 import { Stave } from "./Stave";
 import { ToggleFingeringButtons } from "./ToggleFingeringButtons";
 import { ToggleOctaveButtons } from "./ToggleOctaveButtons";
 import { KeyGroup, Note, InstrumentKeys, Instrument, Notes } from "./types";
 import { checkIfSameFingerings } from "./utils";
+import { WoodwindKeyGroups } from "./WoodwindKeyGroups";
 
 export const SingleReedFingeringChart = ({
   currentInstrument,
@@ -174,7 +174,7 @@ export const SingleReedFingeringChart = ({
           <div className="w-full h-full flex items-center justify-center">
             {currentInstrumentKeyGroups.map((keyGroup, id) => {
               return (
-                <InstrumentKeyGroup
+                <WoodwindKeyGroups
                   key={id}
                   keyGroup={keyGroup}
                   position={id}

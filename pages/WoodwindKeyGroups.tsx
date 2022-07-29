@@ -3,7 +3,7 @@ import { InstrumentKey } from "./InstrumentKey";
 import { Instrument, InstrumentKeys, KeyGroup, Position } from "./types";
 import { createUniqueKey } from "./utils";
 
-export const InstrumentKeyGroup = ({
+export const WoodwindKeyGroups = ({
   keyGroup,
   position,
   toggleKeyOn,
@@ -45,6 +45,7 @@ export const InstrumentKeyGroup = ({
             return (
               <InstrumentKey
                 key={createUniqueKey(currentInstrument, name)}
+                currentInstrument={currentInstrument}
                 name={name}
                 className={className}
                 toggleKeyOn={toggleKeyOn}
@@ -70,6 +71,7 @@ export const InstrumentKeyGroup = ({
             return (
               <InstrumentKey
                 key={createUniqueKey(currentInstrument, name)}
+                currentInstrument={currentInstrument}
                 name={name}
                 className={className}
                 toggleKeyOn={toggleKeyOn}

@@ -1,8 +1,10 @@
 import { Dispatch, SetStateAction } from "react";
 import { Instrument, InstrumentKeys } from "./types";
 import * as Tooltip from "@radix-ui/react-tooltip";
+import { createUniqueKey } from "./utils";
 
 export const InstrumentKey = ({
+  currentInstrument,
   name,
   className,
   toggleKeyOn,
@@ -10,6 +12,7 @@ export const InstrumentKey = ({
   activeKeys,
   setActiveKeys,
 }: {
+  currentInstrument: Instrument;
   name: InstrumentKeys;
   className: string;
   toggleKeyOn: boolean;
@@ -48,7 +51,10 @@ export const InstrumentKey = ({
   };
 
   return (
-    <Tooltip.Provider key={name} delayDuration={0}>
+    <Tooltip.Provider
+      key={createUniqueKey(currentInstrument, name)}
+      delayDuration={0}
+    >
       <Tooltip.Root>
         <Tooltip.Trigger
           className={`border-4 border-slate-600 overflow-hidden drop-shadow-md ${className} ${
