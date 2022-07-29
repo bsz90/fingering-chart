@@ -81,9 +81,7 @@ export const SingleReedFingeringChart = ({
 
   const currentFingeringNote = useMemo(() => {
     if (noteState && currentInstrumentRange) {
-      const newState = currentInstrumentRange.find(
-        ({ name, staffPosition }) => staffPosition == noteState.staffPosition
-      );
+      const newState = notes[noteState.staffPosition];
 
       if (newState) {
         if (typeof newState.name === "string") return newState;
@@ -115,6 +113,8 @@ export const SingleReedFingeringChart = ({
     [activeKeys, allPossibleInstrumentFingerings]
   );
 
+  // console.log(currentFingeringsPossibleNotes);
+
   const fingeringIsCorrect = useMemo(() => {
     if (noteState && activeKeys)
       return checkIfSameFingerings(
@@ -125,21 +125,22 @@ export const SingleReedFingeringChart = ({
 
   useEffect(() => {
     if (!fingeringIsCorrect && noteState && currentFingeringsPossibleNotes) {
-      if (currentFingeringsPossibleNotes.length > 0 && currentInstrumentRange) {
-        const findClosestNote = (a: string, b: string) =>
-          Math.abs(+a - noteState.staffPosition) -
-          Math.abs(+b - noteState.staffPosition);
+      if (currentFingeringsPossibleNotes.length > 0) {
+        if (currentInstrumentRange) {
+          const findClosestNote = (a: string, b: string) =>
+            Math.abs(+a - noteState.staffPosition) -
+            Math.abs(+b - noteState.staffPosition);
 
-        const closestNote = currentFingeringsPossibleNotes.sort(([a], [b]) =>
-          findClosestNote(a, b)
-        )[0][0];
+          const closestNote = currentFingeringsPossibleNotes.sort(([a], [b]) =>
+            findClosestNote(a, b)
+          )[0][0];
 
-        const newNoteState = currentInstrumentRange.find(
-          (obj) => obj.staffPosition === +closestNote
-        );
+          const newNoteState = notes[+closestNote];
 
-        if (newNoteState) setNoteState({ ...newNoteState });
+          if (newNoteState) setNoteState({ ...newNoteState });
+        }
       }
+      // const staffPosition = +currentFingeringsPossibleNotes[0][0];
     }
   }, [
     activeKeys,
