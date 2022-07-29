@@ -1,11 +1,15 @@
 // instrument specific enums
+export type Instrument = WoodwindInstrument | BrassInstrument;
 
-export enum Instrument {
+export enum WoodwindInstrument {
   FLUTE = "Flute",
   OBOE = "Oboe",
   CLARINET = "Clarinet",
   SAXOPHONE = "Saxophone",
   BASSOON = "Bassoon",
+}
+
+export enum BrassInstrument {
   TRUMPET = "Trumpet",
   FRENCH_HORN = "French Horn",
   TROMBONE = "Trombone",

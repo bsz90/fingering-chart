@@ -2,12 +2,12 @@ import { useState } from "react";
 import { NavBar } from "./NavBar";
 import { SingleReedFingeringChart } from "./SingleReedFingeringChart";
 import { Start } from "./Start";
-import { Instrument } from "./types";
+import { Instrument, WoodwindInstrument } from "./types";
 
 export default function Home() {
   const [currentFamily, setCurrentFamily] = useState("woodwind");
   const [currentInstrument, setCurrentInstrument] = useState<Instrument>(
-    Instrument.SAXOPHONE
+    WoodwindInstrument.SAXOPHONE
   );
 
   return (
