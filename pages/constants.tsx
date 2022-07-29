@@ -762,7 +762,7 @@ export const instrumentFingerings: {
         FluteKeys.LEFT_FIRST_FINGER,
         FluteKeys.LEFT_SECOND_FINGER,
         FluteKeys.LEFT_THIRD_FINGER,
-        FluteKeys.RIGHT_SECOND_FINGER,
+        FluteKeys.RIGHT_THIRD_FINGER,
         FluteKeys.Eb,
       ],
       [
@@ -770,7 +770,7 @@ export const instrumentFingerings: {
         FluteKeys.LEFT_FIRST_FINGER,
         FluteKeys.LEFT_SECOND_FINGER,
         FluteKeys.LEFT_THIRD_FINGER,
-        FluteKeys.RIGHT_THIRD_FINGER,
+        FluteKeys.RIGHT_SECOND_FINGER,
         FluteKeys.Eb,
       ],
     ],
@@ -817,10 +817,6 @@ export const instrumentFingerings: {
       FluteKeys.THUMB_B,
       FluteKeys.LEFT_SECOND_FINGER,
       FluteKeys.LEFT_THIRD_FINGER,
-      FluteKeys.G_SHARP,
-      FluteKeys.RIGHT_FIRST_FINGER,
-      FluteKeys.RIGHT_SECOND_FINGER,
-      FluteKeys.RIGHT_THIRD_FINGER,
       FluteKeys.Eb,
     ],
     [Notes.Eb6]: [
