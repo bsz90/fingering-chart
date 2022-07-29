@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Accidental, Formatter, StaveNote, Vex, Voice } from "vexflow";
+import { instrumentRanges, notes } from "./constants";
 import { Clef, Instrument, InstrumentKeys, Note, Notes } from "./types";
 import { getRegex, sortNoteNames } from "./utils";
 
@@ -187,13 +188,18 @@ export const Stave = ({
     const windowSize = 384;
     const pixelsBetweenNotes = 5;
     const offsetY = 70;
-    const y = Math.min(
-      Math.max(Math.floor((clientY - top - offsetY) / 7.5), 0),
-      currentInstrumentRange.length
+    const maxNotes = 88;
+
+    const nextNoteId = Math.min(
+      Math.max(
+        Math.floor((clientY - top) / 7.5),
+        instrumentRanges[currentInstrument].lowestNote
+      ),
+      instrumentRanges[currentInstrument].highestNote
     );
-    setNextNote(
-      currentInstrumentRange[currentInstrumentRange.length - (y + 1)]
-    );
+    console.log(nextNoteId);
+
+    setNextNote(notes[nextNoteId]);
     if (buttons) {
       setDraggingNote(true);
       if (nextNote) changeNote(nextNote);
