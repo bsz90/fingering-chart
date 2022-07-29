@@ -16,15 +16,18 @@ export const ToggleOctaveButtons = ({
 }) => {
   const currentPossibleFingeringIndex = useMemo(
     () =>
-      currentFingeringsPossibleNotes.findIndex(([staffPosition, fingering]) => {
-        +staffPosition === noteState.staffPosition;
-      }),
+      currentFingeringsPossibleNotes.findIndex(
+        ([staffPosition, fingering]) =>
+          +staffPosition === noteState.staffPosition
+      ),
     [currentFingeringsPossibleNotes, noteState]
   );
 
   function disabled(buttonType: string) {
+    console.log(currentFingeringsPossibleNotes);
+    console.log(currentFingeringsPossibleNotes.length);
     if (currentFingeringsPossibleNotes.length < 2) return true;
-
+    console.log(currentPossibleFingeringIndex);
     if (buttonType === "down") return currentPossibleFingeringIndex < 1;
     return (
       currentPossibleFingeringIndex + 1 ===
