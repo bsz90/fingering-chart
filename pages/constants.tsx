@@ -50,7 +50,7 @@ export const instrumentRanges: { [key in Instrument]: InstrumentRange } = {
     highestNote: Notes.C7,
   },
   [WoodwindInstrument.CLARINET]: {
-    lowestNote: Notes.C4,
+    lowestNote: Notes.E3,
     highestNote: Notes.A6,
   },
   [WoodwindInstrument.SAXOPHONE]: {
