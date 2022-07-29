@@ -30,6 +30,7 @@ export const ToggleFingeringButtons = ({
   //disables button if there are no alternate fingerings
   const disabled = (buttonType: string) => {
     if (currentNotesPossibleFingerings) {
+      console.log(currentNotesPossibleFingerings);
       if (
         currentNotesPossibleFingerings.some((item) => typeof item === "string")
       )
@@ -38,9 +39,12 @@ export const ToggleFingeringButtons = ({
       const currentFingeringIndex = currentNotesPossibleFingerings.findIndex(
         (array) => checkArray(array as InstrumentKeys[], activeKeys)
       );
+
       if (currentFingeringIndex === -1) return true;
       if (buttonType === "right") {
-        return currentNotesPossibleFingerings.length === currentFingeringIndex;
+        return (
+          currentNotesPossibleFingerings.length === currentFingeringIndex + 1
+        );
       }
       return currentFingeringIndex === 0;
     }
