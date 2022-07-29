@@ -52,7 +52,6 @@ export const ToggleOctaveButtons = ({
 
   return (
     <div className="h-full flex flex-col items-center justify-center gap-20">
-      <div>{currentPossibleFingeringIndex}</div>
       <button
         className={`w-6 h-12 bg-slate-600 text-white flex flex-row items-center text-center justify-center rounded-md drop-shadow-md
          ${disabled("up") ? "opacity-30" : "opacity-100"}`}

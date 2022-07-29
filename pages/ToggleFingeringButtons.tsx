@@ -36,12 +36,12 @@ export const ToggleFingeringButtons = ({
         return true;
 
       const currentFingeringIndex = currentNotesPossibleFingerings.findIndex(
-        (array) => typeof array !== "string" && checkArray(array, activeKeys)
+        (array) => checkArray(array as InstrumentKeys[], activeKeys)
       );
-
-      if (buttonType === "right")
-        currentNotesPossibleFingerings.length === currentFingeringIndex;
-
+      if (currentFingeringIndex === -1) return true;
+      if (buttonType === "right") {
+        return currentNotesPossibleFingerings.length === currentFingeringIndex;
+      }
       return currentFingeringIndex === 0;
     }
     return true;

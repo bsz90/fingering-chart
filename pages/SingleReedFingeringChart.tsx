@@ -22,11 +22,11 @@ export const SingleReedFingeringChart = ({
   //Drag functionality for keys
   const [toggleKeyOn, setToggleKeyOn] = useState<boolean>(false);
 
+  const [noteState, setNoteState] = useState<Note>(notes[Notes.C4]);
+
   const [activeKeys, setActiveKeys] = useState<InstrumentKeys[] | undefined>(
     []
   );
-
-  const [noteState, setNoteState] = useState<Note>(notes[Notes.C4]);
 
   //get memo'd values from constants using currentInstrument
   const currentInstrumentRange = useMemo(() => {
@@ -81,13 +81,14 @@ export const SingleReedFingeringChart = ({
 
   // console.log(currentFingeringsPossibleNotes);
 
-  const fingeringIsCorrect = useMemo(() => {
-    if (activeKeys)
-      return checkIfSameFingerings(
+  const fingeringIsCorrect = useMemo(
+    () =>
+      checkIfSameFingerings(
         allPossibleInstrumentFingerings[noteState.staffPosition],
         activeKeys
-      );
-  }, [activeKeys, noteState, allPossibleInstrumentFingerings]);
+      ),
+    [activeKeys, noteState, allPossibleInstrumentFingerings]
+  );
 
   useEffect(() => {
     if (!fingeringIsCorrect) {

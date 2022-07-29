@@ -795,6 +795,17 @@ export const instrumentFingerings: {
     ],
   },
   [WoodwindInstrument.OBOE]: {
+    [Notes.C4]: [
+      FluteKeys.THUMB_B,
+      FluteKeys.LEFT_FIRST_FINGER,
+      FluteKeys.LEFT_SECOND_FINGER,
+      FluteKeys.LEFT_THIRD_FINGER,
+      FluteKeys.RIGHT_FIRST_FINGER,
+      FluteKeys.RIGHT_SECOND_FINGER,
+      FluteKeys.RIGHT_THIRD_FINGER,
+      FluteKeys.LOW_C_SHARP,
+      FluteKeys.LOW_C,
+    ],
     [Notes.C7]: [
       [
         FluteKeys.LEFT_FIRST_FINGER,
@@ -814,6 +825,17 @@ export const instrumentFingerings: {
     ],
   },
   [WoodwindInstrument.CLARINET]: {
+    [Notes.C4]: [
+      FluteKeys.THUMB_B,
+      FluteKeys.LEFT_FIRST_FINGER,
+      FluteKeys.LEFT_SECOND_FINGER,
+      FluteKeys.LEFT_THIRD_FINGER,
+      FluteKeys.RIGHT_FIRST_FINGER,
+      FluteKeys.RIGHT_SECOND_FINGER,
+      FluteKeys.RIGHT_THIRD_FINGER,
+      FluteKeys.LOW_C_SHARP,
+      FluteKeys.LOW_C,
+    ],
     [Notes.C7]: [
       [
         FluteKeys.LEFT_FIRST_FINGER,
@@ -1071,6 +1093,17 @@ export const instrumentFingerings: {
     ],
   },
   [WoodwindInstrument.BASSOON]: {
+    [Notes.C4]: [
+      FluteKeys.THUMB_B,
+      FluteKeys.LEFT_FIRST_FINGER,
+      FluteKeys.LEFT_SECOND_FINGER,
+      FluteKeys.LEFT_THIRD_FINGER,
+      FluteKeys.RIGHT_FIRST_FINGER,
+      FluteKeys.RIGHT_SECOND_FINGER,
+      FluteKeys.RIGHT_THIRD_FINGER,
+      FluteKeys.LOW_C_SHARP,
+      FluteKeys.LOW_C,
+    ],
     [Notes.C7]: [
       [
         FluteKeys.LEFT_FIRST_FINGER,
@@ -1090,6 +1123,17 @@ export const instrumentFingerings: {
     ],
   },
   [BrassInstrument.TRUMPET]: {
+    [Notes.C4]: [
+      FluteKeys.THUMB_B,
+      FluteKeys.LEFT_FIRST_FINGER,
+      FluteKeys.LEFT_SECOND_FINGER,
+      FluteKeys.LEFT_THIRD_FINGER,
+      FluteKeys.RIGHT_FIRST_FINGER,
+      FluteKeys.RIGHT_SECOND_FINGER,
+      FluteKeys.RIGHT_THIRD_FINGER,
+      FluteKeys.LOW_C_SHARP,
+      FluteKeys.LOW_C,
+    ],
     [Notes.C7]: [
       [
         FluteKeys.LEFT_FIRST_FINGER,
@@ -1109,6 +1153,17 @@ export const instrumentFingerings: {
     ],
   },
   [BrassInstrument.FRENCH_HORN]: {
+    [Notes.C4]: [
+      FluteKeys.THUMB_B,
+      FluteKeys.LEFT_FIRST_FINGER,
+      FluteKeys.LEFT_SECOND_FINGER,
+      FluteKeys.LEFT_THIRD_FINGER,
+      FluteKeys.RIGHT_FIRST_FINGER,
+      FluteKeys.RIGHT_SECOND_FINGER,
+      FluteKeys.RIGHT_THIRD_FINGER,
+      FluteKeys.LOW_C_SHARP,
+      FluteKeys.LOW_C,
+    ],
     [Notes.C7]: [
       [
         FluteKeys.LEFT_FIRST_FINGER,
@@ -1128,6 +1183,17 @@ export const instrumentFingerings: {
     ],
   },
   [BrassInstrument.TROMBONE]: {
+    [Notes.C4]: [
+      FluteKeys.THUMB_B,
+      FluteKeys.LEFT_FIRST_FINGER,
+      FluteKeys.LEFT_SECOND_FINGER,
+      FluteKeys.LEFT_THIRD_FINGER,
+      FluteKeys.RIGHT_FIRST_FINGER,
+      FluteKeys.RIGHT_SECOND_FINGER,
+      FluteKeys.RIGHT_THIRD_FINGER,
+      FluteKeys.LOW_C_SHARP,
+      FluteKeys.LOW_C,
+    ],
     [Notes.C7]: [
       [
         FluteKeys.LEFT_FIRST_FINGER,
@@ -1147,6 +1213,17 @@ export const instrumentFingerings: {
     ],
   },
   [BrassInstrument.TUBA]: {
+    [Notes.C4]: [
+      FluteKeys.THUMB_B,
+      FluteKeys.LEFT_FIRST_FINGER,
+      FluteKeys.LEFT_SECOND_FINGER,
+      FluteKeys.LEFT_THIRD_FINGER,
+      FluteKeys.RIGHT_FIRST_FINGER,
+      FluteKeys.RIGHT_SECOND_FINGER,
+      FluteKeys.RIGHT_THIRD_FINGER,
+      FluteKeys.LOW_C_SHARP,
+      FluteKeys.LOW_C,
+    ],
     [Notes.C7]: [
       [
         FluteKeys.LEFT_FIRST_FINGER,

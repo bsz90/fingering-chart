@@ -13,7 +13,7 @@ export const NavBar = ({
   currentInstrument: Instrument;
   setCurrentInstrument: Dispatch<SetStateAction<Instrument>>;
 }) => {
-  const [valueState, setValueState] = useState<string>(Instrument.FLUTE);
+  const [valueState, setValueState] = useState<string>();
 
   return (
     <NavMenu.Root
