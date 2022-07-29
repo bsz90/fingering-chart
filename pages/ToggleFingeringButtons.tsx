@@ -6,7 +6,6 @@ export const ToggleFingeringButtons = ({
   activeKeys,
   setActiveKeys,
   currentNotesPossibleFingerings,
-  currentFingeringNote,
 }: {
   activeKeys: InstrumentKeys[] | undefined;
   setActiveKeys: Dispatch<SetStateAction<InstrumentKeys[] | undefined>>;
@@ -14,7 +13,6 @@ export const ToggleFingeringButtons = ({
     | InstrumentKeys[]
     | InstrumentKeys[][]
     | undefined;
-  currentFingeringNote: Note | undefined;
 }) => {
   //event handler
   const handleButtonClick = (
@@ -31,8 +29,7 @@ export const ToggleFingeringButtons = ({
 
   //disables button if there are no alternate fingerings
   const disabled = (buttonType: string) => {
-    if (!currentFingeringNote) return true;
-    if (currentFingeringNote && currentNotesPossibleFingerings) {
+    if (currentNotesPossibleFingerings) {
       if (
         currentNotesPossibleFingerings.some((item) => typeof item === "string")
       )
@@ -42,21 +39,12 @@ export const ToggleFingeringButtons = ({
         (array) => typeof array !== "string" && checkArray(array, activeKeys)
       );
 
-      if (
-        buttonType === "right" &&
-        typeof currentNotesPossibleFingerings[currentFingeringIndex + 1] ===
-          "undefined"
-      )
-        return true;
-      if (
-        buttonType === "left" &&
-        typeof currentNotesPossibleFingerings[currentFingeringIndex - 1] ===
-          "undefined"
-      )
-        return true;
-    }
+      if (buttonType === "right")
+        currentNotesPossibleFingerings.length === currentFingeringIndex;
 
-    return false;
+      return currentFingeringIndex === 0;
+    }
+    return true;
   };
 
   return (

@@ -57,4 +57,18 @@ export const getRegex = (note: Note | undefined) => {
   }
 };
 
-// handles toggleButtons for octaves/similar fingerings
+// sorts noteArray for display
+export const sortNoteNames = (stringA: string, stringB: string) => {
+  const hasAccidental = (string: string) => {
+    if (string.includes("♯") || string.includes("♭")) return true;
+    return false;
+  };
+
+  if (hasAccidental(stringA) && !hasAccidental(stringB)) {
+    return 1;
+  }
+  if (!hasAccidental(stringA) && hasAccidental(stringB)) {
+    return -1;
+  }
+  return 0;
+};

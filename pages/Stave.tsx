@@ -1,26 +1,26 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Accidental, Formatter, StaveNote, Vex, Voice } from "vexflow";
 import { Clef, Instrument, InstrumentKeys, Note, Notes } from "./types";
-import { getRegex } from "./utils";
+import { getRegex, sortNoteNames } from "./utils";
 
 export const Stave = ({
+  noteState,
   currentInstrument,
   currentInstrumentClef,
   currentInstrumentRange,
   allPossibleInstrumentFingerings,
-  currentFingeringNote,
   setActiveKeys,
   setNoteState,
 }: {
+  noteState: Note;
   currentInstrument: Instrument;
   currentInstrumentClef: Clef;
-  currentInstrumentRange: Note[] | undefined;
+  currentInstrumentRange: Note[];
   allPossibleInstrumentFingerings: Partial<
     Record<Notes, InstrumentKeys[] | InstrumentKeys[][]>
   >;
-  currentFingeringNote: Note | undefined;
   setActiveKeys: Dispatch<SetStateAction<InstrumentKeys[] | undefined>>;
-  setNoteState: Dispatch<SetStateAction<Note | undefined>>;
+  setNoteState: Dispatch<SetStateAction<Note>>;
 }) => {
   //display newNote on pointerMove?
   const [draggingNote, setDraggingNote] = useState<boolean>(false);
@@ -50,7 +50,7 @@ export const Stave = ({
         .setY(20)
         .setGroupStyle({ strokeStyle: "#000" });
 
-      const currentFingeringRegex = getRegex(currentFingeringNote);
+      const currentFingeringRegex = getRegex(noteState);
 
       const currentStaveNote = currentFingeringRegex
         ? [
@@ -111,22 +111,20 @@ export const Stave = ({
       })();
 
       const currentStaveNoteFirst = (() => {
-        if (currentStaveNote && nextStaveNote) {
-          const currentStaveNotePosition = currentStaveNote[0].getLineNumber();
-          const nextStaveNotePosition = nextStaveNote[0].getLineNumber();
+        const currentStaveNotePosition = currentStaveNote[0].getLineNumber();
+        const nextStaveNotePosition = nextStaveNote[0].getLineNumber();
 
-          if (Math.abs(currentStaveNotePosition - nextStaveNotePosition) < 1) {
-            return false;
-          }
-          if (currentStaveNotePosition >= 1 && currentStaveNotePosition <= 5)
-            return true;
-          if (currentStaveNotePosition > 5)
-            return nextStaveNotePosition < currentStaveNotePosition;
-          if (currentStaveNotePosition < 1)
-            return nextStaveNotePosition > currentStaveNotePosition;
-
+        if (Math.abs(currentStaveNotePosition - nextStaveNotePosition) < 1) {
           return false;
         }
+        if (currentStaveNotePosition >= 1 && currentStaveNotePosition <= 5)
+          return true;
+        if (currentStaveNotePosition > 5)
+          return nextStaveNotePosition < currentStaveNotePosition;
+        if (currentStaveNotePosition < 1)
+          return nextStaveNotePosition > currentStaveNotePosition;
+
+        return false;
       })();
 
       nextStaveNote[0].setLedgerLineStyle({
@@ -165,47 +163,42 @@ export const Stave = ({
   }, [
     Renderer,
     Stave,
-    currentFingeringNote,
     currentInstrument,
     currentInstrumentClef,
     draggingNote,
     nextNote,
+    noteState,
     ref,
   ]);
 
   //function to display notes below staff
   const displayNote = () => {
-    if (currentFingeringNote) {
-      if (typeof currentFingeringNote.name === "string") {
-        return currentFingeringNote.name;
-      }
-      return currentFingeringNote.name[0].concat(
-        " or ",
-        currentFingeringNote.name[1]
-      );
+    if (typeof noteState.name === "string") {
+      return noteState.name;
     }
-    return;
+
+    return noteState.name
+      .sort((a, b) => sortNoteNames(a, b))[0]
+      .concat(" or ", noteState.name[1]);
   };
 
   //event handlers
   const handlePointerMove = (top: number, clientY: number, buttons: number) => {
-    if (currentInstrumentRange) {
-      const windowSize = 384;
-      const pixelsBetweenNotes = 5;
-      const offsetY = 70;
-      const y = Math.min(
-        Math.max(Math.floor((clientY - top - offsetY) / 7.5), 0),
-        currentInstrumentRange.length
-      );
-      setNextNote(
-        currentInstrumentRange[currentInstrumentRange.length - (y + 1)]
-      );
-      if (buttons) {
-        setDraggingNote(true);
-        if (nextNote) changeNote(nextNote);
-      }
-      if (!buttons) setDraggingNote(false);
+    const windowSize = 384;
+    const pixelsBetweenNotes = 5;
+    const offsetY = 70;
+    const y = Math.min(
+      Math.max(Math.floor((clientY - top - offsetY) / 7.5), 0),
+      currentInstrumentRange.length
+    );
+    setNextNote(
+      currentInstrumentRange[currentInstrumentRange.length - (y + 1)]
+    );
+    if (buttons) {
+      setDraggingNote(true);
+      if (nextNote) changeNote(nextNote);
     }
+    if (!buttons) setDraggingNote(false);
   };
 
   const changeNote = (nextNote: Note) => {

@@ -26,14 +26,12 @@ export const SingleReedFingeringChart = ({
     []
   );
 
-  //note displayed on mouse hover
-  const [noteState, setNoteState] = useState<Note | undefined>(undefined);
+  const [noteState, setNoteState] = useState<Note>(notes[Notes.C4]);
 
   //get memo'd values from constants using currentInstrument
   const currentInstrumentRange = useMemo(() => {
     const range = instrumentRanges[currentInstrument];
-
-    if (range) return notes.slice(range.lowestNote, range.highestNote + 1);
+    return notes.slice(range.lowestNote, range.highestNote + 1);
   }, [currentInstrument]);
 
   const allPossibleInstrumentFingerings = useMemo(
@@ -42,11 +40,7 @@ export const SingleReedFingeringChart = ({
   );
 
   const currentInstrumentKeyGroups = useMemo(() => {
-    const currentKeyGroup = Object.entries(keyDiagrams)
-      .flatMap(([string, keyGroup]) => {
-        if (string === currentInstrument) return keyGroup;
-      })
-      .filter(Boolean);
+    const currentKeyGroup = keyDiagrams[currentInstrument];
 
     //sort keyGroups
     const sortedArray: KeyGroup[][] = [[], [], []];
@@ -71,38 +65,10 @@ export const SingleReedFingeringChart = ({
     [currentInstrument]
   );
 
-  const currentNotesPossibleFingerings:
-    | InstrumentKeys[]
-    | InstrumentKeys[][]
-    | undefined = useMemo(() => {
-    if (noteState && allPossibleInstrumentFingerings)
-      return allPossibleInstrumentFingerings[noteState.staffPosition];
-  }, [allPossibleInstrumentFingerings, noteState]);
-
-  const currentFingeringNote = useMemo(() => {
-    if (noteState && currentInstrumentRange) {
-      const newState = notes[noteState.staffPosition];
-
-      if (newState) {
-        if (typeof newState.name === "string") return newState;
-        newState.name.sort((stringA, stringB) => {
-          const hasAccidental = (string: string) => {
-            if (string.includes("♯") || string.includes("♭")) return true;
-            return false;
-          };
-
-          if (hasAccidental(stringA) && !hasAccidental(stringB)) {
-            return 1;
-          }
-          if (!hasAccidental(stringA) && hasAccidental(stringB)) {
-            return -1;
-          }
-          return 0;
-        });
-        return newState;
-      }
-    }
-  }, [noteState, currentInstrumentRange]);
+  const currentNotesPossibleFingerings = useMemo(
+    () => allPossibleInstrumentFingerings[noteState.staffPosition],
+    [allPossibleInstrumentFingerings, noteState]
+  );
 
   const currentFingeringsPossibleNotes = useMemo(
     () =>
@@ -116,7 +82,7 @@ export const SingleReedFingeringChart = ({
   // console.log(currentFingeringsPossibleNotes);
 
   const fingeringIsCorrect = useMemo(() => {
-    if (noteState && activeKeys)
+    if (activeKeys)
       return checkIfSameFingerings(
         allPossibleInstrumentFingerings[noteState.staffPosition],
         activeKeys
@@ -124,27 +90,26 @@ export const SingleReedFingeringChart = ({
   }, [activeKeys, noteState, allPossibleInstrumentFingerings]);
 
   useEffect(() => {
-    if (!fingeringIsCorrect && noteState && currentFingeringsPossibleNotes) {
-      if (currentFingeringsPossibleNotes.length > 0) {
-        if (currentInstrumentRange) {
-          const findClosestNote = (a: string, b: string) =>
-            Math.abs(+a - noteState.staffPosition) -
-            Math.abs(+b - noteState.staffPosition);
+    if (!fingeringIsCorrect) {
+      if (currentFingeringsPossibleNotes.length > 1) {
+        const findClosestNote = (a: string, b: string) =>
+          Math.abs(+a - noteState.staffPosition) -
+          Math.abs(+b - noteState.staffPosition);
 
-          const closestNote = currentFingeringsPossibleNotes.sort(([a], [b]) =>
-            findClosestNote(a, b)
-          )[0][0];
+        const closestNote = currentFingeringsPossibleNotes.sort(([a], [b]) =>
+          findClosestNote(a, b)
+        )[0][0];
 
-          const newNoteState = notes[+closestNote];
-
-          if (newNoteState) setNoteState({ ...newNoteState });
-        }
+        const newNoteState = notes[+closestNote];
+        setNoteState({ ...newNoteState });
       }
-      // const staffPosition = +currentFingeringsPossibleNotes[0][0];
+      if (currentFingeringsPossibleNotes.length === 1) {
+        const newNoteState = notes[+currentFingeringsPossibleNotes[0][0]];
+        setNoteState({ ...newNoteState });
+      }
     }
   }, [
     activeKeys,
-    currentInstrumentRange,
     fingeringIsCorrect,
     noteState,
     allPossibleInstrumentFingerings,
@@ -156,11 +121,11 @@ export const SingleReedFingeringChart = ({
       <div className="flex justify-around w-full h-full bg-white">
         <div className="flex justify-start">
           <Stave
+            noteState={noteState}
             currentInstrument={currentInstrument}
             currentInstrumentClef={currentInstrumentClef}
             currentInstrumentRange={currentInstrumentRange}
             allPossibleInstrumentFingerings={allPossibleInstrumentFingerings}
-            currentFingeringNote={currentFingeringNote}
             setActiveKeys={setActiveKeys}
             setNoteState={setNoteState}
           />
@@ -168,7 +133,6 @@ export const SingleReedFingeringChart = ({
         <ToggleOctaveButtons
           noteState={noteState}
           setNoteState={setNoteState}
-          currentInstrumentRange={currentInstrumentRange}
           currentFingeringsPossibleNotes={currentFingeringsPossibleNotes}
         />
         <div className="w-96 h-[700px] flex flex-col items-center justify-start">
@@ -192,7 +156,6 @@ export const SingleReedFingeringChart = ({
             activeKeys={activeKeys}
             setActiveKeys={setActiveKeys}
             currentNotesPossibleFingerings={currentNotesPossibleFingerings}
-            currentFingeringNote={currentFingeringNote}
           />
         </div>
       </div>
