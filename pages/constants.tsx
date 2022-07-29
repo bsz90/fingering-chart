@@ -1996,28 +1996,4 @@ export const notes: Note[] = [
   },
   { name: ["B6", "C♭7"], staffPosition: Notes.B6 },
   { name: ["B♯6", "C7"], staffPosition: Notes.C7 },
-  {
-    name: ["C♯7", "D♭7"],
-    staffPosition: Notes.Db7,
-  },
-  { name: "D7", staffPosition: Notes.D7 },
-  {
-    name: ["D♯7", "E♭7"],
-    staffPosition: Notes.Eb7,
-  },
-  { name: ["E7", "F♭7"], staffPosition: Notes.E7 },
-  { name: ["E♯7", "F7"], staffPosition: Notes.F7 },
-  {
-    name: ["F♯7", "G♭7"],
-    staffPosition: Notes.Gb7,
-  },
-  { name: "G7", staffPosition: Notes.G7 },
-  { name: ["G♯7", "A♭7"], staffPosition: Notes.Ab7 },
-  { name: "A7", staffPosition: Notes.A7 },
-  {
-    name: ["A♯7", "B♭7"],
-    staffPosition: Notes.Bb7,
-  },
-  { name: ["B7", "C♭8"], staffPosition: Notes.B7 },
-  { name: ["B♯7", "C8"], staffPosition: Notes.C8 },
 ];
