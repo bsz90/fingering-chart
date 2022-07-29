@@ -30,7 +30,6 @@ export const ToggleFingeringButtons = ({
   //disables button if there are no alternate fingerings
   const disabled = (buttonType: string) => {
     if (currentNotesPossibleFingerings) {
-      console.log(currentNotesPossibleFingerings);
       if (
         currentNotesPossibleFingerings.some((item) => typeof item === "string")
       )
