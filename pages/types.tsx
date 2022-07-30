@@ -199,9 +199,11 @@ type StaffPosition = number;
 export type Range = [NoteName, Enharmonics, StaffPosition][];
 
 export type Note = {
-  name: string | string[];
+  name: string[];
   staffPosition: Notes;
 };
+
+export type NoteRegex = { note: string; modifier: string; octave: string };
 
 export enum Notes {
   A0,

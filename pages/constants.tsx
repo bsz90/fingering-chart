@@ -1844,7 +1844,7 @@ export const instrumentIcons: { [key in Instrument]: any } = {
 };
 
 export const notes: Note[] = [
-  { name: "A0", staffPosition: Notes.A0 },
+  { name: ["A0"], staffPosition: Notes.A0 },
   { name: ["A♯0", "B♭0"], staffPosition: Notes.Bb0 },
   { name: ["B0", "C♭1"], staffPosition: Notes.B0 },
   { name: ["B♯0", "C1"], staffPosition: Notes.C1 },
@@ -1852,7 +1852,7 @@ export const notes: Note[] = [
     name: ["C♯1", "D♭1"],
     staffPosition: Notes.Db1,
   },
-  { name: "D1", staffPosition: Notes.D1 },
+  { name: ["D1"], staffPosition: Notes.D1 },
   {
     name: ["D♯1", "E♭1"],
     staffPosition: Notes.Eb1,
@@ -1863,9 +1863,9 @@ export const notes: Note[] = [
     name: ["F♯1", "G♭1"],
     staffPosition: Notes.Gb1,
   },
-  { name: "G1", staffPosition: Notes.G1 },
+  { name: ["G1"], staffPosition: Notes.G1 },
   { name: ["G♯1", "A♭1"], staffPosition: Notes.Ab1 },
-  { name: "A1", staffPosition: Notes.A1 },
+  { name: ["A1"], staffPosition: Notes.A1 },
   {
     name: ["A♯1", "B♭1"],
     staffPosition: Notes.Bb1,
@@ -1876,7 +1876,7 @@ export const notes: Note[] = [
     name: ["C♯2", "D♭2"],
     staffPosition: Notes.Db2,
   },
-  { name: "D2", staffPosition: Notes.D2 },
+  { name: ["D2"], staffPosition: Notes.D2 },
   {
     name: ["D♯2", "E♭2"],
     staffPosition: Notes.Eb2,
@@ -1887,9 +1887,9 @@ export const notes: Note[] = [
     name: ["F♯2", "G♭2"],
     staffPosition: Notes.Gb2,
   },
-  { name: "G2", staffPosition: Notes.G2 },
+  { name: ["G2"], staffPosition: Notes.G2 },
   { name: ["G♯2", "A♭2"], staffPosition: Notes.Ab2 },
-  { name: "A2", staffPosition: Notes.A2 },
+  { name: ["A2"], staffPosition: Notes.A2 },
   {
     name: ["A♯2", "B♭2"],
     staffPosition: Notes.Bb2,
@@ -1900,7 +1900,7 @@ export const notes: Note[] = [
     name: ["C♯3", "D♭3"],
     staffPosition: Notes.Db3,
   },
-  { name: "D3", staffPosition: Notes.D3 },
+  { name: ["D3"], staffPosition: Notes.D3 },
   {
     name: ["D♯3", "E♭3"],
     staffPosition: Notes.Eb3,
@@ -1911,9 +1911,9 @@ export const notes: Note[] = [
     name: ["F♯3", "G♭3"],
     staffPosition: Notes.Gb3,
   },
-  { name: "G3", staffPosition: Notes.G3 },
+  { name: ["G3"], staffPosition: Notes.G3 },
   { name: ["G♯3", "A♭3"], staffPosition: Notes.Ab3 },
-  { name: "A3", staffPosition: Notes.A3 },
+  { name: ["A3"], staffPosition: Notes.A3 },
   {
     name: ["A♯3", "B♭3"],
     staffPosition: Notes.Bb3,
@@ -1924,7 +1924,7 @@ export const notes: Note[] = [
     name: ["C♯4", "D♭4"],
     staffPosition: Notes.Db4,
   },
-  { name: "D4", staffPosition: Notes.D4 },
+  { name: ["D4"], staffPosition: Notes.D4 },
   {
     name: ["D♯4", "E♭4"],
     staffPosition: Notes.Eb4,
@@ -1935,9 +1935,9 @@ export const notes: Note[] = [
     name: ["F♯4", "G♭4"],
     staffPosition: Notes.Gb4,
   },
-  { name: "G4", staffPosition: Notes.G4 },
+  { name: ["G4"], staffPosition: Notes.G4 },
   { name: ["G♯4", "A♭4"], staffPosition: Notes.Ab4 },
-  { name: "A4", staffPosition: Notes.A4 },
+  { name: ["A4"], staffPosition: Notes.A4 },
   {
     name: ["A♯4", "B♭4"],
     staffPosition: Notes.Bb4,
@@ -1948,7 +1948,7 @@ export const notes: Note[] = [
     name: ["C♯5", "D♭5"],
     staffPosition: Notes.Db5,
   },
-  { name: "D5", staffPosition: Notes.D5 },
+  { name: ["D5"], staffPosition: Notes.D5 },
   {
     name: ["D♯5", "E♭5"],
     staffPosition: Notes.Eb5,
@@ -1959,9 +1959,9 @@ export const notes: Note[] = [
     name: ["F♯5", "G♭5"],
     staffPosition: Notes.Gb5,
   },
-  { name: "G5", staffPosition: Notes.G5 },
+  { name: ["G5"], staffPosition: Notes.G5 },
   { name: ["G♯5", "A♭5"], staffPosition: Notes.Ab5 },
-  { name: "A5", staffPosition: Notes.A5 },
+  { name: ["A5"], staffPosition: Notes.A5 },
   {
     name: ["A♯5", "B♭5"],
     staffPosition: Notes.Bb5,
@@ -1972,7 +1972,7 @@ export const notes: Note[] = [
     name: ["C♯6", "D♭6"],
     staffPosition: Notes.Db6,
   },
-  { name: "D6", staffPosition: Notes.D6 },
+  { name: ["D6"], staffPosition: Notes.D6 },
   {
     name: ["D♯6", "E♭6"],
     staffPosition: Notes.Eb6,
@@ -1983,9 +1983,9 @@ export const notes: Note[] = [
     name: ["F♯6", "G♭6"],
     staffPosition: Notes.Gb6,
   },
-  { name: "G6", staffPosition: Notes.G6 },
+  { name: ["G6"], staffPosition: Notes.G6 },
   { name: ["G♯6", "A♭6"], staffPosition: Notes.Ab6 },
-  { name: "A6", staffPosition: Notes.A6 },
+  { name: ["A6"], staffPosition: Notes.A6 },
   {
     name: ["A♯6", "B♭6"],
     staffPosition: Notes.Bb6,

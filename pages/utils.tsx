@@ -1,4 +1,4 @@
-import { Instrument, InstrumentKeys, KeyGroup, Note } from "./types";
+import { Instrument, InstrumentKeys, KeyGroup, Note, NoteRegex } from "./types";
 
 export const checkArray = (
   array: InstrumentKeys[],
@@ -36,25 +36,23 @@ export const checkIfSameFingerings = (
 export const createUniqueKey = (a: string, b: number | string) => (a += b);
 
 //converts constant into a useable string
-export const match = (note: Note | undefined) => {
+export const match = (noteName: string) => {
   const regex = /([A-G])(♭|♯)?(\d)/;
-  if (note) {
-    if (typeof note.name === "string") {
-      return note.name.match(regex);
-    }
-    return note.name[0].match(regex);
-  }
+  return noteName.match(regex);
 };
 
 //gets regex from note string
-export const getRegex = (note: Note | undefined) => {
-  if (note) {
-    const regex = match(note);
-    if (regex) {
-      const [_, note, modifier, octave] = regex;
-      return { note, modifier, octave };
-    }
-  }
+export const getRegex = (noteName: string[]) => {
+  const regex = noteName.map((string) => match(string));
+
+  return regex
+    .filter((arrayItem) => arrayItem)
+    .map((matchArray) => {
+      if (matchArray) {
+        const [_, note, modifier, octave] = matchArray;
+        return { note, modifier, octave };
+      }
+    }) as NoteRegex[];
 };
 
 // sorts noteArray for display

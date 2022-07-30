@@ -1,6 +1,7 @@
+import { current } from "immer";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Accidental, Formatter, StaveNote, Vex, Voice } from "vexflow";
-import { instrumentRanges, notes } from "./constants";
+import { instrumentClef, instrumentRanges, notes } from "./constants";
 import { Clef, Instrument, InstrumentKeys, Note, Notes } from "./types";
 import { getRegex, sortNoteNames } from "./utils";
 
@@ -51,44 +52,56 @@ export const Stave = ({
         .setY(20)
         .setGroupStyle({ strokeStyle: "#000" });
 
-      const currentFingeringRegex = getRegex(noteState);
+      const initialStaveNote = [
+        new StaveNote({
+          keys: [`e/4`],
+          duration: "w",
+        })
+          .setXShift(30)
+          .setStyle({ fillStyle: "rgba(0, 0, 0, 0)" }),
+      ];
 
-      const currentStaveNote = currentFingeringRegex
-        ? [
+      const getCurrentStaveNote = (noteName: string[]) => {
+        if (noteName.every((string) => string)) {
+          const regex = getRegex(noteName);
+          const staveNotes = regex.map((noteRegex, id) => {
+            const xShift = regex.length === 1 ? 30 : id === 0 ? 8 : 5;
+            const duration = noteName.length === 1 ? "w" : "h";
+
+            if (noteRegex.modifier) {
+              const flat = noteRegex.modifier === "♭";
+              const modifier = new Accidental(flat ? "b" : "#").setXShift(
+                id === 0 ? -6 : -4
+              );
+
+              return new StaveNote({
+                keys: [`${noteRegex.note}/${noteRegex.octave}`],
+                duration: duration,
+              })
+                .setXShift(xShift)
+                .addModifier(modifier);
+            }
+            return new StaveNote({
+              keys: [`${noteRegex.note}/${noteRegex.octave}`],
+              duration: duration,
+            }).setXShift(xShift);
+          });
+
+          return staveNotes;
+        }
+        return initialStaveNote;
+      };
+
+      const getNextStaveNote = (nextNote: Note | undefined) => {
+        if (nextNote) {
+          if (nextNote.staffPosition === noteState.staffPosition)
+            return initialStaveNote;
+
+          const regex = getRegex(nextNote.name)[0];
+
+          const nextStaveNote = [
             new StaveNote({
-              keys: [
-                `${currentFingeringRegex.note}/${currentFingeringRegex.octave}`,
-              ],
-              duration: "w",
-            }).setXShift(30),
-          ]
-        : [
-            new StaveNote({
-              keys: [`e/4`],
-              duration: "w",
-            })
-              .setXShift(30)
-              .setStyle({ fillStyle: "rgba(0, 0, 0, 0)" }),
-          ];
-
-      //add accidental if exists
-      if (currentFingeringRegex?.modifier) {
-        currentStaveNote[0].addModifier(
-          new Accidental(
-            currentFingeringRegex.modifier === "♭" ? "b" : "#"
-          ).setXShift(-20)
-        );
-      }
-
-      // retrieve string from nextNote state to use
-      const nextNoteRegex = getRegex(nextNote);
-
-      //note displayed on hover
-      const nextStaveNote = (() => {
-        if (nextNote && nextNoteRegex) {
-          const staveNote = [
-            new StaveNote({
-              keys: [`${nextNoteRegex.note}/${nextNoteRegex.octave}`],
+              keys: [`${regex.note}/${regex.octave}`],
               duration: "w",
             })
               .setXShift(30)
@@ -96,58 +109,56 @@ export const Stave = ({
                 fillStyle: draggingNote ? "rgba(0, 0, 0, 0)" : "#DEDEDE",
               }),
           ];
-          if (nextNoteRegex.note !== currentFingeringRegex?.note)
-            return staveNote;
-          if (nextNoteRegex.octave !== currentFingeringRegex?.octave)
-            return staveNote;
+
+          nextStaveNote[0].setLedgerLineStyle({
+            strokeStyle: draggingNote ? "rgba(0, 0, 0, 0)" : "#DEDEDE",
+          });
+
+          return nextStaveNote;
         }
-        return [
-          new StaveNote({
-            keys: [`e/4`],
-            duration: "w",
-          })
-            .setXShift(30)
-            .setStyle({ fillStyle: "rgba(0, 0, 0, 0)" }),
+
+        return initialStaveNote;
+      };
+
+      const voices = (() => {
+        const notes = [
+          getNextStaveNote(nextNote),
+          getCurrentStaveNote(noteState.name),
         ];
+
+        return notes.map((staveNote, id) => {
+          const beatsPerNote = 4;
+          const opaque = id === 0;
+
+          return new Voice({
+            num_beats: 4,
+            beat_value: 4,
+          })
+            .addTickables(staveNote)
+            .setGroupStyle({
+              strokeStyle: `rgba(0, 0, 0, ${opaque ? "0.5" : "1"})`,
+            });
+        });
       })();
 
-      const currentStaveNoteFirst = (() => {
-        const currentStaveNotePosition = currentStaveNote[0].getLineNumber();
-        const nextStaveNotePosition = nextStaveNote[0].getLineNumber();
-
-        if (Math.abs(currentStaveNotePosition - nextStaveNotePosition) < 1) {
-          return false;
-        }
-        if (currentStaveNotePosition >= 1 && currentStaveNotePosition <= 5)
-          return true;
-        if (currentStaveNotePosition > 5)
-          return nextStaveNotePosition < currentStaveNotePosition;
-        if (currentStaveNotePosition < 1)
-          return nextStaveNotePosition > currentStaveNotePosition;
-
-        return false;
-      })();
-
-      nextStaveNote[0].setLedgerLineStyle({
-        strokeStyle: draggingNote ? "rgba(0, 0, 0, 0)" : "#DEDEDE",
-      });
-
-      const voices = [
-        new Voice({
-          num_beats: 4,
-          beat_value: 4,
-        }).addTickables(
-          currentStaveNoteFirst ? currentStaveNote : nextStaveNote
-        ),
-        new Voice({
-          num_beats: 4,
-          beat_value: 4,
-        })
-          .addTickables(
-            currentStaveNoteFirst ? nextStaveNote : currentStaveNote
-          )
-          .setGroupStyle({ strokeStyle: "rgba(0, 0, 0, 0.5)" }),
-      ];
+      // const voices = [
+      //   new Voice({
+      //     num_beats: numberOfBeats(noteState),
+      //     beat_value: 4,
+      //   }).addTickables(
+      //     currentStaveNoteFirst
+      //       ? getCurrentStaveNote(noteState.name)
+      //       : getNextStaveNote(nextNote)
+      //   ),
+      //   new Voice({
+      //     num_beats: numberOfBeats,
+      //     beat_value: 4,
+      //   }).addTickables(
+      //     currentStaveNoteFirst
+      //       ? getNextStaveNote(nextNote)
+      //       : getCurrentStaveNote(noteState.name)
+      //   ),
+      // ];
 
       const formatter = new Formatter().formatToStave(voices, stave);
 
@@ -174,8 +185,8 @@ export const Stave = ({
 
   //function to display notes below staff
   const displayNote = () => {
-    if (typeof noteState.name === "string") {
-      return noteState.name;
+    if (noteState.name.length === 1) {
+      return noteState.name[0];
     }
 
     return noteState.name

@@ -23,7 +23,7 @@ export const SingleReedFingeringChart = ({
   const [toggleKeyOn, setToggleKeyOn] = useState<boolean>(false);
 
   const [noteState, setNoteState] = useState<Note>({
-    name: "",
+    name: [""],
     staffPosition: -1,
   });
 
@@ -94,7 +94,7 @@ export const SingleReedFingeringChart = ({
   useEffect(() => {
     setActiveKeys([]);
     setNoteState({
-      name: "",
+      name: [""],
       staffPosition: -1,
     });
   }, [currentInstrument]);
