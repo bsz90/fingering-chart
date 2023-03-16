@@ -1,7 +1,6 @@
-import { current } from "immer";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Accidental, Formatter, StaveNote, Vex, Voice } from "vexflow";
-import { instrumentClef, instrumentRanges, notes } from "./constants";
+import { instrumentRanges, notes } from "./constants";
 import { Clef, Instrument, InstrumentKeys, Note, Notes } from "./types";
 import { getRegex, sortNoteNames } from "./utils";
 
@@ -9,7 +8,6 @@ export const Stave = ({
   noteState,
   currentInstrument,
   currentInstrumentClef,
-  currentInstrumentRange,
   allPossibleInstrumentFingerings,
   setActiveKeys,
   setNoteState,
@@ -17,7 +15,6 @@ export const Stave = ({
   noteState: Note;
   currentInstrument: Instrument;
   currentInstrumentClef: Clef;
-  currentInstrumentRange: Note[];
   allPossibleInstrumentFingerings: Partial<
     Record<Notes, InstrumentKeys[] | InstrumentKeys[][]>
   >;
@@ -61,12 +58,28 @@ export const Stave = ({
           .setStyle({ fillStyle: "rgba(0, 0, 0, 0)" }),
       ];
 
-      const getCurrentStaveNote = (noteName: string[]) => {
-        if (noteName.every((string) => string)) {
-          const regex = getRegex(noteName);
+      const getCurrentStaveNote = ({ name, staffPosition }: Note) => {
+        if (name.every((string) => string)) {
+          const regex = getRegex(name);
+          const thirdStaffLine =
+            currentInstrumentClef === Clef.TREBLE ? Notes.B4 : Notes.D3;
+
+          const stemDirection = staffPosition > thirdStaffLine ? -1 : 1;
+
+          const setStemLength = (staveNote: StaveNote) => {
+            const baseStemLength = 35;
+            const extensionLength = staveNote.getStemExtension();
+            const stemLength =
+              extensionLength > 0
+                ? baseStemLength - extensionLength
+                : baseStemLength;
+
+            return staveNote.setStemLength(stemLength);
+          };
+
           const staveNotes = regex.map((noteRegex, id) => {
             const xShift = regex.length === 1 ? 30 : id === 0 ? 8 : 5;
-            const duration = noteName.length === 1 ? "w" : "h";
+            const duration = name.length === 1 ? "w" : "h";
 
             if (noteRegex.modifier) {
               const flat = noteRegex.modifier === "♭";
@@ -74,18 +87,30 @@ export const Stave = ({
                 id === 0 ? -6 : -4
               );
 
-              return new StaveNote({
+              const newStaveNote = new StaveNote({
                 keys: [`${noteRegex.note}/${noteRegex.octave}`],
                 duration: duration,
               })
+                .setStemDirection(stemDirection)
                 .setXShift(xShift)
                 .addModifier(modifier);
+
+              return setStemLength(newStaveNote);
             }
-            return new StaveNote({
+
+            const newStaveNote = new StaveNote({
               keys: [`${noteRegex.note}/${noteRegex.octave}`],
               duration: duration,
-            }).setXShift(xShift);
+            })
+              .setStemDirection(stemDirection)
+              .setStemLength(35)
+              .setXShift(xShift);
+
+            return newStaveNote;
           });
+
+          if (staveNotes[0].getStemExtension() > 0)
+            console.log(staveNotes[0].getStemExtension());
 
           return staveNotes;
         }
@@ -123,7 +148,7 @@ export const Stave = ({
       const voices = (() => {
         const notes = [
           getNextStaveNote(nextNote),
-          getCurrentStaveNote(noteState.name),
+          getCurrentStaveNote(noteState),
         ];
 
         return notes.map((staveNote, id) => {
@@ -140,25 +165,6 @@ export const Stave = ({
             });
         });
       })();
-
-      // const voices = [
-      //   new Voice({
-      //     num_beats: numberOfBeats(noteState),
-      //     beat_value: 4,
-      //   }).addTickables(
-      //     currentStaveNoteFirst
-      //       ? getCurrentStaveNote(noteState.name)
-      //       : getNextStaveNote(nextNote)
-      //   ),
-      //   new Voice({
-      //     num_beats: numberOfBeats,
-      //     beat_value: 4,
-      //   }).addTickables(
-      //     currentStaveNoteFirst
-      //       ? getNextStaveNote(nextNote)
-      //       : getCurrentStaveNote(noteState.name)
-      //   ),
-      // ];
 
       const formatter = new Formatter().formatToStave(voices, stave);
 
@@ -196,9 +202,6 @@ export const Stave = ({
 
   //event handlers
   const handlePointerMove = (top: number, clientY: number, buttons: number) => {
-    const windowSize = 384;
-    const pixelsBetweenNotes = 5;
-    const offsetY = 70;
     const max = notes.length - 1;
 
     const nextNoteId = Math.min(
@@ -240,7 +243,7 @@ export const Stave = ({
       </div>
       <div className="w-[384px] rounded-xl flex flex-col justify-center items-center">
         <div
-          className="w-full flex justify-center overflow-hidden"
+          className="w-full flex justify-center overflow-hidden cursor-pointer"
           ref={setRef}
           onPointerMove={({ currentTarget, clientY, buttons }) => {
             const { top } = currentTarget.getBoundingClientRect();
