@@ -31,12 +31,6 @@ export const SingleReedFingeringChart = ({
     []
   );
 
-  //get memo'd values from constants using currentInstrument
-  const currentInstrumentRange = useMemo(() => {
-    const range = instrumentRanges[currentInstrument];
-    return notes.slice(range.lowestNote, range.highestNote + 1);
-  }, [currentInstrument]);
-
   const allPossibleInstrumentFingerings = useMemo(
     () => instrumentFingerings[currentInstrument],
     [currentInstrument]
@@ -117,6 +111,11 @@ export const SingleReedFingeringChart = ({
         const newNoteState = notes[+currentFingeringsPossibleNotes[0][0]];
         setNoteState({ ...newNoteState });
       }
+      if (noteState.staffPosition > -1)
+        setNoteState({
+          name: [""],
+          staffPosition: -1,
+        });
     }
   }, [
     activeKeys,
@@ -134,7 +133,6 @@ export const SingleReedFingeringChart = ({
             noteState={noteState}
             currentInstrument={currentInstrument}
             currentInstrumentClef={currentInstrumentClef}
-            currentInstrumentRange={currentInstrumentRange}
             allPossibleInstrumentFingerings={allPossibleInstrumentFingerings}
             setActiveKeys={setActiveKeys}
             setNoteState={setNoteState}
