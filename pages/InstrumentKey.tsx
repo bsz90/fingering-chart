@@ -50,6 +50,23 @@ export const InstrumentKey = ({
         });
   };
 
+  const handleKeyDown = (newKey: InstrumentKeys) => {
+    if (activeKeys) {
+      if (activeKeys.includes(newKey)) {
+        console.log("running1");
+        setActiveKeys((prev) => {
+          if (prev)
+            return [...prev.filter((activeKey) => activeKey !== newKey)];
+        });
+        return;
+      }
+      setActiveKeys((prev) => {
+        console.log("running2");
+        if (prev) return [...prev, newKey];
+      });
+    }
+  };
+
   return (
     <Tooltip.Provider
       key={createUniqueKey(currentInstrument, name)}
@@ -69,6 +86,11 @@ export const InstrumentKey = ({
             }
           }}
           onPointerUp={() => {}}
+          onKeyDown={({ code }) => {
+            if (code === "Enter") {
+              handleKeyDown(name);
+            }
+          }}
         />
         <Tooltip.Content className="bg-stone-800 opacity-95 drop-shadow-md text-white text-sm px-4 py-1 flex items-center justify-center rounded-full">
           <Tooltip.Arrow />
