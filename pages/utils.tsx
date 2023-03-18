@@ -1,4 +1,4 @@
-import { Instrument, InstrumentKeys, KeyGroup, Note, NoteRegex } from "./types";
+import { InstrumentKeys, NoteRegex } from "./types";
 
 export const checkArray = (
   array: InstrumentKeys[],
