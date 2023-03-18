@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import {
-  keyDiagrams,
+  woodwindKeyDiagrams,
   instrumentFingerings,
   notes,
   instrumentRanges,
@@ -9,14 +9,21 @@ import {
 import { Stave } from "./Stave";
 import { ToggleFingeringButtons } from "./ToggleFingeringButtons";
 import { ToggleOctaveButtons } from "./ToggleOctaveButtons";
-import { KeyGroup, Note, InstrumentKeys, Instrument, Notes } from "./types";
+import {
+  WoodwindKeyGroup,
+  Note,
+  InstrumentKeys,
+  Notes,
+  WoodwindInstrument,
+  Instrument,
+} from "./types";
 import { checkIfSameFingerings } from "./utils";
 import { WoodwindKeyGroups } from "./WoodwindKeyGroups";
 
 export const SingleReedFingeringChart = ({
   currentInstrument,
 }: {
-  currentInstrument: Instrument;
+  currentInstrument: WoodwindInstrument;
   setCurrentInstrument: Dispatch<SetStateAction<Instrument>>;
 }) => {
   //Drag functionality for keys
@@ -37,10 +44,10 @@ export const SingleReedFingeringChart = ({
   );
 
   const currentInstrumentKeyGroups = useMemo(() => {
-    const currentKeyGroup = keyDiagrams[currentInstrument];
+    const currentKeyGroup = woodwindKeyDiagrams[currentInstrument];
 
     //sort keyGroups
-    const sortedArray: KeyGroup[][] = [[], [], []];
+    const sortedArray: WoodwindKeyGroup[][] = [[], [], []];
 
     currentKeyGroup.forEach((arrayItem) => {
       if (arrayItem) sortedArray[arrayItem.position].push(arrayItem);
