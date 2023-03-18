@@ -1,6 +1,11 @@
 import { Dispatch, SetStateAction } from "react";
 import { InstrumentKey } from "./InstrumentKey";
-import { Instrument, InstrumentKeys, KeyGroup, Position } from "./types";
+import {
+  Instrument,
+  InstrumentKeys,
+  WoodwindKeyGroup,
+  Position,
+} from "./types";
 import { createUniqueKey } from "./utils";
 
 export const WoodwindKeyGroups = ({
@@ -12,7 +17,7 @@ export const WoodwindKeyGroups = ({
   activeKeys,
   setActiveKeys,
 }: {
-  keyGroup: KeyGroup[];
+  keyGroup: WoodwindKeyGroup[];
   position: Position;
   toggleKeyOn: boolean;
   setToggleKeyOn: Dispatch<SetStateAction<boolean>>;
