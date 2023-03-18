@@ -2,8 +2,8 @@ import {
   Clef,
   FluteKeyGroup,
   FluteKeys,
-  Instrument as Instrument,
-  KeyGroup,
+  Instrument,
+  WoodwindKeyGroup,
   Note,
   Notes,
   Position,
@@ -17,6 +17,10 @@ import {
   TrumpetValves,
   ClarinetKeyGroup,
   ClarinetKeys,
+  BrassKeyGroup,
+  FrenchHornValves,
+  TubaValves,
+  TrombonePositions,
 } from "./types";
 import Bassoon from "./icons/bassoon.svg";
 import Clarinet from "./icons/clarinet.svg";
@@ -91,7 +95,9 @@ export const instrumentClef: { [key in Instrument]: Clef } = {
   [BrassInstrument.TUBA]: Clef.BASS,
 };
 
-export const keyDiagrams: { [key in Instrument]: KeyGroup[] } = {
+export const woodwindKeyDiagrams: {
+  [key in WoodwindInstrument]: WoodwindKeyGroup[];
+} = {
   [WoodwindInstrument.FLUTE]: [
     {
       groupName: FluteKeyGroup.LEFT_THUMB,
@@ -496,7 +502,6 @@ export const keyDiagrams: { [key in Instrument]: KeyGroup[] } = {
       ],
     },
   ],
-
   [WoodwindInstrument.BASSOON]: [
     {
       groupName: FluteKeyGroup.RIGHT_HAND_MAIN,
@@ -518,82 +523,165 @@ export const keyDiagrams: { [key in Instrument]: KeyGroup[] } = {
       ],
     },
   ],
+};
+
+export const brassDiagrams: { [key in BrassInstrument]: BrassKeyGroup } = {
   [BrassInstrument.TRUMPET]: [
     {
-      groupName: FluteKeyGroup.RIGHT_HAND_MAIN,
-      section: Section.BOTTOM,
-      position: Position.CENTER,
+      trigger: false,
+      fourthValve: false,
       keys: [
         {
-          name: FluteKeys.RIGHT_FIRST_FINGER,
-          className: "rounded-[50%] h-[62px] w-[62px] mt-[50px]",
+          name: TrumpetValves.FIRST,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
         },
         {
-          name: FluteKeys.RIGHT_SECOND_FINGER,
-          className: "rounded-[50%] h-[62px] w-[62px] mt-[30px]",
+          name: TrumpetValves.SECOND,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
         },
         {
-          name: FluteKeys.RIGHT_THIRD_FINGER,
-          className: "rounded-[50%] h-[62px] w-[62px] mt-[30px]",
+          name: TrumpetValves.THIRD,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
         },
       ],
     },
   ],
   [BrassInstrument.FRENCH_HORN]: [
     {
-      groupName: FluteKeyGroup.LEFT_THUMB,
-      section: Section.TOP,
-      position: Position.LEFT,
+      trigger: true,
+      fourthValve: false,
       keys: [
         {
-          name: FluteKeys.THUMB_Bb,
-          className: "rounded-[10px] h-[62px] w-[24px] mb-[200px]",
+          name: FrenchHornValves.FIRST,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
         },
         {
-          name: FluteKeys.THUMB_B,
-          className: "rounded-[10px] h-[62px] w-[24px] mb-[200px]",
+          name: FrenchHornValves.SECOND,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
+        },
+        {
+          name: FrenchHornValves.THIRD,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
+        },
+        {
+          name: FrenchHornValves.TRIGGER,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
         },
       ],
     },
   ],
   [BrassInstrument.TROMBONE]: [
     {
-      groupName: FluteKeyGroup.RIGHT_HAND_MAIN,
-      section: Section.BOTTOM,
-      position: Position.CENTER,
+      trigger: false,
+      fourthValve: false,
       keys: [
         {
-          name: FluteKeys.RIGHT_FIRST_FINGER,
-          className: "rounded-[50%] h-[62px] w-[62px] mt-[50px]",
+          name: TrombonePositions.FIRST,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
         },
         {
-          name: FluteKeys.RIGHT_SECOND_FINGER,
-          className: "rounded-[50%] h-[62px] w-[62px] mt-[30px]",
+          name: TrombonePositions.SECOND,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
         },
         {
-          name: FluteKeys.RIGHT_THIRD_FINGER,
-          className: "rounded-[50%] h-[62px] w-[62px] mt-[30px]",
+          name: TrombonePositions.THIRD,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
+        },
+        {
+          name: TrombonePositions.FOURTH,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
+        },
+        {
+          name: TrombonePositions.FIFTH,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
+        },
+        {
+          name: TrombonePositions.SIXTH,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
+        },
+        {
+          name: TrombonePositions.SEVENTH,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
+        },
+      ],
+    },
+    {
+      trigger: true,
+      fourthValve: false,
+      keys: [
+        {
+          name: TrombonePositions.FIRST,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
+        },
+        {
+          name: TrombonePositions.SECOND,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
+        },
+        {
+          name: TrombonePositions.THIRD,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
+        },
+        {
+          name: TrombonePositions.FOURTH,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
+        },
+        {
+          name: TrombonePositions.FIFTH,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
+        },
+        {
+          name: TrombonePositions.SIXTH,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
+        },
+        {
+          name: TrombonePositions.SEVENTH,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
+        },
+        {
+          name: TrombonePositions.TRIGGER,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
         },
       ],
     },
   ],
   [BrassInstrument.TUBA]: [
     {
-      groupName: FluteKeyGroup.RIGHT_HAND_MAIN,
-      section: Section.BOTTOM,
-      position: Position.CENTER,
+      trigger: false,
+      fourthValve: false,
       keys: [
         {
-          name: FluteKeys.RIGHT_FIRST_FINGER,
-          className: "rounded-[50%] h-[62px] w-[62px] mt-[50px]",
+          name: TubaValves.FIRST,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
         },
         {
-          name: FluteKeys.RIGHT_SECOND_FINGER,
-          className: "rounded-[50%] h-[62px] w-[62px] mt-[30px]",
+          name: TubaValves.SECOND,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
         },
         {
-          name: FluteKeys.RIGHT_THIRD_FINGER,
-          className: "rounded-[50%] h-[62px] w-[62px] mt-[30px]",
+          name: TubaValves.THIRD,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
+        },
+      ],
+    },
+    {
+      trigger: false,
+      fourthValve: true,
+      keys: [
+        {
+          name: TubaValves.FIRST,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
+        },
+        {
+          name: TubaValves.SECOND,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
+        },
+        {
+          name: TubaValves.THIRD,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
+        },
+        {
+          name: TubaValves.FOURTH,
+          className: "rounded-[50%] h-[62px] w-[62px] mb-[30px]",
         },
       ],
     },

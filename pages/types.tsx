@@ -26,7 +26,7 @@ export enum Clef {
   BASS = "Bass",
 }
 
-export type KeyGroup = {
+export type WoodwindKeyGroup = {
   groupName: InstrumentKeyGroup;
   section: Section;
   position: Position;
@@ -35,6 +35,12 @@ export type KeyGroup = {
     className: string;
   }[];
 };
+
+export type BrassKeyGroup = {
+  trigger: boolean;
+  fourthValve: boolean;
+  keys: { name: InstrumentKeys; className: string }[];
+}[];
 
 export enum Section {
   TOP,
@@ -150,7 +156,7 @@ export enum TrombonePositions {
   FIFTH = "Fifth",
   SIXTH = "Sixth",
   SEVENTH = "Seventh",
-  TRIGGER = "TRIGGER",
+  TRIGGER = "Trigger",
 }
 
 export enum TubaValves {
