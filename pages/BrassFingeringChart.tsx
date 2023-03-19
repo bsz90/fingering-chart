@@ -11,6 +11,7 @@ import { ToggleOctaveButtons } from "./ToggleOctaveButtons";
 import { Note, InstrumentKeys, Instrument, BrassInstrument } from "./types";
 import { checkIfSameFingerings } from "./utils";
 import { InstrumentKey } from "./InstrumentKey";
+import { current } from "immer";
 
 export const BrassFingeringChart = ({
   currentInstrument,
