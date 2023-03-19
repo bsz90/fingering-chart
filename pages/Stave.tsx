@@ -33,6 +33,7 @@ export const Stave = ({
   //VexFlow
   const { Renderer, Stave } = Vex.Flow;
 
+  //checks for Renderer, sizes it, creates a basic stave and starting note,
   useEffect(() => {
     if (ref) {
       const renderer = new Renderer(ref, Renderer.Backends.SVG);
@@ -51,8 +52,9 @@ export const Stave = ({
 
       const initialStaveNote = [
         new StaveNote({
-          keys: [`e/4`],
+          keys: [`${currentInstrumentClef === Clef.BASS ? "c/3" : "e/4"}`],
           duration: "w",
+          clef: currentInstrumentClef,
         })
           .setXShift(30)
           .setStyle({ fillStyle: "rgba(0, 0, 0, 0)" }),
@@ -90,6 +92,7 @@ export const Stave = ({
               const newStaveNote = new StaveNote({
                 keys: [`${noteRegex.note}/${noteRegex.octave}`],
                 duration: duration,
+                clef: currentInstrumentClef,
               })
                 .setStemDirection(stemDirection)
                 .setXShift(xShift)
@@ -101,6 +104,7 @@ export const Stave = ({
             const newStaveNote = new StaveNote({
               keys: [`${noteRegex.note}/${noteRegex.octave}`],
               duration: duration,
+              clef: currentInstrumentClef,
             })
               .setStemDirection(stemDirection)
               .setStemLength(35)
@@ -108,9 +112,6 @@ export const Stave = ({
 
             return newStaveNote;
           });
-
-          if (staveNotes[0].getStemExtension() > 0)
-            console.log(staveNotes[0].getStemExtension());
 
           return staveNotes;
         }
@@ -128,6 +129,7 @@ export const Stave = ({
             new StaveNote({
               keys: [`${regex.note}/${regex.octave}`],
               duration: "w",
+              clef: currentInstrumentClef,
             })
               .setXShift(30)
               .setStyle({
@@ -204,13 +206,16 @@ export const Stave = ({
   const handlePointerMove = (top: number, clientY: number, buttons: number) => {
     const max = notes.length - 1;
 
-    const nextNoteId = Math.min(
-      Math.max(
-        max - Math.floor((clientY - top) / 7.5),
-        instrumentRanges[currentInstrument].lowestNote
-      ),
-      instrumentRanges[currentInstrument].highestNote
-    );
+    const clefOffset = currentInstrumentClef === Clef.BASS ? 21 : 0;
+
+    const nextNoteId =
+      Math.min(
+        Math.max(
+          max - Math.floor((clientY - top) / 8),
+          instrumentRanges[currentInstrument].lowestNote
+        ),
+        instrumentRanges[currentInstrument].highestNote
+      ) - clefOffset;
 
     setNextNote(notes[nextNoteId]);
     if (buttons) {
