@@ -8,14 +8,7 @@ import {
 import { Stave } from "./Stave";
 import { ToggleFingeringButtons } from "./ToggleFingeringButtons";
 import { ToggleOctaveButtons } from "./ToggleOctaveButtons";
-import {
-  Note,
-  InstrumentKeys,
-  Instrument,
-  BrassInstrument,
-  Notes,
-  BrassKeyGroup,
-} from "./types";
+import { Note, InstrumentKeys, Instrument, BrassInstrument } from "./types";
 import { checkIfSameFingerings } from "./utils";
 import { InstrumentKey } from "./InstrumentKey";
 
@@ -41,43 +34,16 @@ export const BrassFingeringChart = ({
 
   const [displayFourthValve, setDisplayFourthValve] = useState(false);
 
-  const hasTriggerOption = useMemo(() => {
-    const currentDiagram = brassDiagrams[currentInstrument];
-    const hasTrigger = (brassKeyGroupArray: BrassKeyGroup) => {
-      return brassKeyGroupArray.find(
-        (brassKeyGroup) => brassKeyGroup.trigger === true
-      );
-    };
-
-    if (currentDiagram.length > 1 && hasTrigger(currentDiagram)) {
-      return true;
-    }
-    return false;
-  }, [currentInstrument]);
-
-  const hasFourthValveOption = useMemo(() => {
-    const currentDiagram = brassDiagrams[currentInstrument];
-    const hasFourthValve = (brassKeyGroupArray: BrassKeyGroup) => {
-      return brassKeyGroupArray.find(
-        (brassKeyGroup) => brassKeyGroup.fourthValve === true
-      );
-    };
-
-    if (currentDiagram.length > 1 && hasFourthValve(currentDiagram)) {
-      return true;
-    }
-    return false;
-  }, [currentInstrument]);
-
-  const currentInstrumentKeys = useMemo(() => {
-    const currentKeys = brassDiagrams[currentInstrument].find(
+  const currentDiagram = useMemo(() => {
+    const correctDiagram = brassDiagrams[currentInstrument].find(
       (item) =>
         item.fourthValve === displayFourthValve &&
         item.trigger === displayTrigger
-    )?.keys;
+    );
 
-    if (currentKeys) return currentKeys;
-    return brassDiagrams[currentInstrument][0].keys;
+    return correctDiagram
+      ? correctDiagram
+      : brassDiagrams[currentInstrument][0];
   }, [currentInstrument, displayFourthValve, displayTrigger]);
 
   const allPossibleInstrumentFingerings = useMemo(
@@ -171,29 +137,32 @@ export const BrassFingeringChart = ({
           setNoteState={setNoteState}
           currentFingeringsPossibleNotes={currentFingeringsPossibleNotes}
         />
-        <div className="w-96 h-[700px] flex flex-col items-center justify-start">
-          <div className="w-full h-full flex items-center justify-center">
-            {currentInstrumentKeys.map(({ name, className }) => {
-              return (
-                <InstrumentKey
-                  key={name}
-                  currentInstrument={currentInstrument}
-                  name={name}
-                  className={className}
-                  toggleKeyOn={toggleKeyOn}
-                  setToggleKeyOn={setToggleKeyOn}
-                  activeKeys={activeKeys}
-                  setActiveKeys={setActiveKeys}
-                ></InstrumentKey>
-              );
-            })}
+        <div className="w-96 h-[700px] flex items-center justify-start">
+          <div className="w-full h-full flex flex-col items-center justify-center">
+            <div className="w-full h-96 flex flex-col gap-8 items-center justify-center">
+              <div className={currentDiagram.containerClassName}>
+                {currentDiagram.keys.map(({ name, className }) => {
+                  return (
+                    <InstrumentKey
+                      key={name}
+                      currentInstrument={currentInstrument}
+                      name={name}
+                      className={className}
+                      toggleKeyOn={toggleKeyOn}
+                      setToggleKeyOn={setToggleKeyOn}
+                      activeKeys={activeKeys}
+                      setActiveKeys={setActiveKeys}
+                    ></InstrumentKey>
+                  );
+                })}
+              </div>
+            </div>
+            <ToggleFingeringButtons
+              activeKeys={activeKeys}
+              setActiveKeys={setActiveKeys}
+              currentNotesPossibleFingerings={currentNotesPossibleFingerings}
+            />
           </div>
-          <div></div>
-          <ToggleFingeringButtons
-            activeKeys={activeKeys}
-            setActiveKeys={setActiveKeys}
-            currentNotesPossibleFingerings={currentNotesPossibleFingerings}
-          />
         </div>
       </div>
     </div>
