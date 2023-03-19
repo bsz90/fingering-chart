@@ -1,25 +1,29 @@
-import { SetState } from "immer/dist/internal";
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 import { BrassFingeringChart } from "./BrassFingeringChart";
 import { NavBar } from "./NavBar";
 import { SingleReedFingeringChart } from "./SingleReedFingeringChart";
-import { Start } from "./Start";
 import { BrassInstrument, Instrument, WoodwindInstrument } from "./types";
 
 export default function Home() {
-  const [currentFamily, setCurrentFamily] = useState("woodwind");
   const [currentInstrument, setCurrentInstrument] = useState<Instrument>(
     WoodwindInstrument.SAXOPHONE
   );
 
   const determineFingeringChart = (currentInstrument: Instrument) => {
-    if (
+    const isWoodwind = (currentInstrument: Instrument) =>
+      currentInstrument === WoodwindInstrument.SAXOPHONE ||
       currentInstrument === WoodwindInstrument.BASSOON ||
-      WoodwindInstrument.OBOE ||
-      WoodwindInstrument.FLUTE ||
-      WoodwindInstrument.CLARINET ||
-      WoodwindInstrument.SAXOPHONE
-    ) {
+      currentInstrument === WoodwindInstrument.CLARINET ||
+      currentInstrument === WoodwindInstrument.OBOE ||
+      currentInstrument === WoodwindInstrument.FLUTE;
+
+    const isBrass = (currentInstrument: Instrument) =>
+      currentInstrument === BrassInstrument.TRUMPET ||
+      currentInstrument === BrassInstrument.TROMBONE ||
+      currentInstrument === BrassInstrument.FRENCH_HORN ||
+      currentInstrument === BrassInstrument.TUBA;
+
+    if (isWoodwind(currentInstrument)) {
       return (
         <SingleReedFingeringChart
           currentInstrument={currentInstrument as WoodwindInstrument}
@@ -27,16 +31,13 @@ export default function Home() {
         />
       );
     }
-    if (
-      currentInstrument === BrassInstrument.TRUMPET ||
-      BrassInstrument.TROMBONE ||
-      BrassInstrument.FRENCH_HORN ||
-      BrassInstrument.TUBA
-    ) {
-      <BrassFingeringChart
-        currentInstrument={currentInstrument as BrassInstrument}
-        setCurrentInstrument={setCurrentInstrument}
-      />;
+    if (isBrass(currentInstrument)) {
+      return (
+        <BrassFingeringChart
+          currentInstrument={currentInstrument as BrassInstrument}
+          setCurrentInstrument={setCurrentInstrument}
+        />
+      );
     }
     throw new Error();
   };
