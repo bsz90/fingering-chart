@@ -61,20 +61,19 @@ export const InstrumentKey = ({
   };
 
   const handlePointerEnter = (newKey: InstrumentKeys) => {
-    if (activeKeys) {
-      console.log(toggleKeyOn);
-      if (!isTrombone)
-        if (toggleKeyOn && !activeKeys.includes(newKey))
-          setActiveKeys((prev) => {
-            if (prev) return [...prev, newKey];
-          });
+    if (activeKeys && !isTrombone) {
+      if (toggleKeyOn && !activeKeys.includes(newKey))
+        setActiveKeys((prev) => {
+          if (prev) return [...prev, newKey];
+        });
       if (!toggleKeyOn)
         setActiveKeys((prev) => {
           if (prev)
             return [...prev.filter((activeKey) => activeKey !== newKey)];
         });
-      if (isTrombone) handleTrombonePositions(newKey as TrombonePositions);
     }
+    if (activeKeys && isTrombone)
+      handleTrombonePositions(newKey as TrombonePositions);
   };
 
   const handleKeyDown = (newKey: InstrumentKeys) => {
