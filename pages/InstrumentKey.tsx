@@ -1,7 +1,13 @@
 import { Dispatch, SetStateAction } from "react";
-import { Instrument, InstrumentKeys } from "./types";
+import {
+  BrassInstrument,
+  Instrument,
+  InstrumentKeys,
+  TrombonePositions,
+} from "./types";
 import * as Tooltip from "@radix-ui/react-tooltip";
-import { createUniqueKey } from "./utils";
+import { createUniqueKey, isBrass, isWoodwind } from "./utils";
+import { brassDiagrams } from "./constants";
 
 export const InstrumentKey = ({
   currentInstrument,
@@ -20,8 +26,21 @@ export const InstrumentKey = ({
   activeKeys: InstrumentKeys[] | undefined;
   setActiveKeys: Dispatch<SetStateAction<InstrumentKeys[] | undefined>>;
 }) => {
+  const isTrombone = currentInstrument === BrassInstrument.TROMBONE;
+
+  const handleTrombonePositions = (newKey: TrombonePositions) => {
+    const tromboneKeys = brassDiagrams[BrassInstrument.TROMBONE][0].keys;
+    const index = tromboneKeys.findIndex(({ name }) => name === newKey);
+
+    const newTromboneKeys = tromboneKeys
+      .slice(0, index + 1)
+      .map(({ name }) => name);
+
+    setActiveKeys([...newTromboneKeys]);
+  };
+
   const handlePointerDown = (newKey: InstrumentKeys) => {
-    if (activeKeys) {
+    if (activeKeys && !isTrombone) {
       if (activeKeys.includes(newKey)) {
         setToggleKeyOn(false);
         setActiveKeys((prev) => {
@@ -35,25 +54,33 @@ export const InstrumentKey = ({
         if (prev) return [...prev, newKey];
       });
     }
+    if (activeKeys && isTrombone) {
+      setToggleKeyOn(true);
+      handleTrombonePositions(newKey as TrombonePositions);
+    }
   };
 
   const handlePointerEnter = (newKey: InstrumentKeys) => {
-    toggleKeyOn
-      ? activeKeys && !activeKeys.includes(newKey)
-        ? setActiveKeys((prev) => {
+    if (activeKeys) {
+      if (toggleKeyOn && !isTrombone) {
+        if (!activeKeys.includes(newKey))
+          setActiveKeys((prev) => {
             if (prev) return [...prev, newKey];
-          })
-        : null
-      : setActiveKeys((prev) => {
+          });
+        setActiveKeys((prev) => {
           if (prev)
             return [...prev.filter((activeKey) => activeKey !== newKey)];
         });
+      }
+      if (toggleKeyOn && isTrombone) {
+        handleTrombonePositions(newKey as TrombonePositions);
+      }
+    }
   };
 
   const handleKeyDown = (newKey: InstrumentKeys) => {
     if (activeKeys) {
       if (activeKeys.includes(newKey)) {
-        console.log("running1");
         setActiveKeys((prev) => {
           if (prev)
             return [...prev.filter((activeKey) => activeKey !== newKey)];
@@ -61,7 +88,6 @@ export const InstrumentKey = ({
         return;
       }
       setActiveKeys((prev) => {
-        console.log("running2");
         if (prev) return [...prev, newKey];
       });
     }
@@ -94,7 +120,14 @@ export const InstrumentKey = ({
         />
         <Tooltip.Content className="bg-stone-800 opacity-95 drop-shadow-md text-white text-sm px-4 py-1 flex items-center justify-center rounded-full">
           <Tooltip.Arrow />
-          {name} Key
+          {name}{" "}
+          {isTrombone
+            ? "Position"
+            : isBrass(currentInstrument)
+            ? "Valve"
+            : isWoodwind(currentInstrument)
+            ? "Key"
+            : ""}
         </Tooltip.Content>
       </Tooltip.Root>
     </Tooltip.Provider>
