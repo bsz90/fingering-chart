@@ -1,6 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
+import { AdjustmentsDropdown } from "./AdjustmentsDropdown";
 import { InstrumentKeys, Note } from "./types";
 import { checkArray } from "./utils";
+import AdjustmentsIcon from "./icons/adjustments.svg";
 
 export const ToggleFingeringButtons = ({
   activeKeys,
@@ -66,6 +68,9 @@ export const ToggleFingeringButtons = ({
       >
         &larr;
       </button>
+      <div className="w-12 h-12 flex items-center justify-center">
+        <AdjustmentsDropdown />
+      </div>
       <button
         className={`w-12 h-6 bg-slate-600 text-white flex flex-row items-center text-center justify-center rounded-md drop-shadow-md ${
           disabled("right") ? "opacity-30" : "opacity-100"
