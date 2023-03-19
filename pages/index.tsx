@@ -3,6 +3,7 @@ import { BrassFingeringChart } from "./BrassFingeringChart";
 import { NavBar } from "./NavBar";
 import { SingleReedFingeringChart } from "./SingleReedFingeringChart";
 import { BrassInstrument, Instrument, WoodwindInstrument } from "./types";
+import { isBrass, isWoodwind } from "./utils";
 
 export default function Home() {
   const [currentInstrument, setCurrentInstrument] = useState<Instrument>(
@@ -10,19 +11,6 @@ export default function Home() {
   );
 
   const determineFingeringChart = (currentInstrument: Instrument) => {
-    const isWoodwind = (currentInstrument: Instrument) =>
-      currentInstrument === WoodwindInstrument.SAXOPHONE ||
-      currentInstrument === WoodwindInstrument.BASSOON ||
-      currentInstrument === WoodwindInstrument.CLARINET ||
-      currentInstrument === WoodwindInstrument.OBOE ||
-      currentInstrument === WoodwindInstrument.FLUTE;
-
-    const isBrass = (currentInstrument: Instrument) =>
-      currentInstrument === BrassInstrument.TRUMPET ||
-      currentInstrument === BrassInstrument.TROMBONE ||
-      currentInstrument === BrassInstrument.FRENCH_HORN ||
-      currentInstrument === BrassInstrument.TUBA;
-
     if (isWoodwind(currentInstrument)) {
       return (
         <SingleReedFingeringChart

@@ -22,8 +22,8 @@ export type InstrumentRange = {
 };
 
 export enum Clef {
-  TREBLE = "Treble",
-  BASS = "Bass",
+  TREBLE = "treble",
+  BASS = "bass",
 }
 
 export type WoodwindKeyGroup = {
@@ -39,6 +39,7 @@ export type WoodwindKeyGroup = {
 export type BrassKeyGroup = {
   trigger: boolean;
   fourthValve: boolean;
+  containerClassName: string;
   keys: { name: InstrumentKeys; className: string }[];
 }[];
 
