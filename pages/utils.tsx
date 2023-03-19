@@ -1,4 +1,10 @@
-import { InstrumentKeys, NoteRegex } from "./types";
+import {
+  BrassInstrument,
+  Instrument,
+  InstrumentKeys,
+  NoteRegex,
+  WoodwindInstrument,
+} from "./types";
 
 export const checkArray = (
   array: InstrumentKeys[],
@@ -70,3 +76,18 @@ export const sortNoteNames = (stringA: string, stringB: string) => {
   }
   return 0;
 };
+
+// checks if instrument is a Brass instrument
+export const isBrass = (currentInstrument: Instrument) =>
+  currentInstrument === BrassInstrument.TRUMPET ||
+  currentInstrument === BrassInstrument.TROMBONE ||
+  currentInstrument === BrassInstrument.FRENCH_HORN ||
+  currentInstrument === BrassInstrument.TUBA;
+
+// checks if instrument is a Woodwind instrument
+export const isWoodwind = (currentInstrument: Instrument) =>
+  currentInstrument === WoodwindInstrument.SAXOPHONE ||
+  currentInstrument === WoodwindInstrument.BASSOON ||
+  currentInstrument === WoodwindInstrument.CLARINET ||
+  currentInstrument === WoodwindInstrument.OBOE ||
+  currentInstrument === WoodwindInstrument.FLUTE;
