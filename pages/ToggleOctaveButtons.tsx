@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, useMemo } from "react";
+import { AdjustmentsDropdown } from "./AdjustmentsDropdown";
 import { notes } from "./constants";
 import { InstrumentKeys, Note } from "./types";
 
@@ -67,6 +68,9 @@ export const ToggleOctaveButtons = ({
       >
         &uarr;
       </button>
+      <div className="w-12 h-12 flex items-center justify-center">
+        <AdjustmentsDropdown />
+      </div>
       <button
         className={`w-6 h-12 bg-slate-600 text-white flex flex-row items-center text-center justify-center rounded-md drop-shadow-md
          ${disabled("down") ? "opacity-30" : "opacity-100"}`}
