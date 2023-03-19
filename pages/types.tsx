@@ -22,7 +22,7 @@ export type InstrumentRange = {
 };
 
 export enum Clef {
-  TREBLE = "treble",
+  TREBLE = "Treble",
   BASS = "Bass",
 }
 
