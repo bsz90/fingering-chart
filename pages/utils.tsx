@@ -31,7 +31,7 @@ export const checkIfSameFingerings = (
   activeKeys: InstrumentKeys[] | undefined
 ) => {
   if (fingering) {
-    if (typeof fingering[0] === "string") {
+    if (typeof fingering[0] === "string" || fingering.length === 0) {
       return checkArray(fingering as InstrumentKeys[], activeKeys);
     }
     return checkNestedArray(fingering as InstrumentKeys[][], activeKeys);
