@@ -11,7 +11,6 @@ import { ToggleOctaveButtons } from "./ToggleOctaveButtons";
 import { Note, InstrumentKeys, Instrument, BrassInstrument } from "./types";
 import { checkIfSameFingerings } from "./utils";
 import { InstrumentKey } from "./InstrumentKey";
-import { current } from "immer";
 
 export const BrassFingeringChart = ({
   currentInstrument,
@@ -34,6 +33,8 @@ export const BrassFingeringChart = ({
   const [displayTrigger, setDisplayTrigger] = useState(false);
 
   const [displayFourthValve, setDisplayFourthValve] = useState(false);
+
+  const [displayEnharmonics, setDisplayEnharmonics] = useState<boolean>(false);
 
   const currentDiagram = useMemo(() => {
     const correctDiagram = brassDiagrams[currentInstrument].find(
@@ -131,12 +132,16 @@ export const BrassFingeringChart = ({
             allPossibleInstrumentFingerings={allPossibleInstrumentFingerings}
             setActiveKeys={setActiveKeys}
             setNoteState={setNoteState}
+            displayEnharmonics={displayEnharmonics}
+            setDisplayEnharmonics={setDisplayEnharmonics}
           />
         </div>
         <ToggleOctaveButtons
           noteState={noteState}
           setNoteState={setNoteState}
           currentFingeringsPossibleNotes={currentFingeringsPossibleNotes}
+          displayEnharmonics={displayEnharmonics}
+          setDisplayEnharmonics={setDisplayEnharmonics}
         />
         <div className="w-96 h-[700px] flex items-center justify-start">
           <div className="w-full h-full flex flex-col items-center justify-center">

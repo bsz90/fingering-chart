@@ -34,6 +34,8 @@ export const SingleReedFingeringChart = ({
     staffPosition: -1,
   });
 
+  const [displayEnharmonics, setDisplayEnharmonics] = useState<boolean>(false);
+
   const [activeKeys, setActiveKeys] = useState<InstrumentKeys[] | undefined>(
     []
   );
@@ -143,12 +145,16 @@ export const SingleReedFingeringChart = ({
             allPossibleInstrumentFingerings={allPossibleInstrumentFingerings}
             setActiveKeys={setActiveKeys}
             setNoteState={setNoteState}
+            displayEnharmonics={displayEnharmonics}
+            setDisplayEnharmonics={setDisplayEnharmonics}
           />
         </div>
         <ToggleOctaveButtons
           noteState={noteState}
           setNoteState={setNoteState}
           currentFingeringsPossibleNotes={currentFingeringsPossibleNotes}
+          displayEnharmonics={displayEnharmonics}
+          setDisplayEnharmonics={setDisplayEnharmonics}
         />
         <div className="w-96 h-[700px] flex flex-col items-center justify-start">
           <div className="w-full h-full flex items-center justify-center">

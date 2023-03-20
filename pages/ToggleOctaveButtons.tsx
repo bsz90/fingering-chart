@@ -7,6 +7,8 @@ export const ToggleOctaveButtons = ({
   noteState,
   setNoteState,
   currentFingeringsPossibleNotes,
+  displayEnharmonics,
+  setDisplayEnharmonics,
 }: {
   noteState: Note;
   setNoteState: Dispatch<SetStateAction<Note>>;
@@ -14,6 +16,8 @@ export const ToggleOctaveButtons = ({
     string,
     InstrumentKeys[] | InstrumentKeys[][]
   ][];
+  displayEnharmonics: boolean;
+  setDisplayEnharmonics: Dispatch<SetStateAction<boolean>>;
 }) => {
   const currentPossibleFingeringIndex = useMemo(
     () =>
@@ -69,7 +73,10 @@ export const ToggleOctaveButtons = ({
         &uarr;
       </button>
       <div className="w-12 h-12 flex items-center justify-center">
-        <AdjustmentsDropdown />
+        <AdjustmentsDropdown
+          displayEnharmonics={displayEnharmonics}
+          setDisplayEnharmonics={setDisplayEnharmonics}
+        />
       </div>
       <button
         className={`w-6 h-12 bg-slate-600 text-white flex flex-row items-center text-center justify-center rounded-md drop-shadow-md

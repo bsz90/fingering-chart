@@ -11,6 +11,8 @@ export const Stave = ({
   allPossibleInstrumentFingerings,
   setActiveKeys,
   setNoteState,
+  displayEnharmonics,
+  setDisplayEnharmonics,
 }: {
   noteState: Note;
   currentInstrument: Instrument;
@@ -20,9 +22,14 @@ export const Stave = ({
   >;
   setActiveKeys: Dispatch<SetStateAction<InstrumentKeys[] | undefined>>;
   setNoteState: Dispatch<SetStateAction<Note>>;
+  displayEnharmonics: boolean;
+  setDisplayEnharmonics: Dispatch<SetStateAction<boolean>>;
 }) => {
   //display newNote on pointerMove?
   const [draggingNote, setDraggingNote] = useState<boolean>(false);
+
+  //mouse direction state used to prioritize sharp or flat
+  const [movementY, setMovementY] = useState<number>(0);
 
   //note displayed on hover
   const [nextNote, setNextNote] = useState<Note | undefined>(undefined);
@@ -62,7 +69,18 @@ export const Stave = ({
 
       const getCurrentStaveNote = ({ name, staffPosition }: Note) => {
         if (name.every((string) => string)) {
-          const regex = getRegex(name);
+          const regex = (() => {
+            if (name.length === 1 || displayEnharmonics) return getRegex(name);
+
+            if (getRegex(name).find(({ modifier }) => modifier === undefined)) {
+              return getRegex(name).filter(({ modifier }) => !modifier);
+            }
+
+            return getRegex(name).filter(
+              ({ modifier }) => modifier === (movementY > 0 ? "♭" : "♯")
+            );
+          })();
+
           const thirdStaffLine =
             currentInstrumentClef === Clef.TREBLE ? Notes.B4 : Notes.D3;
 
@@ -80,8 +98,10 @@ export const Stave = ({
           };
 
           const staveNotes = regex.map((noteRegex, id) => {
-            const xShift = regex.length === 1 ? 30 : id === 0 ? 8 : 5;
-            const duration = name.length === 1 ? "w" : "h";
+            const xShift =
+              regex.length === 1 || !displayEnharmonics ? 30 : id === 0 ? 8 : 5;
+
+            const duration = displayEnharmonics && regex.length > 1 ? "h" : "w";
 
             if (noteRegex.modifier) {
               const flat = noteRegex.modifier === "♭";
@@ -154,7 +174,6 @@ export const Stave = ({
         ];
 
         return notes.map((staveNote, id) => {
-          const beatsPerNote = 4;
           const opaque = id === 0;
 
           return new Voice({
@@ -185,7 +204,9 @@ export const Stave = ({
     Stave,
     currentInstrument,
     currentInstrumentClef,
+    displayEnharmonics,
     draggingNote,
+    movementY,
     nextNote,
     noteState,
     ref,
@@ -250,9 +271,10 @@ export const Stave = ({
         <div
           className="w-full flex justify-center overflow-hidden cursor-pointer"
           ref={setRef}
-          onPointerMove={({ currentTarget, clientY, buttons }) => {
+          onPointerMove={({ currentTarget, clientY, buttons, movementY }) => {
             const { top } = currentTarget.getBoundingClientRect();
             handlePointerMove(top, clientY, buttons);
+            if (movementY !== 0 && buttons) setMovementY(movementY);
           }}
           onClick={() => {
             if (nextNote) {
