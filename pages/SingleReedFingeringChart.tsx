@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import {
   woodwindKeyDiagrams,
-  instrumentFingerings,
+  woodwindFingerings,
   notes,
   instrumentRanges,
   instrumentClef,
@@ -41,7 +41,7 @@ export const SingleReedFingeringChart = ({
   );
 
   const allPossibleInstrumentFingerings = useMemo(
-    () => instrumentFingerings[currentInstrument],
+    () => woodwindFingerings[currentInstrument],
     [currentInstrument]
   );
 

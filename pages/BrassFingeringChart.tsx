@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import {
-  instrumentFingerings,
+  woodwindFingerings,
   notes,
   instrumentClef,
   brassDiagrams,
@@ -49,7 +49,7 @@ export const BrassFingeringChart = ({
   }, [currentInstrument, displayFourthValve, displayTrigger]);
 
   const allPossibleInstrumentFingerings = useMemo(
-    () => instrumentFingerings[currentInstrument],
+    () => woodwindFingerings[currentInstrument],
     [currentInstrument]
   );
 

@@ -690,7 +690,7 @@ export const brassDiagrams: { [key in BrassInstrument]: BrassKeyGroup } = {
   ],
 };
 
-export const instrumentFingerings: {
+export const woodwindFingerings: {
   [key in Instrument]: Partial<
     Record<Notes, InstrumentKeys[] | InstrumentKeys[][]>
   >;
@@ -1860,24 +1860,294 @@ export const instrumentFingerings: {
     ],
   },
   [BrassInstrument.TROMBONE]: {
+    [Notes.E2]: [
+      TrombonePositions.FIRST,
+      TrombonePositions.SECOND,
+      TrombonePositions.THIRD,
+      TrombonePositions.FOURTH,
+      TrombonePositions.FIFTH,
+      TrombonePositions.SIXTH,
+      TrombonePositions.SEVENTH,
+    ],
+    [Notes.F2]: [
+      TrombonePositions.FIRST,
+      TrombonePositions.SECOND,
+      TrombonePositions.THIRD,
+      TrombonePositions.FOURTH,
+      TrombonePositions.FIFTH,
+      TrombonePositions.SIXTH,
+    ],
+    [Notes.Gb2]: [
+      TrombonePositions.FIRST,
+      TrombonePositions.SECOND,
+      TrombonePositions.THIRD,
+      TrombonePositions.FOURTH,
+      TrombonePositions.FIFTH,
+    ],
+    [Notes.G2]: [
+      TrombonePositions.FIRST,
+      TrombonePositions.SECOND,
+      TrombonePositions.THIRD,
+      TrombonePositions.FOURTH,
+    ],
+    [Notes.Ab3]: [
+      TrombonePositions.FIRST,
+      TrombonePositions.SECOND,
+      TrombonePositions.THIRD,
+    ],
+    [Notes.A3]: [TrombonePositions.FIRST, TrombonePositions.SECOND],
     [Notes.Bb3]: [TrombonePositions.FIRST],
-    [Notes.C7]: [
+    [Notes.B3]: [
+      TrombonePositions.FIRST,
+      TrombonePositions.SECOND,
+      TrombonePositions.THIRD,
+      TrombonePositions.FOURTH,
+      TrombonePositions.FIFTH,
+      TrombonePositions.SIXTH,
+      TrombonePositions.SEVENTH,
+    ],
+    [Notes.C3]: [
+      TrombonePositions.FIRST,
+      TrombonePositions.SECOND,
+      TrombonePositions.THIRD,
+      TrombonePositions.FOURTH,
+      TrombonePositions.FIFTH,
+      TrombonePositions.SIXTH,
+    ],
+    [Notes.Db3]: [
+      TrombonePositions.FIRST,
+      TrombonePositions.SECOND,
+      TrombonePositions.THIRD,
+      TrombonePositions.FOURTH,
+      TrombonePositions.FIFTH,
+    ],
+    [Notes.D3]: [
+      TrombonePositions.FIRST,
+      TrombonePositions.SECOND,
+      TrombonePositions.THIRD,
+      TrombonePositions.FOURTH,
+    ],
+    [Notes.Eb3]: [
+      TrombonePositions.FIRST,
+      TrombonePositions.SECOND,
+      TrombonePositions.THIRD,
+    ],
+    [Notes.E3]: [
+      [TrombonePositions.FIRST, TrombonePositions.SECOND],
       [
-        FluteKeys.LEFT_FIRST_FINGER,
-        FluteKeys.LEFT_SECOND_FINGER,
-        FluteKeys.LEFT_THIRD_FINGER,
-        FluteKeys.G_SHARP,
-        FluteKeys.RIGHT_FIRST_FINGER,
-        FluteKeys.LOW_B,
-      ],
-      [
-        FluteKeys.LEFT_FIRST_FINGER,
-        FluteKeys.LEFT_SECOND_FINGER,
-        FluteKeys.LEFT_THIRD_FINGER,
-        FluteKeys.G_SHARP,
-        FluteKeys.RIGHT_FIRST_FINGER,
+        TrombonePositions.FIRST,
+        TrombonePositions.SECOND,
+        TrombonePositions.THIRD,
+        TrombonePositions.FOURTH,
+        TrombonePositions.FIFTH,
+        TrombonePositions.SIXTH,
+        TrombonePositions.SEVENTH,
       ],
     ],
+    [Notes.F3]: [
+      [TrombonePositions.FIRST],
+      [
+        TrombonePositions.FIRST,
+        TrombonePositions.SECOND,
+        TrombonePositions.THIRD,
+        TrombonePositions.FOURTH,
+        TrombonePositions.FIFTH,
+        TrombonePositions.SIXTH,
+      ],
+    ],
+    [Notes.Gb3]: [
+      TrombonePositions.FIRST,
+      TrombonePositions.SECOND,
+      TrombonePositions.THIRD,
+      TrombonePositions.FOURTH,
+      TrombonePositions.FIFTH,
+    ],
+    [Notes.G3]: [
+      TrombonePositions.FIRST,
+      TrombonePositions.SECOND,
+      TrombonePositions.THIRD,
+      TrombonePositions.FOURTH,
+    ],
+    [Notes.Ab4]: [
+      [
+        TrombonePositions.FIRST,
+        TrombonePositions.SECOND,
+        TrombonePositions.THIRD,
+      ],
+      [
+        TrombonePositions.FIRST,
+        TrombonePositions.SECOND,
+        TrombonePositions.THIRD,
+        TrombonePositions.FOURTH,
+        TrombonePositions.FIFTH,
+        TrombonePositions.SIXTH,
+        TrombonePositions.SEVENTH,
+      ],
+    ],
+    [Notes.A4]: [
+      [TrombonePositions.FIRST, TrombonePositions.SECOND],
+      [
+        TrombonePositions.FIRST,
+        TrombonePositions.SECOND,
+        TrombonePositions.THIRD,
+        TrombonePositions.FOURTH,
+        TrombonePositions.FIFTH,
+        TrombonePositions.SIXTH,
+      ],
+    ],
+    [Notes.Bb4]: [
+      [TrombonePositions.FIRST],
+      [
+        TrombonePositions.FIRST,
+        TrombonePositions.SECOND,
+        TrombonePositions.THIRD,
+        TrombonePositions.FOURTH,
+        TrombonePositions.FIFTH,
+      ],
+    ],
+    [Notes.B4]: [
+      [
+        TrombonePositions.FIRST,
+        TrombonePositions.SECOND,
+        TrombonePositions.THIRD,
+        TrombonePositions.FOURTH,
+      ],
+      [
+        TrombonePositions.FIRST,
+        TrombonePositions.SECOND,
+        TrombonePositions.THIRD,
+        TrombonePositions.FOURTH,
+        TrombonePositions.FIFTH,
+        TrombonePositions.SIXTH,
+        TrombonePositions.SEVENTH,
+      ],
+    ],
+    [Notes.C4]: [
+      [
+        TrombonePositions.FIRST,
+        TrombonePositions.SECOND,
+        TrombonePositions.THIRD,
+      ],
+      [
+        TrombonePositions.FIRST,
+        TrombonePositions.SECOND,
+        TrombonePositions.THIRD,
+        TrombonePositions.FOURTH,
+        TrombonePositions.FIFTH,
+        TrombonePositions.SIXTH,
+      ],
+    ],
+    [Notes.Db4]: [
+      [TrombonePositions.FIRST, TrombonePositions.SECOND],
+      [
+        TrombonePositions.FIRST,
+        TrombonePositions.SECOND,
+        TrombonePositions.THIRD,
+        TrombonePositions.FOURTH,
+        TrombonePositions.FIFTH,
+      ],
+    ],
+    [Notes.D4]: [
+      [TrombonePositions.FIRST],
+      [
+        TrombonePositions.FIRST,
+        TrombonePositions.SECOND,
+        TrombonePositions.THIRD,
+        TrombonePositions.FOURTH,
+      ],
+      [
+        TrombonePositions.FIRST,
+        TrombonePositions.SECOND,
+        TrombonePositions.THIRD,
+        TrombonePositions.FOURTH,
+        TrombonePositions.FIFTH,
+        TrombonePositions.SIXTH,
+        TrombonePositions.SEVENTH,
+      ],
+    ],
+    [Notes.Eb4]: [
+      [
+        TrombonePositions.FIRST,
+        TrombonePositions.SECOND,
+        TrombonePositions.THIRD,
+      ],
+      [
+        TrombonePositions.FIRST,
+        TrombonePositions.SECOND,
+        TrombonePositions.THIRD,
+        TrombonePositions.FOURTH,
+        TrombonePositions.FIFTH,
+        TrombonePositions.SIXTH,
+      ],
+    ],
+    [Notes.E4]: [
+      [TrombonePositions.FIRST, TrombonePositions.SECOND],
+      [
+        TrombonePositions.FIRST,
+        TrombonePositions.SECOND,
+        TrombonePositions.THIRD,
+        TrombonePositions.FOURTH,
+        TrombonePositions.FIFTH,
+      ],
+      [
+        TrombonePositions.FIRST,
+        TrombonePositions.SECOND,
+        TrombonePositions.THIRD,
+        TrombonePositions.FOURTH,
+        TrombonePositions.FIFTH,
+        TrombonePositions.SIXTH,
+      ],
+    ],
+    [Notes.F4]: [
+      [TrombonePositions.FIRST],
+      [
+        TrombonePositions.FIRST,
+        TrombonePositions.SECOND,
+        TrombonePositions.THIRD,
+        TrombonePositions.FOURTH,
+      ],
+      [
+        TrombonePositions.FIRST,
+        TrombonePositions.SECOND,
+        TrombonePositions.THIRD,
+        TrombonePositions.FOURTH,
+        TrombonePositions.FIFTH,
+        TrombonePositions.SIXTH,
+      ],
+    ],
+    [Notes.Gb4]: [
+      [
+        TrombonePositions.FIRST,
+        TrombonePositions.SECOND,
+        TrombonePositions.THIRD,
+      ],
+      [
+        TrombonePositions.FIRST,
+        TrombonePositions.SECOND,
+        TrombonePositions.THIRD,
+        TrombonePositions.FOURTH,
+        TrombonePositions.FIFTH,
+      ],
+    ],
+    [Notes.G4]: [
+      [TrombonePositions.FIRST, TrombonePositions.SECOND],
+      [
+        TrombonePositions.FIRST,
+        TrombonePositions.SECOND,
+        TrombonePositions.THIRD,
+        TrombonePositions.FOURTH,
+      ],
+    ],
+    [Notes.Ab5]: [
+      [TrombonePositions.FIRST],
+      [
+        TrombonePositions.FIRST,
+        TrombonePositions.SECOND,
+        TrombonePositions.THIRD,
+      ],
+    ],
+    [Notes.A5]: [TrombonePositions.FIRST, TrombonePositions.SECOND],
+    [Notes.Bb5]: [TrombonePositions.FIRST],
   },
   [BrassInstrument.TUBA]: {
     [Notes.C4]: [
