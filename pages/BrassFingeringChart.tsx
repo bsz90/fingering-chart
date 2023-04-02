@@ -65,10 +65,14 @@ export const BrassFingeringChart = ({
 
   const currentFingeringsPossibleNotes = useMemo(
     () =>
-      Object.entries(allPossibleInstrumentFingerings).filter(
-        ([staffPosition, fingering]) =>
+      Object.entries(allPossibleInstrumentFingerings)
+        .filter(([staffPosition, fingering]) =>
           checkIfSameFingerings(fingering, activeKeys)
-      ),
+        )
+        .sort(
+          ([firstNote, firstFingering], [secondNote, secondFingering]) =>
+            +firstNote - +secondNote
+        ),
     [activeKeys, allPossibleInstrumentFingerings]
   );
 
