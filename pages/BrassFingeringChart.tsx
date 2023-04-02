@@ -107,11 +107,6 @@ export const BrassFingeringChart = ({
         const newNoteState = notes[+currentFingeringsPossibleNotes[0][0]];
         setNoteState({ ...newNoteState });
       }
-      if (noteState.staffPosition > -1)
-        setNoteState({
-          name: [""],
-          staffPosition: -1,
-        });
     }
   }, [
     activeKeys,
