@@ -65,14 +65,10 @@ export const BrassFingeringChart = ({
 
   const currentFingeringsPossibleNotes = useMemo(
     () =>
-      Object.entries(allPossibleInstrumentFingerings)
-        .filter(([staffPosition, fingering]) =>
+      Object.entries(allPossibleInstrumentFingerings).filter(
+        ([staffPosition, fingering]) =>
           checkIfSameFingerings(fingering, activeKeys)
-        )
-        .sort(
-          ([firstNote, firstFingering], [secondNote, secondFingering]) =>
-            +firstNote - +secondNote
-        ),
+      ),
     [activeKeys, allPossibleInstrumentFingerings]
   );
 
@@ -100,7 +96,9 @@ export const BrassFingeringChart = ({
           Math.abs(+a - noteState.staffPosition) -
           Math.abs(+b - noteState.staffPosition);
 
-        const closestNote = currentFingeringsPossibleNotes.sort(([a], [b]) =>
+        const possibleNotes = [...currentFingeringsPossibleNotes];
+
+        const closestNote = possibleNotes.sort(([a], [b]) =>
           findClosestNote(a, b)
         )[0][0];
 
