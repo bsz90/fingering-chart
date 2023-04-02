@@ -1587,6 +1587,7 @@ export const woodwindFingerings: {
         SaxophoneKeys.LEFT_SECOND_FINGER,
         SaxophoneKeys.Bb_SIDE,
       ],
+      [SaxophoneKeys.LEFT_FIRST_FINGER, SaxophoneKeys.RIGHT_FIRST_FINGER],
       [SaxophoneKeys.LEFT_FIRST_FINGER, SaxophoneKeys.BIS],
     ],
     [Notes.B4]: [SaxophoneKeys.LEFT_FIRST_FINGER],
@@ -1890,14 +1891,14 @@ export const woodwindFingerings: {
       TrombonePositions.THIRD,
       TrombonePositions.FOURTH,
     ],
-    [Notes.Ab3]: [
+    [Notes.Ab2]: [
       TrombonePositions.FIRST,
       TrombonePositions.SECOND,
       TrombonePositions.THIRD,
     ],
-    [Notes.A3]: [TrombonePositions.FIRST, TrombonePositions.SECOND],
-    [Notes.Bb3]: [TrombonePositions.FIRST],
-    [Notes.B3]: [
+    [Notes.A2]: [TrombonePositions.FIRST, TrombonePositions.SECOND],
+    [Notes.Bb2]: [TrombonePositions.FIRST],
+    [Notes.B2]: [
       TrombonePositions.FIRST,
       TrombonePositions.SECOND,
       TrombonePositions.THIRD,
@@ -1968,7 +1969,7 @@ export const woodwindFingerings: {
       TrombonePositions.THIRD,
       TrombonePositions.FOURTH,
     ],
-    [Notes.Ab4]: [
+    [Notes.Ab3]: [
       [
         TrombonePositions.FIRST,
         TrombonePositions.SECOND,
@@ -1984,7 +1985,7 @@ export const woodwindFingerings: {
         TrombonePositions.SEVENTH,
       ],
     ],
-    [Notes.A4]: [
+    [Notes.A3]: [
       [TrombonePositions.FIRST, TrombonePositions.SECOND],
       [
         TrombonePositions.FIRST,
@@ -1995,7 +1996,7 @@ export const woodwindFingerings: {
         TrombonePositions.SIXTH,
       ],
     ],
-    [Notes.Bb4]: [
+    [Notes.Bb3]: [
       [TrombonePositions.FIRST],
       [
         TrombonePositions.FIRST,
@@ -2005,7 +2006,7 @@ export const woodwindFingerings: {
         TrombonePositions.FIFTH,
       ],
     ],
-    [Notes.B4]: [
+    [Notes.B3]: [
       [
         TrombonePositions.FIRST,
         TrombonePositions.SECOND,
@@ -2138,7 +2139,7 @@ export const woodwindFingerings: {
         TrombonePositions.FOURTH,
       ],
     ],
-    [Notes.Ab5]: [
+    [Notes.Ab4]: [
       [TrombonePositions.FIRST],
       [
         TrombonePositions.FIRST,
@@ -2146,8 +2147,8 @@ export const woodwindFingerings: {
         TrombonePositions.THIRD,
       ],
     ],
-    [Notes.A5]: [TrombonePositions.FIRST, TrombonePositions.SECOND],
-    [Notes.Bb5]: [TrombonePositions.FIRST],
+    [Notes.A4]: [TrombonePositions.FIRST, TrombonePositions.SECOND],
+    [Notes.Bb4]: [TrombonePositions.FIRST],
   },
   [BrassInstrument.TUBA]: {
     [Notes.C4]: [
