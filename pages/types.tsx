@@ -290,3 +290,19 @@ export enum Notes {
   B6,
   C7,
 }
+
+export type DisplayState = {
+  fourthValve: boolean;
+  trigger: boolean;
+  trillKeys: boolean;
+};
+
+export enum Toggle {
+  FOURTH_VALVE = "fourthValve",
+  TRIGGER = "trigger",
+  TRILL_KEYS = "trillKeys",
+}
+
+export type Action = {
+  type: string;
+};
