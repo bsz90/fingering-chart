@@ -1,8 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
-import { AdjustmentsDropdown } from "./AdjustmentsDropdown";
-import { InstrumentKeys, Note } from "./types";
+import { InstrumentKeys } from "./types";
 import { checkArray } from "./utils";
-import AdjustmentsIcon from "./icons/adjustments.svg";
 
 export const ToggleFingeringButtons = ({
   activeKeys,
