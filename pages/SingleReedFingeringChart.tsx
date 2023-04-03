@@ -3,7 +3,6 @@ import {
   woodwindKeyDiagrams,
   woodwindFingerings,
   notes,
-  instrumentRanges,
   instrumentClef,
 } from "./constants";
 import { Stave } from "./Stave";
@@ -13,18 +12,23 @@ import {
   WoodwindKeyGroup,
   Note,
   InstrumentKeys,
-  Notes,
   WoodwindInstrument,
   Instrument,
+  DisplayState,
+  Action,
 } from "./types";
 import { checkIfSameFingerings } from "./utils";
 import { WoodwindKeyGroups } from "./WoodwindKeyGroups";
 
 export const SingleReedFingeringChart = ({
   currentInstrument,
+  display,
+  displayDispatch,
 }: {
   currentInstrument: WoodwindInstrument;
   setCurrentInstrument: Dispatch<SetStateAction<Instrument>>;
+  display: DisplayState;
+  displayDispatch: Dispatch<Action>;
 }) => {
   //Drag functionality for keys
   const [toggleKeyOn, setToggleKeyOn] = useState<boolean>(false);
@@ -155,6 +159,8 @@ export const SingleReedFingeringChart = ({
           currentFingeringsPossibleNotes={currentFingeringsPossibleNotes}
           displayEnharmonics={displayEnharmonics}
           setDisplayEnharmonics={setDisplayEnharmonics}
+          display={display}
+          displayDispatch={displayDispatch}
         />
         <div className="w-96 h-[700px] flex flex-col items-center justify-start">
           <div className="w-full h-full flex items-center justify-center">

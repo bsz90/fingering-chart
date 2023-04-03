@@ -1,15 +1,36 @@
 import * as Dropdown from "@radix-ui/react-dropdown-menu";
-import { Dispatch, SetStateAction, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import AdjustmentsIcon from "./icons/adjustments.svg";
-import { Instrument } from "./types";
+import { Action, DisplayState } from "./types";
 
 export const AdjustmentsDropdown = ({
   displayEnharmonics,
   setDisplayEnharmonics,
+  display,
+  displayDispatch,
 }: {
   displayEnharmonics: boolean;
   setDisplayEnharmonics: Dispatch<SetStateAction<boolean>>;
+  display: DisplayState;
+  displayDispatch: Dispatch<Action>;
 }) => {
+  const displaySettings = useMemo(() => {
+    return Object.entries(display);
+  }, [display]);
+
+  const checked = useCallback(
+    (id: number) => {
+      return Object.values(display)[id];
+    },
+    [display]
+  );
+
   const [testState, testStateSetter] = useState(false);
 
   const testPassedProp = "trigger";
@@ -52,7 +73,7 @@ export const AdjustmentsDropdown = ({
               ></div>
             </Dropdown.CheckboxItem>
           </div>
-          {testPassedArray.map(([name, state, stateSetter]) => {
+          {displaySettings.map(([name, state], id) => {
             return (
               <div
                 key={name}
@@ -63,17 +84,19 @@ export const AdjustmentsDropdown = ({
                 </Dropdown.Label>
                 <Dropdown.CheckboxItem
                   className={`w-12 h-6 box-border rounded-xl p-1 ${
-                    testState ? "bg-green-400" : "bg-slate-400"
+                    checked(id) ? "bg-green-400" : "bg-slate-400"
                   } transition-all flex justify-start items-center ease-in-out`}
-                  checked={state}
+                  checked={checked(id)}
                   onSelect={(event) => {
-                    stateSetter((prev) => !prev);
+                    console.log(display);
+                    console.log(checked(id));
+                    displayDispatch({ type: name });
                     event.preventDefault();
                   }}
                 >
                   <div
                     className={`w-4 h-full rounded-full bg-white transition ${
-                      testState ? "translate-x-6" : ""
+                      checked(id) ? "translate-x-6" : ""
                     }`}
                   ></div>
                 </Dropdown.CheckboxItem>

@@ -8,15 +8,26 @@ import {
 import { Stave } from "./Stave";
 import { ToggleFingeringButtons } from "./ToggleFingeringButtons";
 import { ToggleOctaveButtons } from "./ToggleOctaveButtons";
-import { Note, InstrumentKeys, Instrument, BrassInstrument } from "./types";
+import {
+  Note,
+  InstrumentKeys,
+  Instrument,
+  BrassInstrument,
+  DisplayState,
+  Action,
+} from "./types";
 import { checkIfSameFingerings } from "./utils";
 import { InstrumentKey } from "./InstrumentKey";
 
 export const BrassFingeringChart = ({
   currentInstrument,
+  display,
+  displayDispatch,
 }: {
   currentInstrument: BrassInstrument;
   setCurrentInstrument: Dispatch<SetStateAction<Instrument>>;
+  display: DisplayState;
+  displayDispatch: Dispatch<Action>;
 }) => {
   //Drag functionality for keys
   const [toggleKeyOn, setToggleKeyOn] = useState<boolean>(false);
@@ -139,6 +150,8 @@ export const BrassFingeringChart = ({
           currentFingeringsPossibleNotes={currentFingeringsPossibleNotes}
           displayEnharmonics={displayEnharmonics}
           setDisplayEnharmonics={setDisplayEnharmonics}
+          display={display}
+          displayDispatch={displayDispatch}
         />
         <div className="w-96 h-[700px] flex items-center justify-start">
           <div className="w-full h-full flex flex-col items-center justify-center">

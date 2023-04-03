@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useMemo } from "react";
 import { AdjustmentsDropdown } from "./AdjustmentsDropdown";
 import { notes } from "./constants";
-import { InstrumentKeys, Note } from "./types";
+import { Action, DisplayState, InstrumentKeys, Note } from "./types";
 
 export const ToggleOctaveButtons = ({
   noteState,
@@ -9,6 +9,8 @@ export const ToggleOctaveButtons = ({
   currentFingeringsPossibleNotes,
   displayEnharmonics,
   setDisplayEnharmonics,
+  display,
+  displayDispatch,
 }: {
   noteState: Note;
   setNoteState: Dispatch<SetStateAction<Note>>;
@@ -18,6 +20,8 @@ export const ToggleOctaveButtons = ({
   ][];
   displayEnharmonics: boolean;
   setDisplayEnharmonics: Dispatch<SetStateAction<boolean>>;
+  display: DisplayState;
+  displayDispatch: Dispatch<Action>;
 }) => {
   const currentPossibleFingeringIndex = useMemo(
     () =>
@@ -76,6 +80,8 @@ export const ToggleOctaveButtons = ({
         <AdjustmentsDropdown
           displayEnharmonics={displayEnharmonics}
           setDisplayEnharmonics={setDisplayEnharmonics}
+          display={display}
+          displayDispatch={displayDispatch}
         />
       </div>
       <button
