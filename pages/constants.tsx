@@ -21,6 +21,9 @@ import {
   FrenchHornValves,
   TubaValves,
   TrombonePositions,
+  DisplayType,
+  DisplayState,
+  Toggle,
 } from "./types";
 import Bassoon from "./icons/bassoon.svg";
 import Clarinet from "./icons/clarinet.svg";
@@ -688,6 +691,20 @@ export const brassDiagrams: { [key in BrassInstrument]: BrassKeyGroup } = {
       ],
     },
   ],
+};
+
+export const instrumentProperties: {
+  [key in Instrument]: DisplayState;
+} = {
+  [WoodwindInstrument.FLUTE]: { [Toggle.TRILL_KEYS]: false },
+  [WoodwindInstrument.OBOE]: { [Toggle.TRILL_KEYS]: false },
+  [WoodwindInstrument.CLARINET]: { [Toggle.TRILL_KEYS]: false },
+  [WoodwindInstrument.SAXOPHONE]: { [Toggle.TRILL_KEYS]: false },
+  [WoodwindInstrument.BASSOON]: { [Toggle.TRILL_KEYS]: false },
+  [BrassInstrument.TRUMPET]: { [Toggle.TRILL_KEYS]: false },
+  [BrassInstrument.FRENCH_HORN]: { [Toggle.TRIGGER]: false },
+  [BrassInstrument.TROMBONE]: { [Toggle.TRIGGER]: false },
+  [BrassInstrument.TUBA]: { [Toggle.FOURTH_VALVE]: false },
 };
 
 export const woodwindFingerings: {

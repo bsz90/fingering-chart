@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 import AdjustmentsIcon from "./icons/adjustments.svg";
-import { Action, DisplayState } from "./types";
+import { Action, DisplayState, DisplayType, Toggle } from "./types";
 
 export const AdjustmentsDropdown = ({
   displayEnharmonics,
@@ -21,7 +21,7 @@ export const AdjustmentsDropdown = ({
   displayDispatch: Dispatch<Action>;
 }) => {
   const displaySettings = useMemo(() => {
-    return Object.entries(display);
+    return Object.entries(display) as [DisplayType, boolean][];
   }, [display]);
 
   const checked = useCallback(
@@ -88,9 +88,7 @@ export const AdjustmentsDropdown = ({
                   } transition-all flex justify-start items-center ease-in-out`}
                   checked={checked(id)}
                   onSelect={(event) => {
-                    console.log(display);
-                    console.log(checked(id));
-                    displayDispatch({ type: name });
+                    displayDispatch({ type: name, payload: display });
                     event.preventDefault();
                   }}
                 >

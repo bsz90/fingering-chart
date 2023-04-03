@@ -292,17 +292,21 @@ export enum Notes {
 }
 
 export type DisplayState = {
-  fourthValve: boolean;
-  trigger: boolean;
-  trillKeys: boolean;
+  [Toggle.TRILL_KEYS]?: boolean;
+  [Toggle.TRIGGER]?: boolean;
+  [Toggle.FOURTH_VALVE]?: boolean;
 };
 
+export type DisplayType = Toggle;
+
 export enum Toggle {
-  FOURTH_VALVE = "fourthValve",
-  TRIGGER = "trigger",
-  TRILL_KEYS = "trillKeys",
+  FOURTH_VALVE = "Fourth Valve",
+  TRIGGER = "Trigger",
+  TRILL_KEYS = "Trill Keys",
+  NEW_INSTRUMENT = "New Instrument",
 }
 
 export type Action = {
-  type: string;
+  type: DisplayType;
+  payload: DisplayState;
 };
