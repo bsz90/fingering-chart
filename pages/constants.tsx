@@ -554,6 +554,10 @@ export const brassDiagrams: { [key in BrassInstrument]: BrassKeyGroup } = {
       containerClassName: "flex items-center justify-center gap-8",
       keys: [
         {
+          name: FrenchHornValves.TRIGGER,
+          className: "rounded-[50%] h-[40px] w-[40px] mb-[20px]",
+        },
+        {
           name: FrenchHornValves.FIRST,
           className: "rounded-[50%] h-[62px] w-[62px]",
         },
@@ -563,10 +567,6 @@ export const brassDiagrams: { [key in BrassInstrument]: BrassKeyGroup } = {
         },
         {
           name: FrenchHornValves.THIRD,
-          className: "rounded-[50%] h-[62px] w-[62px]",
-        },
-        {
-          name: FrenchHornValves.TRIGGER,
           className: "rounded-[50%] h-[62px] w-[62px]",
         },
       ],
