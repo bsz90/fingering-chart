@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { InstrumentKeys } from "./types";
+import { Button, InstrumentKeys } from "./types";
 import { checkArray } from "./utils";
 
 export const ToggleFingeringButtons = ({
@@ -16,19 +16,19 @@ export const ToggleFingeringButtons = ({
 }) => {
   //event handler
   const handleButtonClick = (
-    buttonType: string,
+    buttonType: Button,
     currentNotesFingeringKeys: InstrumentKeys[][]
   ) => {
     const currentIndex = currentNotesFingeringKeys.findIndex((array) =>
       checkArray(array, activeKeys)
     );
-    const change = buttonType === "right" ? 1 : -1;
+    const change = buttonType === Button.RIGHT ? 1 : -1;
     const newActiveKeys = [...currentNotesFingeringKeys[currentIndex + change]];
     setActiveKeys(newActiveKeys);
   };
 
   //disables button if there are no alternate fingerings
-  const disabled = (buttonType: string) => {
+  const disabled = (buttonType: Button) => {
     if (currentNotesPossibleFingerings) {
       if (
         currentNotesPossibleFingerings.some((item) => typeof item === "string")
@@ -40,7 +40,7 @@ export const ToggleFingeringButtons = ({
       );
 
       if (currentFingeringIndex === -1) return true;
-      if (buttonType === "right") {
+      if (buttonType === Button.RIGHT) {
         return (
           currentNotesPossibleFingerings.length === currentFingeringIndex + 1
         );
@@ -54,12 +54,12 @@ export const ToggleFingeringButtons = ({
     <div className="flex justify-center items-center gap-20">
       <button
         className={`w-12 h-6 bg-slate-600 text-white flex items-center text-center justify-center rounded-md drop-shadow-md ${
-          disabled("left") ? "opacity-30" : "opacity-100"
+          disabled(Button.LEFT) ? "opacity-30" : "opacity-100"
         }`}
-        disabled={disabled("left")}
+        disabled={disabled(Button.LEFT)}
         onClick={() =>
           handleButtonClick(
-            "left",
+            Button.LEFT,
             currentNotesPossibleFingerings as InstrumentKeys[][]
           )
         }
@@ -68,12 +68,12 @@ export const ToggleFingeringButtons = ({
       </button>
       <button
         className={`w-12 h-6 bg-slate-600 text-white flex flex-row items-center text-center justify-center rounded-md drop-shadow-md ${
-          disabled("right") ? "opacity-30" : "opacity-100"
+          disabled(Button.RIGHT) ? "opacity-30" : "opacity-100"
         }`}
-        disabled={disabled("right")}
+        disabled={disabled(Button.RIGHT)}
         onClick={() =>
           handleButtonClick(
-            "right",
+            Button.RIGHT,
             currentNotesPossibleFingerings as InstrumentKeys[][]
           )
         }

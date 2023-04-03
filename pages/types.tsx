@@ -310,3 +310,8 @@ export type Action = {
   type: DisplayType;
   payload: DisplayState;
 };
+
+export enum Button {
+  LEFT = "LEFT",
+  RIGHT = "RIGHT",
+}
