@@ -312,6 +312,8 @@ export type Action = {
 };
 
 export enum Button {
+  UP = "UP",
+  DOWN = "DOWN",
   LEFT = "LEFT",
   RIGHT = "RIGHT",
 }
