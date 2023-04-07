@@ -17,9 +17,7 @@ export const Stave = ({
   noteState: Note;
   currentInstrument: Instrument;
   currentInstrumentClef: Clef;
-  allPossibleInstrumentFingerings: Partial<
-    Record<Notes, InstrumentKeys[] | InstrumentKeys[][]>
-  >;
+  allPossibleInstrumentFingerings: Partial<Record<Notes, InstrumentKeys[][]>>;
   setActiveKeys: Dispatch<SetStateAction<InstrumentKeys[] | undefined>>;
   setNoteState: Dispatch<SetStateAction<Note>>;
   displayEnharmonics: boolean;
@@ -252,9 +250,7 @@ export const Stave = ({
         const index = nextNote.staffPosition;
         const newFingering = allPossibleInstrumentFingerings[index];
         if (newFingering === undefined) return [];
-        if (Array.isArray(newFingering[0]))
-          return [...(newFingering[0] as InstrumentKeys[])];
-        return [...(newFingering as InstrumentKeys[])];
+        return [...newFingering[0]];
       }
     });
     setNoteState({ ...nextNote });
