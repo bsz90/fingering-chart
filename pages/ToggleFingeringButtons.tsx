@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { Button, InstrumentKeys } from "./types";
-import { checkArray } from "./utils";
+import { likeArrays } from "./utils";
 
 export const ToggleFingeringButtons = ({
   activeKeys,
@@ -9,10 +9,7 @@ export const ToggleFingeringButtons = ({
 }: {
   activeKeys: InstrumentKeys[] | undefined;
   setActiveKeys: Dispatch<SetStateAction<InstrumentKeys[] | undefined>>;
-  currentNotesPossibleFingerings:
-    | InstrumentKeys[]
-    | InstrumentKeys[][]
-    | undefined;
+  currentNotesPossibleFingerings: InstrumentKeys[][] | undefined;
 }) => {
   //event handler
   const handleButtonClick = (
@@ -20,7 +17,7 @@ export const ToggleFingeringButtons = ({
     currentNotesFingeringKeys: InstrumentKeys[][]
   ) => {
     const currentIndex = currentNotesFingeringKeys.findIndex((array) =>
-      checkArray(array, activeKeys)
+      likeArrays(array, activeKeys)
     );
     const change = buttonType === Button.RIGHT ? 1 : -1;
     const newActiveKeys = [...currentNotesFingeringKeys[currentIndex + change]];
@@ -36,7 +33,7 @@ export const ToggleFingeringButtons = ({
         return true;
 
       const currentFingeringIndex = currentNotesPossibleFingerings.findIndex(
-        (array) => checkArray(array as InstrumentKeys[], activeKeys)
+        (array) => likeArrays(array as InstrumentKeys[], activeKeys)
       );
 
       if (currentFingeringIndex === -1) return true;
