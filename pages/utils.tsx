@@ -6,7 +6,7 @@ import {
   WoodwindInstrument,
 } from "./types";
 
-export const checkArray = (
+export const likeArrays = (
   array: InstrumentKeys[],
   activeKeys: InstrumentKeys[] | undefined
 ) => {
@@ -19,22 +19,12 @@ export const checkArray = (
   return array.length === 0;
 };
 
-export const checkNestedArray = (
-  nestedArray: InstrumentKeys[][],
-  activeKeys: InstrumentKeys[] | undefined
-) => {
-  return nestedArray.some((array) => checkArray(array, activeKeys));
-};
-
 export const checkIfSameFingerings = (
-  fingering: InstrumentKeys[] | InstrumentKeys[][] | undefined,
+  fingering: InstrumentKeys[][] | undefined,
   activeKeys: InstrumentKeys[] | undefined
 ) => {
   if (fingering) {
-    if (typeof fingering[0] === "string" || fingering.length === 0) {
-      return checkArray(fingering as InstrumentKeys[], activeKeys);
-    }
-    return checkNestedArray(fingering as InstrumentKeys[][], activeKeys);
+    fingering.some((array) => likeArrays(array, activeKeys));
   }
   return false;
 };
