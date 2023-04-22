@@ -291,13 +291,23 @@ export enum Notes {
   C7,
 }
 
-export type DisplayState = {
+export type DisplaySettings = {
+  [DisplaySetting.ENHARMONICS]: boolean;
+};
+
+export enum DisplaySetting {
+  ENHARMONICS = "Enharmonics",
+}
+
+export type DisplaySettingAction = {
+  type: DisplaySetting;
+};
+
+export type InstrumentProps = {
   [InstrumentProp.TRILL_KEYS]?: boolean;
   [InstrumentProp.TRIGGER]?: boolean;
   [InstrumentProp.FOURTH_VALVE]?: boolean;
 };
-
-export type DisplayType = InstrumentProp;
 
 export enum InstrumentProp {
   FOURTH_VALVE = "Fourth Valve",
@@ -306,9 +316,9 @@ export enum InstrumentProp {
   NEW_INSTRUMENT = "New Instrument",
 }
 
-export type Action = {
-  type: DisplayType;
-  payload: DisplayState;
+export type InstrumentPropAction = {
+  type: InstrumentProp;
+  payload: InstrumentProps;
 };
 
 export enum Button {
