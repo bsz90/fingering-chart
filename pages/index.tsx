@@ -1,37 +1,37 @@
 import { useEffect, useReducer, useState } from "react";
-import { BrassFingeringChart } from "./BrassFingeringChart";
 import { instrumentProperties } from "./constants";
 import { NavBar } from "./NavBar";
-import { SingleReedFingeringChart } from "./SingleReedFingeringChart";
 import {
   Action,
   BrassInstrument,
   DisplayState,
   Instrument,
-  Toggle,
+  InstrumentProp,
   WoodwindInstrument,
 } from "./types";
-import { isBrass, isWoodwind } from "./utils";
+import { determineFingeringChart, isBrass, isWoodwind } from "./utils";
 
 const displayReducer = (state: DisplayState, action: Action): DisplayState => {
   switch (action.type) {
-    case Toggle.NEW_INSTRUMENT: {
-      console.log(action.payload);
+    case InstrumentProp.NEW_INSTRUMENT: {
       return { ...action.payload };
     }
-    case Toggle.FOURTH_VALVE: {
+    case InstrumentProp.FOURTH_VALVE: {
       const newState = { ...action.payload };
-      newState[Toggle.FOURTH_VALVE] = !action.payload[Toggle.FOURTH_VALVE];
+      newState[InstrumentProp.FOURTH_VALVE] =
+        !action.payload[InstrumentProp.FOURTH_VALVE];
       return newState;
     }
-    case Toggle.TRIGGER: {
+    case InstrumentProp.TRIGGER: {
       const newState = { ...action.payload };
-      newState[Toggle.TRIGGER] = !action.payload[Toggle.TRIGGER];
+      newState[InstrumentProp.TRIGGER] =
+        !action.payload[InstrumentProp.TRIGGER];
       return newState;
     }
-    case Toggle.TRILL_KEYS: {
+    case InstrumentProp.TRILL_KEYS: {
       const newState = { ...action.payload };
-      newState[Toggle.TRILL_KEYS] = !action.payload[Toggle.TRILL_KEYS];
+      newState[InstrumentProp.TRILL_KEYS] =
+        !action.payload[InstrumentProp.TRILL_KEYS];
       return newState;
     }
     default:
@@ -49,34 +49,10 @@ export default function Home() {
     instrumentProperties[currentInstrument]
   );
 
-  const determineFingeringChart = (currentInstrument: Instrument) => {
-    if (isWoodwind(currentInstrument)) {
-      return (
-        <SingleReedFingeringChart
-          currentInstrument={currentInstrument as WoodwindInstrument}
-          setCurrentInstrument={setCurrentInstrument}
-          display={display}
-          displayDispatch={displayDispatch}
-        />
-      );
-    }
-    if (isBrass(currentInstrument)) {
-      return (
-        <BrassFingeringChart
-          currentInstrument={currentInstrument as BrassInstrument}
-          setCurrentInstrument={setCurrentInstrument}
-          display={display}
-          displayDispatch={displayDispatch}
-        />
-      );
-    }
-    throw new Error();
-  };
-
   useEffect(
     () =>
       displayDispatch({
-        type: Toggle.NEW_INSTRUMENT,
+        type: InstrumentProp.NEW_INSTRUMENT,
         payload: instrumentProperties[currentInstrument],
       }),
     [currentInstrument]
@@ -84,7 +60,12 @@ export default function Home() {
 
   return (
     <div className="w-full h-screen flex flex-col bg-slate-200 items-center justify-start touch-none">
-      {determineFingeringChart(currentInstrument)}
+      {determineFingeringChart(
+        currentInstrument,
+        setCurrentInstrument,
+        display,
+        displayDispatch
+      )}
       <NavBar
         currentInstrument={currentInstrument}
         setCurrentInstrument={setCurrentInstrument}
