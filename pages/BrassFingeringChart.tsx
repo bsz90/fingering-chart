@@ -4,6 +4,7 @@ import {
   notes,
   instrumentClef,
   brassDiagrams,
+  additionalFingerings,
 } from "./constants";
 import { Stave } from "./Stave";
 import { ToggleFingeringButtons } from "./ToggleFingeringButtons";
@@ -15,8 +16,15 @@ import {
   BrassInstrument,
   DisplayState,
   Action,
+  Notes,
+  DisplayType,
+  InstrumentProp,
 } from "./types";
-import { checkIfSameFingerings } from "./utils";
+import {
+  checkIfSameFingerings,
+  deepCopyArray,
+  deepCopyFingerings,
+} from "./utils";
 import { InstrumentKey } from "./InstrumentKey";
 
 export const BrassFingeringChart = ({
@@ -59,10 +67,65 @@ export const BrassFingeringChart = ({
       : brassDiagrams[currentInstrument][0];
   }, [currentInstrument, displayFourthValve, displayTrigger]);
 
-  const allPossibleInstrumentFingerings = useMemo(
-    () => woodwindFingerings[currentInstrument],
-    [currentInstrument]
-  );
+  const allPossibleInstrumentFingerings = useMemo(() => {
+    const standardFingerings = woodwindFingerings[currentInstrument];
+
+    //if display has no alternate options, return standardFingerings
+    if (Object.keys(display).length === 0) return standardFingerings;
+
+    const currentAdditionalFingerings = additionalFingerings[currentInstrument];
+
+    //if there are no additional fingerings return standardFingerings
+    if (!currentAdditionalFingerings) return standardFingerings;
+
+    //find all props that are true in display state
+    const trueProps = Object.entries(display)
+      .filter(([instrumentProp, boolean]) => boolean)
+      .map(([instrumentProp, boolean]) => instrumentProp);
+
+    //function to get an array of fingerings based on trueProps
+    const getFingeringsToAdd = (
+      prop: string,
+      fingerings: {
+        type: InstrumentProp;
+        fingerings: Partial<Record<Notes, InstrumentKeys[][]>>;
+      }[]
+    ) =>
+      fingerings
+        .filter((additionalFingerings) => additionalFingerings.type === prop)
+        .map((additionalFingerings) => additionalFingerings.fingerings);
+
+    //the actual arrays of all additionalFingerings
+    const fingeringsToAdd = trueProps
+      .map((trueProp) =>
+        getFingeringsToAdd(trueProp, currentAdditionalFingerings)
+      )
+      .flatMap((arrayOfFingerings) => arrayOfFingerings)
+      .flatMap((fingerings) => Object.entries(fingerings));
+
+    //function to add newFingerings to old ones
+    const addFingerings = (
+      prevFingerings: Partial<Record<Notes, InstrumentKeys[][]>>,
+      fingeringsToAdd: [string, InstrumentKeys[][]][]
+    ) => {
+      let newObj: Partial<Record<Notes, InstrumentKeys[][]>> =
+        deepCopyFingerings(prevFingerings);
+
+      for (let i = 0; i < fingeringsToAdd.length; i++) {
+        const array = fingeringsToAdd[i];
+        const fingering = newObj[+array[0] as Notes];
+        if (!fingering) {
+          newObj[+array[0] as Notes] = array[1];
+          continue;
+        }
+        const newFingering = [...array[1], ...fingering];
+        newObj[+array[0] as Notes] = newFingering;
+      }
+      return newObj;
+    };
+
+    return addFingerings(standardFingerings, fingeringsToAdd);
+  }, [currentInstrument, display]);
 
   const currentInstrumentClef = useMemo(
     () => instrumentClef[currentInstrument],
