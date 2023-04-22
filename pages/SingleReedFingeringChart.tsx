@@ -4,6 +4,7 @@ import {
   woodwindFingerings,
   notes,
   instrumentClef,
+  additionalFingerings,
 } from "./constants";
 import { Stave } from "./Stave";
 import { ToggleFingeringButtons } from "./ToggleFingeringButtons";
@@ -17,7 +18,7 @@ import {
   DisplayState,
   Action,
 } from "./types";
-import { checkIfSameFingerings } from "./utils";
+import { addAdditionalFingerings, checkIfSameFingerings } from "./utils";
 import { WoodwindKeyGroups } from "./WoodwindKeyGroups";
 
 export const SingleReedFingeringChart = ({
@@ -44,10 +45,23 @@ export const SingleReedFingeringChart = ({
     []
   );
 
-  const allPossibleInstrumentFingerings = useMemo(
-    () => woodwindFingerings[currentInstrument],
-    [currentInstrument]
-  );
+  const allPossibleInstrumentFingerings = useMemo(() => {
+    const standardFingerings = woodwindFingerings[currentInstrument];
+
+    //if display has no alternate options, return standardFingerings
+    if (Object.keys(display).length === 0) return standardFingerings;
+
+    const currentAdditionalFingerings = additionalFingerings[currentInstrument];
+
+    //if there are no additional fingerings return standardFingerings
+    if (!currentAdditionalFingerings) return standardFingerings;
+
+    return addAdditionalFingerings(
+      standardFingerings,
+      currentAdditionalFingerings,
+      display
+    );
+  }, [currentInstrument, display]);
 
   const currentInstrumentKeyGroups = useMemo(() => {
     const currentKeyGroup = woodwindKeyDiagrams[currentInstrument];
