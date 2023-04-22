@@ -35,23 +35,21 @@ export const likeArrays = (
   array: InstrumentKeys[],
   activeKeys: InstrumentKeys[] | undefined
 ) => {
-  if (activeKeys) {
-    return (
-      array.every((key) => activeKeys.includes(key)) &&
-      array.length === activeKeys.length
-    );
-  }
-  return array.length === 0;
+  if (!activeKeys) return array.length === 0;
+
+  return (
+    array.every((key) => activeKeys.includes(key)) &&
+    array.length === activeKeys.length
+  );
 };
 
 export const checkIfSameFingerings = (
   fingering: InstrumentKeys[][] | undefined,
   activeKeys: InstrumentKeys[] | undefined
 ) => {
-  if (fingering) {
-    fingering.some((array) => likeArrays(array, activeKeys));
-  }
-  return false;
+  if (!fingering) return false;
+
+  return fingering.some((array) => likeArrays(array, activeKeys));
 };
 
 export const createUniqueKey = (a: string, b: number | string) => (a += b);
