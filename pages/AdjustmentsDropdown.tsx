@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 import AdjustmentsIcon from "./icons/adjustments.svg";
-import { Action, DisplayState, DisplayType, Toggle } from "./types";
+import { Action, DisplayState, DisplayType, InstrumentProp } from "./types";
 
 export const AdjustmentsDropdown = ({
   displayEnharmonics,

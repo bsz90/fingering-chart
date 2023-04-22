@@ -23,7 +23,7 @@ import {
   TrombonePositions,
   DisplayType,
   DisplayState,
-  Toggle,
+  InstrumentProp,
 } from "./types";
 import Bassoon from "./icons/bassoon.svg";
 import Clarinet from "./icons/clarinet.svg";
@@ -696,15 +696,17 @@ export const brassDiagrams: { [key in BrassInstrument]: BrassKeyGroup } = {
 export const instrumentProperties: {
   [key in Instrument]: DisplayState;
 } = {
-  [WoodwindInstrument.FLUTE]: { [Toggle.TRILL_KEYS]: false },
-  [WoodwindInstrument.OBOE]: { [Toggle.TRILL_KEYS]: false },
-  [WoodwindInstrument.CLARINET]: { [Toggle.TRILL_KEYS]: false },
-  [WoodwindInstrument.SAXOPHONE]: { [Toggle.TRILL_KEYS]: false },
-  [WoodwindInstrument.BASSOON]: { [Toggle.TRILL_KEYS]: false },
-  [BrassInstrument.TRUMPET]: { [Toggle.TRILL_KEYS]: false },
-  [BrassInstrument.FRENCH_HORN]: { [Toggle.TRIGGER]: false },
-  [BrassInstrument.TROMBONE]: { [Toggle.TRIGGER]: false },
-  [BrassInstrument.TUBA]: { [Toggle.FOURTH_VALVE]: false },
+  [WoodwindInstrument.FLUTE]: { [InstrumentProp.TRILL_KEYS]: false },
+  [WoodwindInstrument.OBOE]: { [InstrumentProp.TRILL_KEYS]: false },
+  [WoodwindInstrument.CLARINET]: { [InstrumentProp.TRILL_KEYS]: false },
+  [WoodwindInstrument.SAXOPHONE]: { [InstrumentProp.TRILL_KEYS]: false },
+  [WoodwindInstrument.BASSOON]: { [InstrumentProp.TRILL_KEYS]: false },
+  [BrassInstrument.TRUMPET]: { [InstrumentProp.TRILL_KEYS]: false },
+  [BrassInstrument.FRENCH_HORN]: {
+    [InstrumentProp.TRIGGER]: false,
+  },
+  [BrassInstrument.TROMBONE]: { [InstrumentProp.TRIGGER]: false },
+  [BrassInstrument.TUBA]: { [InstrumentProp.FOURTH_VALVE]: false },
 };
 
 export const woodwindFingerings: {
@@ -2374,7 +2376,7 @@ export const additionalFingerings: {
 } = {
   [BrassInstrument.FRENCH_HORN]: [
     {
-      type: Toggle.TRIGGER,
+      type: InstrumentProp.TRIGGER,
       fingerings: {
         [Notes.F3]: [[FrenchHornValves.TRIGGER]],
         [Notes.Ab4]: [

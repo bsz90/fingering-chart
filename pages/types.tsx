@@ -292,14 +292,14 @@ export enum Notes {
 }
 
 export type DisplayState = {
-  [Toggle.TRILL_KEYS]?: boolean;
-  [Toggle.TRIGGER]?: boolean;
-  [Toggle.FOURTH_VALVE]?: boolean;
+  [InstrumentProp.TRILL_KEYS]?: boolean;
+  [InstrumentProp.TRIGGER]?: boolean;
+  [InstrumentProp.FOURTH_VALVE]?: boolean;
 };
 
-export type DisplayType = Toggle;
+export type DisplayType = InstrumentProp;
 
-export enum Toggle {
+export enum InstrumentProp {
   FOURTH_VALVE = "Fourth Valve",
   TRIGGER = "Trigger",
   TRILL_KEYS = "Trill Keys",
