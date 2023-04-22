@@ -1,4 +1,9 @@
+import { SetState } from "immer/dist/internal";
+import { Dispatch, SetStateAction } from "react";
+import { BrassFingeringChart } from "./BrassFingeringChart";
+import { SingleReedFingeringChart } from "./SingleReedFingeringChart";
 import {
+  Action,
   BrassInstrument,
   DisplayState,
   Instrument,
@@ -152,4 +157,33 @@ export const addAdditionalFingerings = (
     newObj[+array[0] as Notes] = newFingering;
   }
   return newObj;
+};
+
+export const determineFingeringChart = (
+  currentInstrument: Instrument,
+  setCurrentInstrument: Dispatch<SetStateAction<Instrument>>,
+  display: DisplayState,
+  displayDispatch: Dispatch<Action>
+) => {
+  if (isWoodwind(currentInstrument)) {
+    return (
+      <SingleReedFingeringChart
+        currentInstrument={currentInstrument as WoodwindInstrument}
+        setCurrentInstrument={setCurrentInstrument}
+        display={display}
+        displayDispatch={displayDispatch}
+      />
+    );
+  }
+  if (isBrass(currentInstrument)) {
+    return (
+      <BrassFingeringChart
+        currentInstrument={currentInstrument as BrassInstrument}
+        setCurrentInstrument={setCurrentInstrument}
+        display={display}
+        displayDispatch={displayDispatch}
+      />
+    );
+  }
+  throw new Error();
 };
