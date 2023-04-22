@@ -3,12 +3,14 @@ import { Dispatch, SetStateAction } from "react";
 import { BrassFingeringChart } from "./BrassFingeringChart";
 import { SingleReedFingeringChart } from "./SingleReedFingeringChart";
 import {
-  Action,
   BrassInstrument,
-  DisplayState,
+  DisplaySettingAction,
+  DisplaySettings,
   Instrument,
   InstrumentKeys,
   InstrumentProp,
+  InstrumentPropAction,
+  InstrumentProps,
   NoteRegex,
   Notes,
   WoodwindInstrument,
@@ -105,17 +107,17 @@ export const isWoodwind = (currentInstrument: Instrument) =>
   currentInstrument === WoodwindInstrument.OBOE ||
   currentInstrument === WoodwindInstrument.FLUTE;
 
-//function to join standardFingerings and additionalFingerings based on displayState
+//function to join standardFingerings and additionalFingerings based on currentInstrumentProps
 export const addAdditionalFingerings = (
   standardFingerings: Partial<Record<Notes, InstrumentKeys[][]>>,
   currentAdditionalFingerings: {
     type: InstrumentProp;
     fingerings: Partial<Record<Notes, InstrumentKeys[][]>>;
   }[],
-  display: DisplayState
+  currentInstrumentProps: InstrumentProps
 ) => {
   //find all props that are true in display state
-  const trueProps = Object.entries(display)
+  const trueProps = Object.entries(currentInstrumentProps)
     .filter(([instrumentProp, boolean]) => boolean)
     .map(([instrumentProp, boolean]) => instrumentProp);
 
@@ -160,16 +162,20 @@ export const addAdditionalFingerings = (
 export const determineFingeringChart = (
   currentInstrument: Instrument,
   setCurrentInstrument: Dispatch<SetStateAction<Instrument>>,
-  display: DisplayState,
-  displayDispatch: Dispatch<Action>
+  currentInstrumentProps: InstrumentProps,
+  currentInstrumentPropsDispatch: Dispatch<InstrumentPropAction>,
+  displaySettings: DisplaySettings,
+  displaySettingsDispatch: Dispatch<DisplaySettingAction>
 ) => {
   if (isWoodwind(currentInstrument)) {
     return (
       <SingleReedFingeringChart
         currentInstrument={currentInstrument as WoodwindInstrument}
         setCurrentInstrument={setCurrentInstrument}
-        display={display}
-        displayDispatch={displayDispatch}
+        currentInstrumentProps={currentInstrumentProps}
+        currentInstrumentPropsDispatch={currentInstrumentPropsDispatch}
+        displaySettings={displaySettings}
+        displaySettingsDispatch={displaySettingsDispatch}
       />
     );
   }
@@ -178,8 +184,10 @@ export const determineFingeringChart = (
       <BrassFingeringChart
         currentInstrument={currentInstrument as BrassInstrument}
         setCurrentInstrument={setCurrentInstrument}
-        display={display}
-        displayDispatch={displayDispatch}
+        currentInstrumentProps={currentInstrumentProps}
+        currentInstrumentPropsDispatch={currentInstrumentPropsDispatch}
+        displaySettings={displaySettings}
+        displaySettingsDispatch={displaySettingsDispatch}
       />
     );
   }
