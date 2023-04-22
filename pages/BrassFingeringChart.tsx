@@ -14,21 +14,27 @@ import {
   InstrumentKeys,
   Instrument,
   BrassInstrument,
-  DisplayState,
-  Action,
+  InstrumentProps,
+  InstrumentPropAction,
+  DisplaySettings,
+  DisplaySettingAction,
 } from "./types";
 import { addAdditionalFingerings, checkIfSameFingerings } from "./utils";
 import { InstrumentKey } from "./InstrumentKey";
 
 export const BrassFingeringChart = ({
   currentInstrument,
-  display,
-  displayDispatch,
+  currentInstrumentProps,
+  currentInstrumentPropsDispatch,
+  displaySettings,
+  displaySettingsDispatch,
 }: {
   currentInstrument: BrassInstrument;
   setCurrentInstrument: Dispatch<SetStateAction<Instrument>>;
-  display: DisplayState;
-  displayDispatch: Dispatch<Action>;
+  currentInstrumentProps: InstrumentProps;
+  currentInstrumentPropsDispatch: Dispatch<InstrumentPropAction>;
+  displaySettings: DisplaySettings;
+  displaySettingsDispatch: Dispatch<DisplaySettingAction>;
 }) => {
   //Drag functionality for keys
   const [toggleKeyOn, setToggleKeyOn] = useState<boolean>(false);
@@ -63,8 +69,9 @@ export const BrassFingeringChart = ({
   const allPossibleInstrumentFingerings = useMemo(() => {
     const standardFingerings = woodwindFingerings[currentInstrument];
 
-    //if display has no alternate options, return standardFingerings
-    if (Object.keys(display).length === 0) return standardFingerings;
+    //if currentInstrumentProps has no alternate options, return standardFingerings
+    if (Object.keys(currentInstrumentProps).length === 0)
+      return standardFingerings;
 
     const currentAdditionalFingerings = additionalFingerings[currentInstrument];
 
@@ -74,9 +81,9 @@ export const BrassFingeringChart = ({
     return addAdditionalFingerings(
       standardFingerings,
       currentAdditionalFingerings,
-      display
+      currentInstrumentProps
     );
-  }, [currentInstrument, display]);
+  }, [currentInstrument, currentInstrumentProps]);
 
   const currentInstrumentClef = useMemo(
     () => instrumentClef[currentInstrument],
@@ -154,18 +161,18 @@ export const BrassFingeringChart = ({
             allPossibleInstrumentFingerings={allPossibleInstrumentFingerings}
             setActiveKeys={setActiveKeys}
             setNoteState={setNoteState}
-            displayEnharmonics={displayEnharmonics}
-            setDisplayEnharmonics={setDisplayEnharmonics}
+            displaySettings={displaySettings}
+            displaySettingsDispatch={displaySettingsDispatch}
           />
         </div>
         <ToggleOctaveButtons
           noteState={noteState}
           setNoteState={setNoteState}
           currentFingeringsPossibleNotes={currentFingeringsPossibleNotes}
-          displayEnharmonics={displayEnharmonics}
-          setDisplayEnharmonics={setDisplayEnharmonics}
-          display={display}
-          displayDispatch={displayDispatch}
+          currentInstrumentProps={currentInstrumentProps}
+          currentInstrumentPropsDispatch={currentInstrumentPropsDispatch}
+          displaySettings={displaySettings}
+          displaySettingsDispatch={displaySettingsDispatch}
         />
         <div className="w-96 h-[700px] flex items-center justify-start">
           <div className="w-full h-full flex flex-col items-center justify-center">

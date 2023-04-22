@@ -21,9 +21,10 @@ import {
   FrenchHornValves,
   TubaValves,
   TrombonePositions,
-  DisplayType,
-  DisplayState,
   InstrumentProp,
+  InstrumentProps,
+  DisplaySettings,
+  DisplaySetting,
 } from "./types";
 import Bassoon from "./icons/bassoon.svg";
 import Clarinet from "./icons/clarinet.svg";
@@ -694,7 +695,7 @@ export const brassDiagrams: { [key in BrassInstrument]: BrassKeyGroup } = {
 };
 
 export const instrumentProperties: {
-  [key in Instrument]: DisplayState;
+  [key in Instrument]: InstrumentProps;
 } = {
   [WoodwindInstrument.FLUTE]: { [InstrumentProp.TRILL_KEYS]: false },
   [WoodwindInstrument.OBOE]: { [InstrumentProp.TRILL_KEYS]: false },
@@ -2370,7 +2371,7 @@ export const woodwindFingerings: {
 
 export const additionalFingerings: {
   [key in Instrument]?: {
-    type: DisplayType;
+    type: InstrumentProp;
     fingerings: Partial<Record<Notes, InstrumentKeys[][]>>;
   }[];
 } = {
@@ -2601,3 +2602,7 @@ export const notes: Note[] = [
   { name: ["B6", "C♭7"], staffPosition: Notes.B6 },
   { name: ["B♯6", "C7"], staffPosition: Notes.C7 },
 ];
+
+export const defaultSettings: DisplaySettings = {
+  [DisplaySetting.ENHARMONICS]: false,
+};

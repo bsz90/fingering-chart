@@ -15,21 +15,27 @@ import {
   InstrumentKeys,
   WoodwindInstrument,
   Instrument,
-  DisplayState,
-  Action,
+  InstrumentProps,
+  InstrumentPropAction,
+  DisplaySettings,
+  DisplaySettingAction,
 } from "./types";
 import { addAdditionalFingerings, checkIfSameFingerings } from "./utils";
 import { WoodwindKeyGroups } from "./WoodwindKeyGroups";
 
 export const SingleReedFingeringChart = ({
   currentInstrument,
-  display,
-  displayDispatch,
+  currentInstrumentProps,
+  currentInstrumentPropsDispatch,
+  displaySettings,
+  displaySettingsDispatch,
 }: {
   currentInstrument: WoodwindInstrument;
   setCurrentInstrument: Dispatch<SetStateAction<Instrument>>;
-  display: DisplayState;
-  displayDispatch: Dispatch<Action>;
+  currentInstrumentProps: InstrumentProps;
+  currentInstrumentPropsDispatch: Dispatch<InstrumentPropAction>;
+  displaySettings: DisplaySettings;
+  displaySettingsDispatch: Dispatch<DisplaySettingAction>;
 }) => {
   //Drag functionality for keys
   const [toggleKeyOn, setToggleKeyOn] = useState<boolean>(false);
@@ -49,7 +55,8 @@ export const SingleReedFingeringChart = ({
     const standardFingerings = woodwindFingerings[currentInstrument];
 
     //if display has no alternate options, return standardFingerings
-    if (Object.keys(display).length === 0) return standardFingerings;
+    if (Object.keys(currentInstrumentProps).length === 0)
+      return standardFingerings;
 
     const currentAdditionalFingerings = additionalFingerings[currentInstrument];
 
@@ -59,9 +66,9 @@ export const SingleReedFingeringChart = ({
     return addAdditionalFingerings(
       standardFingerings,
       currentAdditionalFingerings,
-      display
+      currentInstrumentProps
     );
-  }, [currentInstrument, display]);
+  }, [currentInstrument, currentInstrumentProps]);
 
   const currentInstrumentKeyGroups = useMemo(() => {
     const currentKeyGroup = woodwindKeyDiagrams[currentInstrument];
@@ -163,18 +170,18 @@ export const SingleReedFingeringChart = ({
             allPossibleInstrumentFingerings={allPossibleInstrumentFingerings}
             setActiveKeys={setActiveKeys}
             setNoteState={setNoteState}
-            displayEnharmonics={displayEnharmonics}
-            setDisplayEnharmonics={setDisplayEnharmonics}
+            displaySettings={displaySettings}
+            displaySettingsDispatch={displaySettingsDispatch}
           />
         </div>
         <ToggleOctaveButtons
           noteState={noteState}
           setNoteState={setNoteState}
           currentFingeringsPossibleNotes={currentFingeringsPossibleNotes}
-          displayEnharmonics={displayEnharmonics}
-          setDisplayEnharmonics={setDisplayEnharmonics}
-          display={display}
-          displayDispatch={displayDispatch}
+          displaySettings={displaySettings}
+          displaySettingsDispatch={displaySettingsDispatch}
+          currentInstrumentProps={currentInstrumentProps}
+          currentInstrumentPropsDispatch={currentInstrumentPropsDispatch}
         />
         <div className="w-96 h-[700px] flex flex-col items-center justify-start">
           <div className="w-full h-full flex items-center justify-center">

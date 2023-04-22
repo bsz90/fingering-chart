@@ -1,24 +1,32 @@
 import { Dispatch, SetStateAction, useMemo } from "react";
 import { AdjustmentsDropdown } from "./AdjustmentsDropdown";
 import { notes } from "./constants";
-import { Action, Button, DisplayState, InstrumentKeys, Note } from "./types";
+import {
+  Button,
+  DisplaySettingAction,
+  DisplaySettings,
+  InstrumentKeys,
+  InstrumentPropAction,
+  InstrumentProps,
+  Note,
+} from "./types";
 
 export const ToggleOctaveButtons = ({
   noteState,
   setNoteState,
   currentFingeringsPossibleNotes,
-  displayEnharmonics,
-  setDisplayEnharmonics,
-  display,
-  displayDispatch,
+  currentInstrumentProps,
+  currentInstrumentPropsDispatch,
+  displaySettings,
+  displaySettingsDispatch,
 }: {
   noteState: Note;
   setNoteState: Dispatch<SetStateAction<Note>>;
   currentFingeringsPossibleNotes: [string, InstrumentKeys[][]][];
-  displayEnharmonics: boolean;
-  setDisplayEnharmonics: Dispatch<SetStateAction<boolean>>;
-  display: DisplayState;
-  displayDispatch: Dispatch<Action>;
+  currentInstrumentProps: InstrumentProps;
+  currentInstrumentPropsDispatch: Dispatch<InstrumentPropAction>;
+  displaySettings: DisplaySettings;
+  displaySettingsDispatch: Dispatch<DisplaySettingAction>;
 }) => {
   const currentPossibleFingeringIndex = useMemo(
     () =>
@@ -72,10 +80,10 @@ export const ToggleOctaveButtons = ({
       </button>
       <div className="w-12 h-12 flex items-center justify-center">
         <AdjustmentsDropdown
-          displayEnharmonics={displayEnharmonics}
-          setDisplayEnharmonics={setDisplayEnharmonics}
-          display={display}
-          displayDispatch={displayDispatch}
+          displaySettings={displaySettings}
+          displaySettingsDispatch={displaySettingsDispatch}
+          currentInstrumentProps={currentInstrumentProps}
+          currentInstrumentPropsDispatch={currentInstrumentPropsDispatch}
         />
       </div>
       <button

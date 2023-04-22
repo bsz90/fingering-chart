@@ -1,17 +1,22 @@
 import { useEffect, useReducer, useState } from "react";
-import { instrumentProperties } from "./constants";
+import { defaultSettings, instrumentProperties } from "./constants";
 import { NavBar } from "./NavBar";
 import {
-  Action,
-  BrassInstrument,
-  DisplayState,
+  InstrumentPropAction,
+  DisplaySetting,
+  DisplaySettings,
   Instrument,
   InstrumentProp,
+  InstrumentProps,
   WoodwindInstrument,
+  DisplaySettingAction,
 } from "./types";
-import { determineFingeringChart, isBrass, isWoodwind } from "./utils";
+import { determineFingeringChart } from "./utils";
 
-const displayReducer = (state: DisplayState, action: Action): DisplayState => {
+const instrumentPropReducer = (
+  state: InstrumentProps,
+  action: InstrumentPropAction
+): InstrumentProps => {
   switch (action.type) {
     case InstrumentProp.NEW_INSTRUMENT: {
       return { ...action.payload };
@@ -39,19 +44,40 @@ const displayReducer = (state: DisplayState, action: Action): DisplayState => {
   }
 };
 
+const displaySettingsReducer = (
+  state: DisplaySettings,
+  action: DisplaySettingAction
+): DisplaySettings => {
+  switch (action.type) {
+    case DisplaySetting.ENHARMONICS: {
+      return {
+        ...state,
+        [DisplaySetting.ENHARMONICS]: !state[DisplaySetting.ENHARMONICS],
+      };
+    }
+    default:
+      throw new Error();
+  }
+};
+
 export default function Home() {
   const [currentInstrument, setCurrentInstrument] = useState<Instrument>(
     WoodwindInstrument.SAXOPHONE
   );
 
-  const [display, displayDispatch] = useReducer(
-    displayReducer,
+  const [currentInstrumentProps, currentInstrumentPropDispatch] = useReducer(
+    instrumentPropReducer,
     instrumentProperties[currentInstrument]
+  );
+
+  const [displaySettings, displaySettingsDispatch] = useReducer(
+    displaySettingsReducer,
+    defaultSettings
   );
 
   useEffect(
     () =>
-      displayDispatch({
+      currentInstrumentPropDispatch({
         type: InstrumentProp.NEW_INSTRUMENT,
         payload: instrumentProperties[currentInstrument],
       }),
@@ -63,8 +89,10 @@ export default function Home() {
       {determineFingeringChart(
         currentInstrument,
         setCurrentInstrument,
-        display,
-        displayDispatch
+        currentInstrumentProps,
+        currentInstrumentPropDispatch,
+        displaySettings,
+        displaySettingsDispatch
       )}
       <NavBar
         currentInstrument={currentInstrument}

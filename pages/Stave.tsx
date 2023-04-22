@@ -1,7 +1,16 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Accidental, Formatter, StaveNote, Vex, Voice } from "vexflow";
 import { instrumentRanges, notes } from "./constants";
-import { Clef, Instrument, InstrumentKeys, Note, Notes } from "./types";
+import {
+  Clef,
+  DisplaySetting,
+  DisplaySettingAction,
+  DisplaySettings,
+  Instrument,
+  InstrumentKeys,
+  Note,
+  Notes,
+} from "./types";
 import { getRegex, sortNoteNames } from "./utils";
 
 export const Stave = ({
@@ -11,8 +20,8 @@ export const Stave = ({
   allPossibleInstrumentFingerings,
   setActiveKeys,
   setNoteState,
-  displayEnharmonics,
-  setDisplayEnharmonics,
+  displaySettings,
+  displaySettingsDispatch,
 }: {
   noteState: Note;
   currentInstrument: Instrument;
@@ -20,8 +29,8 @@ export const Stave = ({
   allPossibleInstrumentFingerings: Partial<Record<Notes, InstrumentKeys[][]>>;
   setActiveKeys: Dispatch<SetStateAction<InstrumentKeys[] | undefined>>;
   setNoteState: Dispatch<SetStateAction<Note>>;
-  displayEnharmonics: boolean;
-  setDisplayEnharmonics: Dispatch<SetStateAction<boolean>>;
+  displaySettings: DisplaySettings;
+  displaySettingsDispatch: Dispatch<DisplaySettingAction>;
 }) => {
   //display newNote on pointerMove?
   const [draggingNote, setDraggingNote] = useState<boolean>(false);
@@ -68,7 +77,11 @@ export const Stave = ({
       const getCurrentStaveNote = ({ name, staffPosition }: Note) => {
         if (name.every((string) => string)) {
           const regex = (() => {
-            if (name.length === 1 || displayEnharmonics) return getRegex(name);
+            if (
+              name.length === 1 ||
+              displaySettings[DisplaySetting.ENHARMONICS]
+            )
+              return getRegex(name);
 
             if (getRegex(name).find(({ modifier }) => modifier === undefined)) {
               return getRegex(name).filter(({ modifier }) => !modifier);
@@ -97,9 +110,16 @@ export const Stave = ({
 
           const staveNotes = regex.map((noteRegex, id) => {
             const xShift =
-              regex.length === 1 || !displayEnharmonics ? 30 : id === 0 ? 8 : 5;
+              regex.length === 1 || !displaySettings[DisplaySetting.ENHARMONICS]
+                ? 30
+                : id === 0
+                ? 8
+                : 5;
 
-            const duration = displayEnharmonics && regex.length > 1 ? "h" : "w";
+            const duration =
+              displaySettings[DisplaySetting.ENHARMONICS] && regex.length > 1
+                ? "h"
+                : "w";
 
             if (noteRegex.modifier) {
               const flat = noteRegex.modifier === "♭";
@@ -202,7 +222,7 @@ export const Stave = ({
     Stave,
     currentInstrument,
     currentInstrumentClef,
-    displayEnharmonics,
+    displaySettings,
     draggingNote,
     movementY,
     nextNote,
