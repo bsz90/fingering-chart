@@ -1,10 +1,30 @@
 import {
   BrassInstrument,
+  DisplayState,
   Instrument,
   InstrumentKeys,
+  InstrumentProp,
   NoteRegex,
+  Notes,
   WoodwindInstrument,
 } from "./types";
+
+export const deepCopyFingerings = (
+  obj: Partial<Record<Notes, InstrumentKeys[][]>>
+) => {
+  const keys = Object.keys(obj);
+  const newObj: Partial<Record<Notes, InstrumentKeys[][]>> = {};
+
+  for (let i = 0; i < keys.length; i++) {
+    const array = obj[+keys[i] as Notes];
+    if (!array) continue;
+
+    newObj[+keys[i] as Notes] = deepCopyArray(array);
+  }
+  return newObj;
+};
+
+export const deepCopyArray = (array: any[]) => [...array.map((item) => item)];
 
 export const likeArrays = (
   array: InstrumentKeys[],
@@ -81,3 +101,55 @@ export const isWoodwind = (currentInstrument: Instrument) =>
   currentInstrument === WoodwindInstrument.CLARINET ||
   currentInstrument === WoodwindInstrument.OBOE ||
   currentInstrument === WoodwindInstrument.FLUTE;
+
+//function to join standardFingerings and additionalFingerings based on displayState
+export const addAdditionalFingerings = (
+  standardFingerings: Partial<Record<Notes, InstrumentKeys[][]>>,
+  currentAdditionalFingerings: {
+    type: InstrumentProp;
+    fingerings: Partial<Record<Notes, InstrumentKeys[][]>>;
+  }[],
+  display: DisplayState
+) => {
+  //find all props that are true in display state
+  const trueProps = Object.entries(display)
+    .filter(([instrumentProp, boolean]) => boolean)
+    .map(([instrumentProp, boolean]) => instrumentProp);
+
+  //function to get an array of fingerings based on trueProps
+  const getFingeringsToAdd = (
+    prop: string,
+    fingerings: {
+      type: InstrumentProp;
+      fingerings: Partial<Record<Notes, InstrumentKeys[][]>>;
+    }[]
+  ) =>
+    fingerings
+      .filter((additionalFingerings) => additionalFingerings.type === prop)
+      .map((additionalFingerings) => additionalFingerings.fingerings);
+
+  //the actual arrays of all additionalFingerings
+  const fingeringsToAdd = trueProps
+    .map((trueProp) =>
+      getFingeringsToAdd(trueProp, currentAdditionalFingerings)
+    )
+    .flatMap((arrayOfFingerings) => arrayOfFingerings)
+    .flatMap((fingerings) => Object.entries(fingerings));
+
+  // newObj to return
+  let newObj: Partial<Record<Notes, InstrumentKeys[][]>> =
+    deepCopyFingerings(standardFingerings);
+
+  //start function logic
+  for (let i = 0; i < fingeringsToAdd.length; i++) {
+    const array = fingeringsToAdd[i];
+    const fingering = newObj[+array[0] as Notes];
+    if (!fingering) {
+      newObj[+array[0] as Notes] = array[1];
+      continue;
+    }
+    const newFingering = [...array[1], ...fingering];
+    newObj[+array[0] as Notes] = newFingering;
+  }
+  return newObj;
+};
