@@ -24,6 +24,7 @@ import {
   addAdditionalFingerings,
   checkIfSameFingerings,
   comebineKeys,
+  getTrueProps,
 } from "./utils";
 import { InstrumentKey } from "./InstrumentKey";
 
@@ -53,10 +54,6 @@ export const BrassFingeringChart = ({
     InstrumentKeyNames[] | undefined
   >([]);
 
-  const trueProps = Object.entries(currentInstrumentProps)
-    .filter(([instrumentProp, boolean]) => boolean)
-    .map(([instrumentProp, boolean]) => instrumentProp as InstrumentProp);
-
   const currentDiagram = useMemo(() => {
     const defaultKeyGroup = structuredClone(brassDiagrams[currentInstrument]);
 
@@ -64,13 +61,13 @@ export const BrassFingeringChart = ({
       return brassDiagrams[currentInstrument];
 
     defaultKeyGroup.keys = comebineKeys(
-      trueProps,
+      getTrueProps(currentInstrumentProps),
       defaultKeyGroup.keys,
       defaultKeyGroup.additionalKeys
     );
 
     return defaultKeyGroup;
-  }, [currentInstrument, trueProps]);
+  }, [currentInstrument, currentInstrumentProps]);
 
   const allPossibleInstrumentFingerings = useMemo(() => {
     const standardFingerings = woodwindFingerings[currentInstrument];
@@ -85,11 +82,11 @@ export const BrassFingeringChart = ({
     if (!currentAdditionalFingerings) return standardFingerings;
 
     return addAdditionalFingerings(
-      trueProps,
+      getTrueProps(currentInstrumentProps),
       standardFingerings,
       currentAdditionalFingerings
     );
-  }, [currentInstrument, currentInstrumentProps, trueProps]);
+  }, [currentInstrument, currentInstrumentProps]);
 
   const currentInstrumentClef = useMemo(
     () => instrumentClef[currentInstrument],

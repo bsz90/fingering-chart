@@ -7,7 +7,7 @@ import {
   DisplaySettingAction,
   DisplaySettings,
   Instrument,
-  InstrumentKeys,
+  InstrumentKeyNames,
   InstrumentProp,
   InstrumentPropAction,
   InstrumentProps,
@@ -17,10 +17,10 @@ import {
 } from "./types";
 
 export const deepCopyFingerings = (
-  obj: Partial<Record<Notes, InstrumentKeys[][]>>
+  obj: Partial<Record<Notes, InstrumentKeyNames[][]>>
 ) => {
   const keys = Object.keys(obj);
-  const newObj: Partial<Record<Notes, InstrumentKeys[][]>> = {};
+  const newObj: Partial<Record<Notes, InstrumentKeyNames[][]>> = {};
 
   for (let i = 0; i < keys.length; i++) {
     const array = obj[+keys[i] as Notes];
@@ -31,11 +31,31 @@ export const deepCopyFingerings = (
   return newObj;
 };
 
+export function deepCopyObject<T extends Record<string, unknown>>(obj: T): T {
+  if (typeof obj !== "object" || obj === null) {
+    return obj;
+  }
+
+  if (Array.isArray(obj)) {
+    return obj.map((item) => deepCopyObject(item)) as unknown as T;
+  }
+
+  const copy = {} as T;
+
+  Object.keys(obj).forEach((key) => {
+    const value = obj[key] as T[keyof T];
+
+    copy[key as keyof T] = deepCopyObject(value as T) as T[keyof T];
+  });
+
+  return copy as T;
+}
+
 export const deepCopyArray = (array: any[]) => [...array.map((item) => item)];
 
 export const likeArrays = (
-  array: InstrumentKeys[],
-  activeKeys: InstrumentKeys[] | undefined
+  array: InstrumentKeyNames[],
+  activeKeys: InstrumentKeyNames[] | undefined
 ) => {
   if (!activeKeys) return array.length === 0;
 
@@ -46,8 +66,8 @@ export const likeArrays = (
 };
 
 export const checkIfSameFingerings = (
-  fingering: InstrumentKeys[][] | undefined,
-  activeKeys: InstrumentKeys[] | undefined
+  fingering: InstrumentKeyNames[][] | undefined,
+  activeKeys: InstrumentKeyNames[] | undefined
 ) => {
   if (!fingering) return false;
 
@@ -109,24 +129,19 @@ export const isWoodwind = (currentInstrument: Instrument) =>
 
 //function to join standardFingerings and additionalFingerings based on currentInstrumentProps
 export const addAdditionalFingerings = (
-  standardFingerings: Partial<Record<Notes, InstrumentKeys[][]>>,
+  trueProps: InstrumentProp[],
+  standardFingerings: Partial<Record<Notes, InstrumentKeyNames[][]>>,
   currentAdditionalFingerings: {
     type: InstrumentProp;
-    fingerings: Partial<Record<Notes, InstrumentKeys[][]>>;
-  }[],
-  currentInstrumentProps: InstrumentProps
+    fingerings: Partial<Record<Notes, InstrumentKeyNames[][]>>;
+  }[]
 ) => {
-  //find all props that are true in display state
-  const trueProps = Object.entries(currentInstrumentProps)
-    .filter(([instrumentProp, boolean]) => boolean)
-    .map(([instrumentProp, boolean]) => instrumentProp);
-
   //function to get an array of fingerings based on trueProps
   const getFingeringsToAdd = (
-    prop: string,
+    prop: InstrumentProp,
     fingerings: {
       type: InstrumentProp;
-      fingerings: Partial<Record<Notes, InstrumentKeys[][]>>;
+      fingerings: Partial<Record<Notes, InstrumentKeyNames[][]>>;
     }[]
   ) =>
     fingerings
@@ -142,7 +157,7 @@ export const addAdditionalFingerings = (
     .flatMap((fingerings) => Object.entries(fingerings));
 
   // newObj to return
-  let newObj: Partial<Record<Notes, InstrumentKeys[][]>> =
+  let newObj: Partial<Record<Notes, InstrumentKeyNames[][]>> =
     deepCopyFingerings(standardFingerings);
 
   //start function logic
@@ -193,3 +208,36 @@ export const determineFingeringChart = (
   }
   throw new Error();
 };
+
+export const comebineKeys = (
+  trueProps: InstrumentProp[],
+  keys: {
+    name: InstrumentKeyNames;
+    className: string;
+  }[],
+  additionalKeys: {
+    type: InstrumentProp;
+    name: InstrumentKeyNames;
+    className: string;
+  }[]
+) => {
+  const currentAdditionalKeys = additionalKeys.filter((item) =>
+    trueProps.includes(item.type)
+  );
+
+  const newKeys = keys;
+
+  currentAdditionalKeys.forEach((key) => {
+    key.type === InstrumentProp.TRIGGER
+      ? newKeys.unshift(key)
+      : newKeys.push(key);
+  });
+
+  return newKeys;
+};
+
+export function getTrueProps(instrumentProps: InstrumentProps) {
+  return Object.entries(instrumentProps)
+    .filter(([propName, boolean]) => boolean)
+    .map(([propName]) => propName as InstrumentProp);
+}

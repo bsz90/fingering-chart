@@ -12,15 +12,20 @@ import { ToggleOctaveButtons } from "./ToggleOctaveButtons";
 import {
   WoodwindKeyGroup,
   Note,
-  InstrumentKeys,
+  InstrumentKeyNames,
   WoodwindInstrument,
   Instrument,
   InstrumentProps,
   InstrumentPropAction,
   DisplaySettings,
   DisplaySettingAction,
+  InstrumentProp,
 } from "./types";
-import { addAdditionalFingerings, checkIfSameFingerings } from "./utils";
+import {
+  addAdditionalFingerings,
+  checkIfSameFingerings,
+  getTrueProps,
+} from "./utils";
 import { WoodwindKeyGroups } from "./WoodwindKeyGroups";
 
 export const SingleReedFingeringChart = ({
@@ -47,9 +52,9 @@ export const SingleReedFingeringChart = ({
 
   const [displayEnharmonics, setDisplayEnharmonics] = useState<boolean>(false);
 
-  const [activeKeys, setActiveKeys] = useState<InstrumentKeys[] | undefined>(
-    []
-  );
+  const [activeKeys, setActiveKeys] = useState<
+    InstrumentKeyNames[] | undefined
+  >([]);
 
   const allPossibleInstrumentFingerings = useMemo(() => {
     const standardFingerings = woodwindFingerings[currentInstrument];
@@ -64,9 +69,9 @@ export const SingleReedFingeringChart = ({
     if (!currentAdditionalFingerings) return standardFingerings;
 
     return addAdditionalFingerings(
+      getTrueProps(currentInstrumentProps),
       standardFingerings,
-      currentAdditionalFingerings,
-      currentInstrumentProps
+      currentAdditionalFingerings
     );
   }, [currentInstrument, currentInstrumentProps]);
 

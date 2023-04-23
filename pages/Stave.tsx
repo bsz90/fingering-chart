@@ -7,7 +7,7 @@ import {
   DisplaySettingAction,
   DisplaySettings,
   Instrument,
-  InstrumentKeys,
+  InstrumentKeyNames,
   Note,
   Notes,
 } from "./types";
@@ -26,8 +26,10 @@ export const Stave = ({
   noteState: Note;
   currentInstrument: Instrument;
   currentInstrumentClef: Clef;
-  allPossibleInstrumentFingerings: Partial<Record<Notes, InstrumentKeys[][]>>;
-  setActiveKeys: Dispatch<SetStateAction<InstrumentKeys[] | undefined>>;
+  allPossibleInstrumentFingerings: Partial<
+    Record<Notes, InstrumentKeyNames[][]>
+  >;
+  setActiveKeys: Dispatch<SetStateAction<InstrumentKeyNames[] | undefined>>;
   setNoteState: Dispatch<SetStateAction<Note>>;
   displaySettings: DisplaySettings;
   displaySettingsDispatch: Dispatch<DisplaySettingAction>;
