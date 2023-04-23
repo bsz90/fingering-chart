@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 import {
   BrassInstrument,
   Instrument,
-  InstrumentKeys,
+  InstrumentKeyNames,
   TrombonePositions,
 } from "./types";
 import * as Tooltip from "@radix-ui/react-tooltip";
@@ -19,17 +19,17 @@ export const InstrumentKey = ({
   setActiveKeys,
 }: {
   currentInstrument: Instrument;
-  name: InstrumentKeys;
+  name: InstrumentKeyNames;
   className: string;
   toggleKeyOn: boolean;
   setToggleKeyOn: Dispatch<SetStateAction<boolean>>;
-  activeKeys: InstrumentKeys[] | undefined;
-  setActiveKeys: Dispatch<SetStateAction<InstrumentKeys[] | undefined>>;
+  activeKeys: InstrumentKeyNames[] | undefined;
+  setActiveKeys: Dispatch<SetStateAction<InstrumentKeyNames[] | undefined>>;
 }) => {
   const isTrombone = currentInstrument === BrassInstrument.TROMBONE;
 
   const handleTrombonePositions = (newKey: TrombonePositions) => {
-    const tromboneKeys = brassDiagrams[BrassInstrument.TROMBONE][0].keys;
+    const tromboneKeys = brassDiagrams[BrassInstrument.TROMBONE].keys;
     const index = tromboneKeys.findIndex(({ name }) => name === newKey);
 
     const newTromboneKeys = tromboneKeys
@@ -39,7 +39,7 @@ export const InstrumentKey = ({
     setActiveKeys([...newTromboneKeys]);
   };
 
-  const handlePointerDown = (newKey: InstrumentKeys) => {
+  const handlePointerDown = (newKey: InstrumentKeyNames) => {
     if (activeKeys && !isTrombone) {
       if (activeKeys.includes(newKey)) {
         setToggleKeyOn(false);
@@ -60,7 +60,7 @@ export const InstrumentKey = ({
     }
   };
 
-  const handlePointerEnter = (newKey: InstrumentKeys) => {
+  const handlePointerEnter = (newKey: InstrumentKeyNames) => {
     if (activeKeys && !isTrombone) {
       if (toggleKeyOn && !activeKeys.includes(newKey))
         setActiveKeys((prev) => {
@@ -76,7 +76,7 @@ export const InstrumentKey = ({
       handleTrombonePositions(newKey as TrombonePositions);
   };
 
-  const handleKeyDown = (newKey: InstrumentKeys) => {
+  const handleKeyDown = (newKey: InstrumentKeyNames) => {
     if (activeKeys) {
       if (activeKeys.includes(newKey)) {
         setActiveKeys((prev) => {

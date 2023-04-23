@@ -5,7 +5,7 @@ import {
   Button,
   DisplaySettingAction,
   DisplaySettings,
-  InstrumentKeys,
+  InstrumentKeyNames,
   InstrumentPropAction,
   InstrumentProps,
   Note,
@@ -22,7 +22,7 @@ export const ToggleOctaveButtons = ({
 }: {
   noteState: Note;
   setNoteState: Dispatch<SetStateAction<Note>>;
-  currentFingeringsPossibleNotes: [string, InstrumentKeys[][]][];
+  currentFingeringsPossibleNotes: [string, InstrumentKeyNames[][]][];
   currentInstrumentProps: InstrumentProps;
   currentInstrumentPropsDispatch: Dispatch<InstrumentPropAction>;
   displaySettings: DisplaySettings;
@@ -48,7 +48,7 @@ export const ToggleOctaveButtons = ({
 
   const handleButtonClick = (
     buttonType: string,
-    currentFingeringsPossibleNotes: [string, InstrumentKeys[][]][],
+    currentFingeringsPossibleNotes: [string, InstrumentKeyNames[][]][],
     currentPossibleFingeringIndex: number,
     setNoteState: Dispatch<SetStateAction<Note>>
   ) => {

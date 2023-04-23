@@ -31,17 +31,20 @@ export type WoodwindKeyGroup = {
   section: Section;
   position: Position;
   keys: {
-    name: InstrumentKeys;
+    name: InstrumentKeyNames;
     className: string;
   }[];
 };
 
 export type BrassKeyGroup = {
-  trigger: boolean;
-  fourthValve: boolean;
   containerClassName: string;
-  keys: { name: InstrumentKeys; className: string }[];
-}[];
+  keys: { name: InstrumentKeyNames; className: string }[];
+  additionalKeys?: {
+    type: InstrumentProp;
+    name: InstrumentKeyNames;
+    className: string;
+  }[];
+};
 
 export enum Section {
   TOP,
@@ -54,7 +57,7 @@ export enum Position {
   RIGHT,
 }
 
-export type InstrumentKeys =
+export type InstrumentKeyNames =
   | FluteKeys
   | SaxophoneKeys
   | ClarinetKeys

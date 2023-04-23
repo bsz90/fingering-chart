@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { Button, InstrumentKeys } from "./types";
+import { Button, InstrumentKeyNames } from "./types";
 import { likeArrays } from "./utils";
 
 export const ToggleFingeringButtons = ({
@@ -7,14 +7,14 @@ export const ToggleFingeringButtons = ({
   setActiveKeys,
   currentNotesPossibleFingerings,
 }: {
-  activeKeys: InstrumentKeys[] | undefined;
-  setActiveKeys: Dispatch<SetStateAction<InstrumentKeys[] | undefined>>;
-  currentNotesPossibleFingerings: InstrumentKeys[][] | undefined;
+  activeKeys: InstrumentKeyNames[] | undefined;
+  setActiveKeys: Dispatch<SetStateAction<InstrumentKeyNames[] | undefined>>;
+  currentNotesPossibleFingerings: InstrumentKeyNames[][] | undefined;
 }) => {
   //event handler
   const handleButtonClick = (
     buttonType: Button,
-    currentNotesFingeringKeys: InstrumentKeys[][]
+    currentNotesFingeringKeys: InstrumentKeyNames[][]
   ) => {
     const currentIndex = currentNotesFingeringKeys.findIndex((array) =>
       likeArrays(array, activeKeys)
@@ -33,7 +33,7 @@ export const ToggleFingeringButtons = ({
         return true;
 
       const currentFingeringIndex = currentNotesPossibleFingerings.findIndex(
-        (array) => likeArrays(array as InstrumentKeys[], activeKeys)
+        (array) => likeArrays(array as InstrumentKeyNames[], activeKeys)
       );
 
       if (currentFingeringIndex === -1) return true;
@@ -57,7 +57,7 @@ export const ToggleFingeringButtons = ({
         onClick={() =>
           handleButtonClick(
             Button.LEFT,
-            currentNotesPossibleFingerings as InstrumentKeys[][]
+            currentNotesPossibleFingerings as InstrumentKeyNames[][]
           )
         }
       >
@@ -71,7 +71,7 @@ export const ToggleFingeringButtons = ({
         onClick={() =>
           handleButtonClick(
             Button.RIGHT,
-            currentNotesPossibleFingerings as InstrumentKeys[][]
+            currentNotesPossibleFingerings as InstrumentKeyNames[][]
           )
         }
       >

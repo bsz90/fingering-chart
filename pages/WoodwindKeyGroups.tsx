@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 import { InstrumentKey } from "./InstrumentKey";
 import {
   Instrument,
-  InstrumentKeys,
+  InstrumentKeyNames,
   WoodwindKeyGroup,
   Position,
 } from "./types";
@@ -22,8 +22,8 @@ export const WoodwindKeyGroups = ({
   toggleKeyOn: boolean;
   setToggleKeyOn: Dispatch<SetStateAction<boolean>>;
   currentInstrument: Instrument;
-  activeKeys: InstrumentKeys[] | undefined;
-  setActiveKeys: Dispatch<SetStateAction<InstrumentKeys[] | undefined>>;
+  activeKeys: InstrumentKeyNames[] | undefined;
+  setActiveKeys: Dispatch<SetStateAction<InstrumentKeyNames[] | undefined>>;
 }) => {
   function determineJustify(position: Position) {
     switch (position) {
