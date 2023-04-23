@@ -11,7 +11,7 @@ import {
   SaxophoneKeys,
   Section,
   InstrumentRange,
-  InstrumentKeys,
+  InstrumentKeyNames,
   BrassInstrument,
   WoodwindInstrument,
   TrumpetValves,
@@ -530,179 +530,122 @@ export const woodwindKeyDiagrams: {
 };
 
 export const brassDiagrams: { [key in BrassInstrument]: BrassKeyGroup } = {
-  [BrassInstrument.TRUMPET]: [
-    {
-      trigger: false,
-      fourthValve: false,
-      containerClassName: "flex items-center justify-center gap-8",
-      keys: [
-        {
-          name: TrumpetValves.FIRST,
-          className: "rounded-[50%] h-[62px] w-[62px]",
-        },
-        {
-          name: TrumpetValves.SECOND,
-          className: "rounded-[50%] h-[62px] w-[62px]",
-        },
-        {
-          name: TrumpetValves.THIRD,
-          className: "rounded-[50%] h-[62px] w-[62px]",
-        },
-      ],
-    },
-  ],
-  [BrassInstrument.FRENCH_HORN]: [
-    {
-      trigger: true,
-      fourthValve: false,
-      containerClassName: "flex items-center justify-center gap-8",
-      keys: [
-        {
-          name: FrenchHornValves.TRIGGER,
-          className: "rounded-[50%] h-[40px] w-[40px] mb-[20px]",
-        },
-        {
-          name: FrenchHornValves.FIRST,
-          className: "rounded-[50%] h-[62px] w-[62px]",
-        },
-        {
-          name: FrenchHornValves.SECOND,
-          className: "rounded-[50%] h-[62px] w-[62px]",
-        },
-        {
-          name: FrenchHornValves.THIRD,
-          className: "rounded-[50%] h-[62px] w-[62px]",
-        },
-      ],
-    },
-  ],
-  [BrassInstrument.TROMBONE]: [
-    {
-      trigger: false,
-      fourthValve: false,
-      containerClassName: "flex",
-      keys: [
-        {
-          name: TrombonePositions.FIRST,
-          className: "h-[62px] w-12 border-x-0",
-        },
-        {
-          name: TrombonePositions.SECOND,
-          className: "h-[62px] w-12 border-x-0",
-        },
-        {
-          name: TrombonePositions.THIRD,
-          className: "h-[62px] w-12 border-x-0",
-        },
-        {
-          name: TrombonePositions.FOURTH,
-          className: "h-[62px] w-12 border-x-0",
-        },
-        {
-          name: TrombonePositions.FIFTH,
-          className: "h-[62px] w-12 border-x-0",
-        },
-        {
-          name: TrombonePositions.SIXTH,
-          className: "h-[62px] w-12 border-x-0",
-        },
-        {
-          name: TrombonePositions.SEVENTH,
-          className: "h-[62px] w-12 border-l-0 rounded-r-lg",
-        },
-      ],
-    },
-    {
-      trigger: true,
-      fourthValve: false,
-      containerClassName: "flex",
-      keys: [
-        {
-          name: TrombonePositions.FIRST,
-          className: "h-[62px] w-12 border-x-0",
-        },
-        {
-          name: TrombonePositions.SECOND,
-          className: "h-[62px] w-12 border-x-0",
-        },
-        {
-          name: TrombonePositions.THIRD,
-          className: "h-[62px] w-12 border-x-0",
-        },
-        {
-          name: TrombonePositions.FOURTH,
-          className: "h-[62px] w-12 border-x-0",
-        },
-        {
-          name: TrombonePositions.FIFTH,
-          className: "h-[62px] w-12 border-x-0",
-        },
-        {
-          name: TrombonePositions.SIXTH,
-          className: "h-[62px] w-12 border-x-0",
-        },
-        {
-          name: TrombonePositions.SEVENTH,
-          className: "h-[62px] w-12 border-l-0 rounded-r-lg",
-        },
-      ],
-    },
-  ],
-  [BrassInstrument.TUBA]: [
-    {
-      trigger: false,
-      fourthValve: false,
-      containerClassName: "flex items-center justify-center gap-8",
-      keys: [
-        {
-          name: TubaValves.FIRST,
-          className: "rounded-[50%] h-[62px] w-[62px]",
-        },
-        {
-          name: TubaValves.SECOND,
-          className: "rounded-[50%] h-[62px] w-[62px]",
-        },
-        {
-          name: TubaValves.THIRD,
-          className: "rounded-[50%] h-[62px] w-[62px]",
-        },
-      ],
-    },
-    {
-      trigger: false,
-      fourthValve: true,
-      containerClassName: "flex items-center justify-center gap-8",
-      keys: [
-        {
-          name: TubaValves.FIRST,
-          className: "rounded-[50%] h-[62px] w-[62px]",
-        },
-        {
-          name: TubaValves.SECOND,
-          className: "rounded-[50%] h-[62px] w-[62px]",
-        },
-        {
-          name: TubaValves.THIRD,
-          className: "rounded-[50%] h-[62px] w-[62px]",
-        },
-        {
-          name: TubaValves.FOURTH,
-          className: "rounded-[50%] h-[62px] w-[62px]",
-        },
-      ],
-    },
-  ],
+  [BrassInstrument.TRUMPET]: {
+    containerClassName: "flex items-center justify-center gap-8",
+    keys: [
+      {
+        name: TrumpetValves.FIRST,
+        className: "rounded-[50%] h-[62px] w-[62px]",
+      },
+      {
+        name: TrumpetValves.SECOND,
+        className: "rounded-[50%] h-[62px] w-[62px]",
+      },
+      {
+        name: TrumpetValves.THIRD,
+        className: "rounded-[50%] h-[62px] w-[62px]",
+      },
+    ],
+  },
+  [BrassInstrument.FRENCH_HORN]: {
+    containerClassName: "flex items-center justify-center gap-8",
+    keys: [
+      {
+        name: FrenchHornValves.FIRST,
+        className: "rounded-[50%] h-[62px] w-[62px]",
+      },
+      {
+        name: FrenchHornValves.SECOND,
+        className: "rounded-[50%] h-[62px] w-[62px]",
+      },
+      {
+        name: FrenchHornValves.THIRD,
+        className: "rounded-[50%] h-[62px] w-[62px]",
+      },
+    ],
+    additionalKeys: [
+      {
+        type: InstrumentProp.TRIGGER,
+        name: FrenchHorn.TRIGGER,
+        className: "rounded-[50%] h-[40px] w-[40px] mb-[20px]",
+      },
+    ],
+  },
+  [BrassInstrument.TROMBONE]: {
+    containerClassName: "flex",
+    keys: [
+      {
+        name: TrombonePositions.FIRST,
+        className: "h-[62px] w-12 border-x-0",
+      },
+      {
+        name: TrombonePositions.SECOND,
+        className: "h-[62px] w-12 border-x-0",
+      },
+      {
+        name: TrombonePositions.THIRD,
+        className: "h-[62px] w-12 border-x-0",
+      },
+      {
+        name: TrombonePositions.FOURTH,
+        className: "h-[62px] w-12 border-x-0",
+      },
+      {
+        name: TrombonePositions.FIFTH,
+        className: "h-[62px] w-12 border-x-0",
+      },
+      {
+        name: TrombonePositions.SIXTH,
+        className: "h-[62px] w-12 border-x-0",
+      },
+      {
+        name: TrombonePositions.SEVENTH,
+        className: "h-[62px] w-12 border-l-0 rounded-r-lg",
+      },
+    ],
+
+    additionalKeys: [
+      {
+        type: InstrumentProp.TRIGGER,
+        name: TrombonePositions.TRIGGER,
+        className: "rounded-[50%] h-[40px] w-[40px] mb-[20px]",
+      },
+    ],
+  },
+  [BrassInstrument.TUBA]: {
+    containerClassName: "flex items-center justify-center gap-8",
+    keys: [
+      {
+        name: TubaValves.FIRST,
+        className: "rounded-[50%] h-[62px] w-[62px]",
+      },
+      {
+        name: TubaValves.SECOND,
+        className: "rounded-[50%] h-[62px] w-[62px]",
+      },
+      {
+        name: TubaValves.THIRD,
+        className: "rounded-[50%] h-[62px] w-[62px]",
+      },
+    ],
+    additionalKeys: [
+      {
+        type: InstrumentProp.FOURTH_VALVE,
+        name: TubaValves.FOURTH,
+        className: "rounded-[50%] h-[62px] w-[62px]",
+      },
+    ],
+  },
 };
 
 export const instrumentProperties: {
-  [key in Instrument]: InstrumentProps;
+  [key in Instrument]?: InstrumentProps;
 } = {
   [WoodwindInstrument.FLUTE]: { [InstrumentProp.TRILL_KEYS]: false },
   [WoodwindInstrument.OBOE]: { [InstrumentProp.TRILL_KEYS]: false },
   [WoodwindInstrument.CLARINET]: { [InstrumentProp.TRILL_KEYS]: false },
   [WoodwindInstrument.SAXOPHONE]: { [InstrumentProp.TRILL_KEYS]: false },
   [WoodwindInstrument.BASSOON]: { [InstrumentProp.TRILL_KEYS]: false },
-  [BrassInstrument.TRUMPET]: { [InstrumentProp.TRILL_KEYS]: false },
   [BrassInstrument.FRENCH_HORN]: {
     [InstrumentProp.TRIGGER]: false,
   },
@@ -711,7 +654,7 @@ export const instrumentProperties: {
 };
 
 export const woodwindFingerings: {
-  [key in Instrument]: Partial<Record<Notes, InstrumentKeys[][]>>;
+  [key in Instrument]: Partial<Record<Notes, InstrumentKeyNames[][]>>;
 } = {
   [WoodwindInstrument.FLUTE]: {
     [Notes.C4]: [
@@ -2372,7 +2315,7 @@ export const woodwindFingerings: {
 export const additionalFingerings: {
   [key in Instrument]?: {
     type: InstrumentProp;
-    fingerings: Partial<Record<Notes, InstrumentKeys[][]>>;
+    fingerings: Partial<Record<Notes, InstrumentKeyNames[][]>>;
   }[];
 } = {
   [BrassInstrument.FRENCH_HORN]: [
