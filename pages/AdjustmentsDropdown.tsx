@@ -46,7 +46,6 @@ export const AdjustmentsDropdown = ({
         <Dropdown.Content className="h-full w-64 bg-white rounded-md drop-shadow-[0_25px_25px_rgba(0,0,0,0.35)] border border-slate-200 flex-row items-end justify-center">
           <Dropdown.Label className="h-12 bg-slate-600 text-white flex text-lg rounded-t-md items-center justify-center">
             Settings
-            {JSON.stringify(displaySettings[DisplaySetting.ENHARMONICS])}
           </Dropdown.Label>
           {currentDisplaySettingsArray.map(([name, state], id) => {
             const isChecked = displaySettings[name as DisplaySetting];
