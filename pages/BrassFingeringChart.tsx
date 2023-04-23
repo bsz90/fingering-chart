@@ -11,15 +11,20 @@ import { ToggleFingeringButtons } from "./ToggleFingeringButtons";
 import { ToggleOctaveButtons } from "./ToggleOctaveButtons";
 import {
   Note,
-  InstrumentKeys,
+  InstrumentKeyNames,
   Instrument,
   BrassInstrument,
   InstrumentProps,
   InstrumentPropAction,
   DisplaySettings,
   DisplaySettingAction,
+  InstrumentProp,
 } from "./types";
-import { addAdditionalFingerings, checkIfSameFingerings } from "./utils";
+import {
+  addAdditionalFingerings,
+  checkIfSameFingerings,
+  comebineKeys,
+} from "./utils";
 import { InstrumentKey } from "./InstrumentKey";
 
 export const BrassFingeringChart = ({
@@ -44,27 +49,28 @@ export const BrassFingeringChart = ({
     staffPosition: -1,
   });
 
-  const [activeKeys, setActiveKeys] = useState<InstrumentKeys[] | undefined>(
-    []
-  );
+  const [activeKeys, setActiveKeys] = useState<
+    InstrumentKeyNames[] | undefined
+  >([]);
 
-  const [displayTrigger, setDisplayTrigger] = useState(false);
-
-  const [displayFourthValve, setDisplayFourthValve] = useState(false);
-
-  const [displayEnharmonics, setDisplayEnharmonics] = useState<boolean>(false);
+  const trueProps = Object.entries(currentInstrumentProps)
+    .filter(([instrumentProp, boolean]) => boolean)
+    .map(([instrumentProp, boolean]) => instrumentProp as InstrumentProp);
 
   const currentDiagram = useMemo(() => {
-    const correctDiagram = brassDiagrams[currentInstrument].find(
-      (item) =>
-        item.fourthValve === displayFourthValve &&
-        item.trigger === displayTrigger
+    const defaultKeyGroup = structuredClone(brassDiagrams[currentInstrument]);
+
+    if (!defaultKeyGroup.additionalKeys)
+      return brassDiagrams[currentInstrument];
+
+    defaultKeyGroup.keys = comebineKeys(
+      trueProps,
+      defaultKeyGroup.keys,
+      defaultKeyGroup.additionalKeys
     );
 
-    return correctDiagram
-      ? correctDiagram
-      : brassDiagrams[currentInstrument][0];
-  }, [currentInstrument, displayFourthValve, displayTrigger]);
+    return defaultKeyGroup;
+  }, [currentInstrument, trueProps]);
 
   const allPossibleInstrumentFingerings = useMemo(() => {
     const standardFingerings = woodwindFingerings[currentInstrument];
@@ -79,11 +85,11 @@ export const BrassFingeringChart = ({
     if (!currentAdditionalFingerings) return standardFingerings;
 
     return addAdditionalFingerings(
+      trueProps,
       standardFingerings,
-      currentAdditionalFingerings,
-      currentInstrumentProps
+      currentAdditionalFingerings
     );
-  }, [currentInstrument, currentInstrumentProps]);
+  }, [currentInstrument, currentInstrumentProps, trueProps]);
 
   const currentInstrumentClef = useMemo(
     () => instrumentClef[currentInstrument],
